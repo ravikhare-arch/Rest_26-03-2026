@@ -1,0 +1,192 @@
+﻿.pagination > li > a, .pagination > li > span {
+    padding: 0px !important;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    border: 1px solid #888;
+    /*min-height:60vh;*/
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    font-size: 28px;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+/*thead model end*/
+.img-size {
+    height: 150px;
+    width: 100%;
+}
+
+.splbar {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: space-between;
+    -ms-flex-line-pack: justify;
+    align-content: space-between;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    height: 48px;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabspl {
+    margin: 0;
+    border: none;
+    padding: 0 24px;
+    float: left;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, .54);
+    overflow: hidden;
+}
+
+.hide {
+    display: none !important;
+}
+
+.p-t-10 {
+    padding-top: 10px !important;
+}
+
+.btnspl {
+    min-width: 217px;
+    padding: 10px 50px;
+}
+
+.tabspl.active {
+    border-bottom: 1px solid rgb(244, 67, 54);
+}
+
+.card-title {
+    text-align: center;
+    /*padding: 10px;*/
+    font-weight: 600;
+    border: 1px solid #0098da;
+}
+
+.text-white {
+    color: red !important;
+}
+
+.nav-tabs > li > a:hover {
+    background: #00bcd4;
+}
+
+label {
+    color: black;
+    padding-top: 8px;
+}
+
+.radio-inline, .checkbox-inline {
+    margin-top: -8px;
+}
+
+.well {
+    background: white;
+    border: 1px solid #0098da;
+}
+
+    .well .fa {
+        color: Black;
+    }
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: white !important;
+}
+
+.card-block {
+    color: black;
+}
+
+.card {
+    background: whitesmoke !important;
+}
+
+.form-control {
+    border: 1px solid #00bcd4;
+}
+
+.table {
+    text-align: center !important;
+    border: 1px solid #0098da !important;
+    /*background: white;*/
+    /*margin-left: 15px;*/
+}
+
+    .table th {
+        background:#ff0000 !important;
+        color: white !important;
+        border: 1px solid white;
+        border-bottom: none;
+        padding: 5px;
+    }
+
+    .table td {
+        padding: 5px;
+    }
+
+    .table tr:nth-of-type(even) {
+        background-color: rgba(94, 93, 82, 0.1);
+    }
+
+.frm_sec {
+    border: 1px solid #0098da;
+    margin: 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 3px 0 #0e6390c7;
+}
+
+.destination {
+    border-right: 1px solid #0098da;
+}
+
+.splbar .tabspl.active .tab-pane {
+    display: block !important;
+}
+
+@media (max-width:550px) {
+    .splbar {
+        height: auto;
+    }
+
+    .img-size {
+        height: auto;
+        width: 100%;
+    }
+
+    .panel-body {
+        padding: 0px !important;
+    }
+}

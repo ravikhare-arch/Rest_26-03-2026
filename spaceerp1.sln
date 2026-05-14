@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "spaceerp", "spaceerp\", "{652CB73E-70EB-4EE6-98B4-CB0FA492A880}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		ProjectReferences = "{0d644c76-643d-462d-8048-0150c3bbac06}|RestaurantApi.dll;{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}|DBConnection.dll;{45E6AC7A-5C31-4F50-AFEC-8798AB717573}|PrintingModule.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_59497"
+		Debug.AspNetCompiler.PhysicalPath = "spaceerp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59497\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_59497"
+		Release.AspNetCompiler.PhysicalPath = "spaceerp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59497\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "59497"
+		SlnRelativePath = "spaceerp\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurantApi", "RestaurantApi\RestaurantApi.csproj", "{0D644C76-643D-462D-8048-0150C3BBAC06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBConnection", "DBConnection\DBConnection.csproj", "{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagePrint", "ManagePrint\ManagePrint.csproj", "{58381C08-2968-44F9-90A8-3E8EE0834F93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintingModule", "PrintingModule\PrintingModule.csproj", "{45E6AC7A-5C31-4F50-AFEC-8798AB717573}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{652CB73E-70EB-4EE6-98B4-CB0FA492A880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{652CB73E-70EB-4EE6-98B4-CB0FA492A880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{652CB73E-70EB-4EE6-98B4-CB0FA492A880}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{652CB73E-70EB-4EE6-98B4-CB0FA492A880}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0D644C76-643D-462D-8048-0150C3BBAC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D644C76-643D-462D-8048-0150C3BBAC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D644C76-643D-462D-8048-0150C3BBAC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D644C76-643D-462D-8048-0150C3BBAC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF09FDB-FAD2-4F01-8ABB-06695B5A885A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58381C08-2968-44F9-90A8-3E8EE0834F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58381C08-2968-44F9-90A8-3E8EE0834F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58381C08-2968-44F9-90A8-3E8EE0834F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58381C08-2968-44F9-90A8-3E8EE0834F93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E6AC7A-5C31-4F50-AFEC-8798AB717573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E6AC7A-5C31-4F50-AFEC-8798AB717573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E6AC7A-5C31-4F50-AFEC-8798AB717573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E6AC7A-5C31-4F50-AFEC-8798AB717573}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="assetss/css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="slimscroll-menu">
+        <div id="sidebar-menu">
+            <div class="slimScrollBar">
+        <ul>
+        <li><a class="add">Add a row!</a></li><br>
+        </ul>
+        </div>
+        </div>
+            </div>
+        <ul role="tablist" class="nav nav-tabs justify-content-start">
+            <li class="nav-item">
+                <a class="nav-link" href="" role="tab" id="6501" aria-controls="6501-panel" aria-selected="false" aria-disabled="false">
+                  <span style="font-size:14px;font-family: 'Roboto Condensed', sans-serif;font-weight:400;">Welcome</span> &nbsp; <span><i class="fa fa-times" style="font-size:12px;"></i></span>
+                </a>
+            </li>
+         </ul>
+            <script>
+                $(document).on("contextmenu", ".nav-item", function (e) {
+                   // alert('Context Menu event has fired!');
+                    return false;
+                });
+
+                $(document).on('click', '.add', function () {
+                    $('.justify-content-start').append('<li class="nav-item"><a class="nav-link" href="" role="tab" id="6501" aria-controls="6501-panel" aria-selected="false" aria-disabled="false"><span style="font-size:14px;font-family:"Roboto Condensed", sans-serif;font-weight:400;">Welcome</span> &nbsp; <span><i class="fa fa-times" style="font-size:12px;"></i></span></a></li>');
+                });
+            </script>
+</div>
+
+</body>
+</html>

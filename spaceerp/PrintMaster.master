@@ -1,0 +1,62 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="PrintMaster.master.cs" Inherits="PrintMaster" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+     <link rel='icon' type='image/png' href='assets/img/fevicon.png' />
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link href="assets/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+	<link href="assets/plugins/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="assets/plugins/font-awesome/5.0/css/fontawesome-all.min.css" rel="stylesheet" />
+	<link href="assets/plugins/animate/animate.min.css" rel="stylesheet" />
+	<link href="assets/css/default/style.min.css" rel="stylesheet" />
+	<link href="assets/css/default/style-responsive.min.css" rel="stylesheet" />
+	<link href="assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
+	<!-- ================== END BASE CSS STYLE ================== -->
+	
+	<!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+	<link href="assets/css/default/invoice-print.min.css" rel="stylesheet" />
+	<!-- ================== END PAGE LEVEL CSS STYLE ================== -->
+	
+	<!-- ================== BEGIN BASE JS ================== -->
+	<script src='<%= ResolveUrl("assets/plugins/pace/pace1.min.js")%>'></script>
+	<!-- ================== END BASE JS ================== -->
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <form id="form1" runat="server">
+    <div style="margin:20px;">
+         <asp:ScriptManager ID="ScriptManager1" runat="server">
+                </asp:ScriptManager>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+
+    <script src='<%= ResolveUrl("assets/plugins/jquery/jquery-3.2.1.min.js")%>'></script>
+	<script src='<%= ResolveUrl("assets/plugins/jquery-ui/jquery-ui.min.js")%>'></script>
+	<script src='<%= ResolveUrl("assets/plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js")%>'></script>
+	<!--[if lt IE 9]>
+		<script src='<%= ResolveUrl("assets/crossbrowserjs/html5shiv.js")%>'></script>
+		<script src='<%= ResolveUrl("assets/crossbrowserjs/respond.min.js")%>'></script>
+		<script src='<%= ResolveUrl("assets/crossbrowserjs/excanvas.min.js")%>'></script>
+	<![endif]-->
+	<script src='<%= ResolveUrl("assets/plugins/slimscroll/jquery.slimscroll.min.js")%>'></script>
+	<script src='<%= ResolveUrl("assets/plugins/js-cookie/js.cookie.js")%>'></script>
+	<script src='<%= ResolveUrl("assets/js/theme/default.min.js")%>'></script>
+	<script src='<%= ResolveUrl("assets/js/apps.min.js")%>'></script>
+	<!-- ================== END BASE JS ================== -->
+	
+	<script>
+		$(document).ready(function() {
+			App.init();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿ .mobiBlock{
+            display: none !important;
+        }
+        .table td, .table > tbody > tr > td {
+            width: 20%;
+            padding: 15px 5px !important;
+            text-align: center;
+        }
+
+        .w-30 {
+            width: 30% !important;
+        }
+
+        .w-10 {
+            width: 10% !important;
+            text-align: center;
+        }
+
+        .stats-left p {
+            color: white;
+            min-height: 50px;
+            position: relative;
+            top: 0px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 14px;
+        }
+
+        .btn {
+            margin-top: 0;
+            font-size: 0.8em;
+            padding: 5px !important;
+        }
+
+/*      .ui-widget.ui-widget-content {
+            top: 570px !important;
+        }*/
+
+        .ui-widget-overlay {
+            background: 0 0 !important;
+        }
+
+        .ui-dialog .ui-dialog-buttonpane button {
+            margin: .5em .4em .5em 0;
+            cursor: pointer;
+            padding: 5px;
+            background: #2a2c93;
+            color: white;
+            border: none;
+        }
+
+        .bt1 {
+            border-top: 1px solid #2a2c93;
+            border-bottom: 1px solid #2a2c93;
+        }
+
+        .mt-5 {
+            margin-top: 5px !important;
+        }
+
+        tfoot td {
+            padding: 7px !important;
+        }
+
+        .countInput {
+            padding: 15px 10px !important;
+        }
+
+        .dateTime {
+            font-size: 13px;
+        }
+
+        .bgEven {
+            background: #2a2c93;
+        }
+        @media only screen and (max-width: 1024px) {
+            .mobad{
+                padding-top: 15px;
+            }
+        }
+        @media only screen and (max-width: 600px) {
+     .mobi_none{
+        display: none !important;
+    }
+     .mopad{
+         padding: 0px 0px 0px 2px !important;
+     }
+     .widget {
+    width: 49.33333333% !important;
+    padding: 2px;
+        }
+     .mobipad-2{
+         padding: 2px !important;
+     }
+     .mobi-marginTop-10{
+         margin-top: 20px !important;
+     }
+     .mobiBlock{
+        display: inline !important;
+     }
+     #RemarkModal{
+         top: 450px;
+     }
+     .mob-height300{
+         height: 300px !important;
+     }
+        }
+        @media only screen and (max-width: 912px){
+         .mobiBlock{
+        display: inline !important;
+         }
+         .padSm-0{
+           padding: 0px !important;
+         }
+         }
+        table.paymentTable td, .table > tbody > tr > td {
+          padding: 5px 0px !important;
+          text-align: left;
+            }
+        table.cart-table td, .table > tbody > tr > td {
+          padding: 5px 0px !important;
+          text-align: center;
+            }

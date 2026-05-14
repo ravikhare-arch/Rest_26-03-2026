@@ -1,0 +1,27 @@
+﻿
+    /*calender css*/
+        .ajax__calendar_header {
+    height: 20px;
+    width: 100%;
+    background: red;
+    color: #fff;
+}
+        .ajax__calendar_container TABLE {
+    padding: 0px;
+    margin: 0px;
+    font-size: 11px;
+    width: 100%;
+}
+        .ajax__calendar .ajax__calendar_day {
+    border: 1px solid #0000ff;
+    background: red;
+    color: white;
+}
+        .ajax__calendar .ajax__calendar_other .ajax__calendar_day {
+    background-color: #18558ae3 !important;
+    border-color: #ffffff !important;
+    color: #646464;
+    color: white;
+}
+
+    /*calender css end*/

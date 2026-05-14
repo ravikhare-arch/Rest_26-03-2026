@@ -1,0 +1,185 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Invoice</title>
+<style>
+ .invoice-title h2, .invoice-title h3 {
+    display: inline-block;
+}
+
+.table > tbody > tr > .no-line {
+    border-top: none;
+}
+
+.table > thead > tr > .no-line {
+    border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+    border-top: 2px solid;
+}
+</style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="invoice-title" style="border: 2px solid black;border-bottom: none;">
+                    <img src="logo.png" /><h3 style="margin-left: 322px;">AGENT BILLING DETAILS</h3>
+                </div>
+                <div class="invoice-title" style="border: 2px solid black;padding: 10px;">
+                    <h4>Billing Period:181101(01-Nov-2018 to 07-Nov-2018)</h4>
+                </div>
+                <div class="row" style="border: 2px solid black;margin-left: 0;margin-right: 0;border-top: none;border-bottom: none;">
+
+                    <div class="col-xs-6" style="border-right: 2px solid black;">
+                        <address>
+                            <strong>SPACE KNIGHT FOR TOUR AND TRAVELS</strong><br>
+                            5-9-58/1-15, SHOP NO. 144,<br>
+                            BABU KHAN ESTATE BASHEERBAGH<br>
+                            Hyderabad 500029<br>
+                            India
+                        </address>
+                    </div>
+                    <div class="col-xs-6">
+                        <address>
+                            <strong>ZAHI'S TOURS AND TRAVELS</strong><br>
+                            5-9-58/1-15, SHOP NO. 144,<br>
+                            BABU KHAN ESTATE BASHEERBAGH<br>
+                            Hyderabad 500029<br>
+                            India
+                        </address>
+                    </div>
+                </div>
+                <div class="row" style="border: 2px solid black;margin-left: 0;margin-right: 0;border-top: none;">
+                    <div class="col-xs-6" style="border-right:2px solid black;">
+                        <div class="pull-right">
+                            <strong style="background:grey;">GST:27BMXPA6006N1ZL</strong><br>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="pull-right">
+                            <strong style="background:grey;">GST:27BMXPA6006N1ZL</strong><br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="background:blue;margin-left:0;margin-right:0;padding:10px;">
+            <div class="col-xs-12"></div>
+            </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr style="border-bottom:2px solid black;">
+
+                                        <td class="text-center"><strong>Crrier</strong></td>
+                                        <td class="text-center"><strong>Document Number</strong></td>
+                                        <td class="text-right"><strong>Pax Name</strong></td>
+                                        <td class="text-center"><strong>Sector</strong></td>
+                                        <td class="text-center"><strong>Issue date</strong></td>
+                                        <td class="text-right"><strong>class</strong></td>
+                                        <td class="text-center"><strong>FARE AMOUNT</strong></td>
+                                        <td class="text-center"><strong>TAX</strong></td>
+                                        <td class="text-right"><strong>TAXES</strong></td>
+                                        <td class="text-center"><strong>PEN</strong></td>
+                                        <td class="text-center"><strong>Amt. Rate</strong></td>
+                                        <td class="text-right"><strong>Amt.</strong></td>
+                                        <td class="text-center"><strong>tax on Comm</strong></td>
+                                        <td class="text-right"><strong>BALANCE PAYABLE</strong></td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                    <tr>
+                                        <td>Air India</td>
+                                        <td class="text-center">440 4926130656</td>
+                                        <td class="text-center">Mohammad noorsaid Ansari</td>
+                                        <td class="text-right">Bom Jed Bom Jed Dxb Bom</td>
+                                        <td class="text-right">01 Nov 2018</td>
+                                        <td class="text-right">D</td>
+                                        <td class="text-right">4,000</td>
+                                        <td class="text-right">
+                                            82 IN<br />
+                                            200kk3<br />
+                                            154wo
+                                        </td>
+                                        <td class="text-right">70YR 70 YQ</td>
+                                        <td class="text-right">0</td>
+                                        <td class="text-right">0.00</td>
+                                        <td class="text-right">0</td>
+                                        <td class="text-right"></td>
+                                        <td class="text-right">4,510</td>
+                                    </tr>
+
+
+                                    <tr style="border: 2px solid black;">
+                                        <td class="thick-line" colspan="5">GRAND TOTAL(INR</td>
+                                        <td class="thick-line"></td>
+                                        <td class="thick-line text-center">4,000</td>
+                                        <td class="thick-line text-center">440</td>
+                                        <td class="thick-line text-center">70 70</td>
+
+                                        <td class="thick-line text-center"></td>
+                                        <td class="thick-line text-center">0</td>
+                                        <td class="thick-line text-center">0</td>
+                                        <td class="thick-line text-center">0</td>
+                                        <td class="thick-line text-right">4,510</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                       
+
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div style="padding: 15px;margin-top: 46px;">
+                                    <strong>Note:</strong><br>
+                                    * Make all cheques payable to[SPACE KNIGHT TOURS AND TRAVELS]<br>
+                                    * Payment is due within 30 days<br>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="pull-right" style="padding: 10px;">
+                                    <p style="margin:0;border:1px solid black;padding:5px;"><strong>BANK DETAILS</strong></p>
+                                    <p style="margin:0;border:1px solid black;padding:5px;">SPACE KNIGHT TOURS AND TRAVELS</p>
+                                    <p style="margin:0;border:1px solid black;padding:5px;">BANK NAME: HDFC BANK</p>
+                                    <p style="margin:0;border:1px solid black;padding:5px;">BRANCH NAME:HYDERABAD-HIMAYAT NAGAR</p>
+                                    <p style="margin:0;border:1px solid black;padding:5px;">ACCOUNT NO:50200021671551</p>
+                                    <p style="margin:0;border:1px solid black;padding:5px;">IFSC CODE:HDFC000081</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-align:center;background:blue;color:white;padding: 10px;"><strong>THANK YOU</strong></p>
+
+                        <div class="row" style="background:skyblue;margin-left:0;margin-right:0;margin-top:-10px;">
+                            <div class="col-xs-6">
+                                <p style="padding: 10px;"><strong>M:</strong> +917995926418</p>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <p style="padding: 10px;"><strong>E-mail:</strong> info@spacekt.com</p>
+                            </div>
+                        </div>
+                        <p style="text-align:center;padding:10px;border-bottom:2px solid black;"><strong>This is computer Generated Invoice.No Signature required.</strong></p>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>

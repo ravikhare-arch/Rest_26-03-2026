@@ -1,0 +1,107 @@
+/* .ajax__tab_header - A container element that wraps all of the tabs at the top of the TabContainer. Child CSS classes:.ajax__tab_outer. */
+/* .ajax__tab_outer - An outer element of a tab, often used to set the left-side background image of the tab.Child CSS classes: .ajax__tab_inner. */
+/* .ajax__tab_inner	 - An inner element of a tab, often used to set the right-side image of the tab. Child CSS classes:.ajax__tab_tab. */
+/* .ajax__tab_tab - An element of the tab that contains the text content. Child CSS classes:none. */
+/* .ajax__tab_body - A container element that wraps the area where a TabPanel is displayed. Child CSS classes: none. */
+/* .ajax__tab_hover - This is applied to a tab when the mouse is hovering over. Child CSS classes:.ajax__tab_outer. */
+/* .ajax__tab_active - This is applied to a tab when it is the currently selected tab. Child CSS classes:.ajax__tab_outer. */
+
+/* XP IE7 theme - Backgrounds */
+.ajax__tab_container {
+    color: black;
+    margin-top: 5px;
+}
+
+.visoft__tab_xpie7 .ajax__tab_header {
+    border-bottom: solid 1px #DFDFE7;
+}
+
+.visoft__tab_xpie7 .ajax__tab_outer {
+    cursor: pointer;
+}
+
+.visoft__tab_xpie7 .ajax__tab_inner {
+}
+
+.visoft__tab_xpie7 .ajax__tab_tab {
+}
+
+.visoft__tab_xpie7 .ajax__tab_hover .ajax__tab_outer {
+}
+
+.visoft__tab_xpie7 .ajax__tab_hover .ajax__tab_inner {
+}
+
+.visoft__tab_xpie7 .ajax__tab_hover .ajax__tab_tab {
+    background-color: #CDD1DE;
+    border: solid 1px #CDD1DE;
+    border-bottom-color: #CDD1DE;
+}
+
+.visoft__tab_xpie7 .ajax__tab_active .ajax__tab_outer {
+}
+
+.visoft__tab_xpie7 .ajax__tab_active .ajax__tab_inner {
+}
+
+.visoft__tab_xpie7 .ajax__tab_active .ajax__tab_tab {
+    font-weight: normal;
+    background-color: #0000ff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    border: solid 1px #0000ff;
+    border-bottom-color: #0000ff;
+    cursor: default;
+    color: #fff;
+}
+
+/* XP IE7 theme - Other Styles */
+.visoft__tab_xpie7 .ajax__tab_header {
+}
+
+.visoft__tab_xpie7 .ajax__tab_outer {
+    height: 25px;
+}
+
+.visoft__tab_xpie7 .ajax__tab_inner {
+    padding-left: 0px;
+}
+
+.visoft__tab_xpie7 .ajax__tab_tab {
+    padding: 3px 15px;
+    margin: 0;
+    margin-right: 3px;
+    background-color: #DFDFE7;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    border: solid 1px #CDD1DE;
+    border-bottom-color: #CDD1DE;
+}
+
+.visoft__tab_xpie7 .ajax__tab_body {
+    border: 1px solid #DFDFE7;
+    border-top: 0;
+    padding: 8px;
+    background-color: transparent;
+}
+
+
+/*table style*/
+        .fmdGrid td {
+         border: 1px solid black;
+         padding: 10px;
+        }
+        /*.fmdGrid tr:first-child{
+            background:blue;
+            color:white;
+            border:none;
+        }*/
+        .fmdGrid .tbg{
+            background:blue;
+            color:white;
+            border:none;
+        }

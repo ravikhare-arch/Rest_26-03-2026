@@ -1,0 +1,642 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SiteMaster.master.cs" Inherits="Site" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit.HTMLEditor"
+    TagPrefix="AjaxToolKit" %>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head runat="server">
+    <meta charset="utf-8" />
+    <title> Hotel Premier Inn </title>
+    <meta content="Admin Dashboard" name="description">    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta content="Themesbrand" name="author">
+    <link rel="shortcut icon" href="assetss/images/favicon.ico">
+    <%--<link rel="stylesheet" href="../plugins/morris/morris.css">--%>
+    <link href="css/custom_bundle.css" rel="stylesheet" />
+    <link href="assetss/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="assetss/css/metismenu.min.css" rel="stylesheet" type="text/css">
+    <link href="assetss/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="assetss/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+    <link href="css/CommonStyle.css" rel="stylesheet" />
+   
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <script>
+
+    $(document).bind("keyup keydown", function (e) {
+        if (e.ctrlKey && e.keyCode === 80) {
+            debugger;
+          //  window.frames["iframe"]
+            window.frames["iframe"].focus();
+            window.frames["iframe"].print();
+            
+            return false;
+        }
+        return true;
+    });
+
+</script>
+</head>
+<body class="enlarged">
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade show">
+        <span class="spinner"></span>
+    </div>
+    <style>
+.alert-box {
+    position:absolute;
+	padding: 10px;
+    width: 350px;
+  height: 50px;
+  position:fixed; 
+  top: calc(50% - 25px); 
+  left: calc(50% - 200px);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    z-index:99999;  
+}
+
+.warning {
+    color: #8a6d3b;
+    background-color:#ddffff;
+    border-color: #faebcc;
+    box-shadow: 1px 2px blue;
+    display: none;
+}
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+</style>
+    <link rel="stylesheet" href='<%= ResolveUrl("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")%>'>
+    <!-- end #page-loader -->
+    <!-- begin #page-container -->
+    <div id="wrapper">
+        <!-- Top Bar Start -->
+        <!-- Start right Content here -->
+        <div id="header" class="topbar">
+            <!-- begin navbar-header -->
+            <div class="topbar-left">
+                <a href="<%= ResolveUrl("~/Dashboard.aspx")%>" class="logo">
+                    <span>
+                        <img src='<%= ResolveUrl("assetss/images/logo.png")%>' alt="" height="70" width="220">
+                    </span>
+                    <i>
+                        <img src='<%= ResolveUrl("assetss/images/logo-sm.png")%>' alt="" height="68"></i></a>
+
+                <button type="button" class="navbar-toggle" data-click="sidebar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav class="navbar-custom">
+                <ul class="navbar-right d-flex list-inline float-right mb-0">
+                    <%--<li class="dropdown notification-list d-none d-sm-block">
+                        <div role="search" class="app-search">
+                            <div class="form-group mb-0">
+                                <input type="text" class="form-control" placeholder="Search..">
+                                <button type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>--%>
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="mdi mdi-bell noti-icon"></i>
+                            <%-- <span class="badge badge-pill badge-info noti-icon-badge">3</span>--%></a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
+                            <!-- item-->
+                            <h6 class="dropdown-item-text">Notifications (37)</h6>
+                            <div class="slimscroll notification-item-list">
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                    <div class="notify-icon bg-success">
+                                        <i class="mdi mdi-cart-outline"></i>
+                                    </div>
+                                    <p class="notify-details">
+                                        Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span>
+                                    </p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-warning">
+                                        <i class="mdi mdi-message"></i>
+                                    </div>
+                                    <p class="notify-details">
+                                        New Message received<span class="text-muted">You have 87 unread messages</span>
+                                    </p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-info">
+                                        <i class="mdi mdi-flag"></i>
+                                    </div>
+                                    <p class="notify-details">
+                                        Your item is shipped<span class="text-muted">It is a long established fact that a reader will</span>
+                                    </p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary">
+                                        <i class="mdi mdi-cart-outline"></i>
+                                    </div>
+                                    <p class="notify-details">
+                                        Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span>
+                                    </p>
+                                </a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-danger">
+                                        <i class="mdi mdi-message"></i>
+                                    </div>
+                                    <p class="notify-details">
+                                        New Message received<span class="text-muted">You have 87 unread messages</span>
+                                    </p>
+                                </a>
+                            </div>
+                            <!-- All-->
+                            <a href="javascript:void(0);" class="dropdown-item text-center text-primary">View all <i class="fi-arrow-right"></i></a>
+                        </div>
+                    </li>
+                    <li class="dropdown notification-list">
+                        <div class="dropdown notification-list nav-pro-img">
+                            <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <img src='<%= ResolveUrl("assetss/images/users/user-4.png")%>' alt="user" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                                <!-- item-->
+                                <a class="dropdown-item" href='<%= ResolveUrl("Masters/medit_profile.aspx")%>'>
+                                    <i class="mdi mdi-account-circle m-r-5"></i>
+                                    Profile</a>
+                                <%--<a class="dropdown-item" href="#">
+                                      <i class="mdi mdi-wallet m-r-5"></i> My Wallet</a>
+                                  <a class="dropdown-item d-block" href="#">
+                                      <i class="mdi mdi-settings m-r-5">
+                                      </i> Settings</a> --%>
+                                <a class="dropdown-item" href='<%= ResolveUrl("Masters/Change_Password.aspx")%>'>
+                                    <i class="mdi mdi-lock-open-outline m-r-5"></i>
+                                    Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href='<%= ResolveUrl("logout.aspx")%>'>
+                                    <i class="mdi mdi-power text-danger"></i>Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="list-inline menu-left mb-0">
+                    <li class="float-left">
+                        <button class="button-menu-mobile">
+                            <i class="mdi mdi-menu"></i>
+                        </button>
+                    </li>
+
+                    <li class="d-none d-sm-block">
+                        <div class="pt-3 d-inline-block" style="position: absolute; margin-bottom: 300px; margin-left: 20px; display: ">
+                         </div>
+                        <%--<div class="dropdown pt-3 d-inline-block">
+                            <a class="btn btn-header waves-effect waves-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Create New</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>  <a class="dropdown-item" href="#">Another action</a>  <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>--%>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="right-content">
+                <div class="login-header">
+                    <asp:Label runat="server" ID="lblmsg"></asp:Label>
+                </div>
+            </div>
+            <!-- end navbar-header -->
+            <!-- begin header-nav -->
+            <ul class="navbar-nav navbar-right" style="display: none;">
+                <li class="dropdown navbar-user"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="<%= ResolveUrl("assets/img/user/user-13.jpg")%>" alt="" />
+                    <span class="d-none d-md-inline">
+                        <%= Session["name"] %></span> <b class="caret"></b></a>
+
+                </li>
+            </ul>
+
+            <!-- end header navigation right -->
+        </div>
+        <!-- end #header -->
+        <!-- LOGO -->
+        <!-- Top Bar End -->
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="left side-menu"> 
+            <div class="slimscroll-menu" style="max-height: 500px;">
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <%--<li class="active">
+                        <a href='<%= ResolveUrl("~/Dashboard.aspx")%>'>
+                        <i class="fa fa-th-large"></i><span>Dashboard</span> </a></li>--%>
+                    <%= Session["MenuString"].ToString()%>
+                </div>
+
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- begin #sidebar -->
+        <div class="content-page">
+            <!-- end #sidebar -->
+            <!-- begin #content -->
+            <!-- begin page-header -->
+
+            <div class="content">
+                <div class="alert-box warning"><strong><i class="fa fa-comment"></i>&nbsp;&nbsp;</strong>This document type is already opened.</div>
+
+                <%--the new tab starts--%>
+                <div id="tabs">
+                    <ul class="nav nav-tabs justify-content-start" id="menutab">
+                        <li class="nav-item">
+                            <a load-in="frame0" class="nav-link active show" href="#hr0" data-toggle="tab">
+                                <span style="font-size: 14px;">Welcome</span>
+                                &nbsp; 
+                            </a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="hr0" class="tab-pane fade in show active">
+                            <iframe id="frame0" class="responsive-iframe" style="min-height: 170vh; border: 0px" width="100%" src="http://localhost:59497/welcome.aspx" onload="resizeIframe(this)"></iframe>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="container-fluid" style="display:none">
+                    <div class="main-content">
+                        <form id="form1" runat="server">
+                            <asp:ScriptManager ID="ScriptManager1" runat="server">
+                            </asp:ScriptManager>
+                            <h1 class="page-header">
+                                <asp:ContentPlaceHolder ID="vmsg" runat="server">
+                                </asp:ContentPlaceHolder>
+                                <asp:ContentPlaceHolder ID="vtitle" runat="server">
+                                </asp:ContentPlaceHolder>
+                            </h1>
+                            <!-- end page-header -->
+
+
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </form>
+                    </div>
+                    <%--</div>--%>
+                </div>
+                <!--footer section start-->
+                <footer class="footer">
+                    © 2020<span class="d-none d-sm-inline-block">Hotel Premier Inn</span>
+                </footer>
+                <!--footer section end-->
+                <div id="top-menu" class="top-menu" style="display: none;">
+                    <!-- begin top-menu nav -->
+                    <ul class="nav" style="margin-left: -847.142px;">
+
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Dashboard.aspx")%>'>
+                                <span class="badge pull-right"></span><i
+                                    class="fa fa-dashboard"></i><span>Dashboard</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="email_inbox.aspx">Inbox</a></li>
+						<li><a href="email_compose.aspx">Compose</a></li>
+						<li><a href="email_detail.aspx">Detail</a></li>
+					</ul>--%>
+                        </li>
+
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Accounting/tchartof_account.aspx")%>'>
+                                <span class="badge pull-right"></span><i class="fa fa-user"></i>
+                                <span>Chart Of A/C</span> </a>
+                            <%-- <ul class="sub-menu">
+						<li><a href="email_inbox.aspx">Inbox</a></li>
+						<li><a href="email_compose.aspx">Compose</a></li>
+						<li><a href="email_detail.aspx">Detail</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Accounting/tpayment_voucher.aspx")%>'>
+                                <span class="badge pull-right"></span>
+                                <i class="fa fa-list-alt"></i><span>Payment Voucher</span> </a>
+
+                        </li>
+                        <%-- <li><a href="bootstrap_4.aspx">
+                    <div class="icon-img">
+                        <img src="../assetss/img/logo/logo-bs4.png" alt="">
+                    </div>
+                    <i class="fa fa-file"></i><span>Reciept Vouchers </span></a></li>--%>
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Accounting/treceipt_voucher.aspx")%>'>
+                                <%--<b class="caret"></b>--%>
+                                <i class="fa fa-location-arrow"></i>
+                                <span>Receipt Voucher </span></a>
+                            <%--<ul class="sub-menu">
+						<li><a href="form_elements.aspx">Form Elements <i class="fa fa-paper-plane text-theme m-l-5"></i></a></li>
+						<li><a href="form_plugins.aspx">Form Plugins <i class="fa fa-paper-plane text-theme m-l-5"></i></a></li>
+						<li><a href="form_slider_switcher.aspx">Form Slider + Switcher</a></li>
+						<li><a href="form_validation.aspx">Form Validation</a></li>
+						<li><a href="form_wizards.aspx">Wizards</a></li>
+						<li><a href="form_wizards_validation.aspx">Wizards + Validation</a></li>
+						<li><a href="form_wysiwyg.aspx">WYSIWYG</a></li>
+						<li><a href="form_editable.aspx">X-Editable</a></li>
+						<li><a href="form_multiple_upload.aspx">Multiple File Upload</a></li>
+						<li><a href="form_summernote.aspx">Summernote</a></li>
+						<li><a href="form_dropzone.aspx">Dropzone</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Accounting/tacc_journal_voucher.aspx")%>'>
+                                <%--<b class="caret"></b>--%>
+                                <i class="fa fa-table"></i>
+                                <span>Journal Voucher</span> </a>
+                        </li>
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("Accounting/tpdc_voucher.aspx")%>'>
+                                <%--<b class="caret"></b>--%>
+                                <i class="fa fa-credit-card"></i><span>PDC/PDCR Vouchers</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="#" target="_blank">One Page Parallax</a></li>
+						<li><a href="#" target="_blank">Blog</a></li>
+						<li><a href="#" target="_blank">Forum</a></li>
+						<li><a href="#" target="_blank">E-Commerce</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub">
+                            <a href='<%= ResolveUrl("TradeInventory/titem_details.aspx")%>'>
+                                <%--<b class="caret"></b>--%>
+                                <i class="fa fa-list"></i><span>Create New Item</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="email_system.aspx">System Template</a></li>
+						<li><a href="email_newsletter.aspx">Newsletter Template</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("TradeInventory/tpo.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-exchange-alt"></i><span>Purchase Orders</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="chart-flot.aspx">Flot Chart</a></li>
+						<li><a href="chart-morris.aspx">Morris Chart</a></li>
+						<li><a href="chart-js.aspx">Chart JS</a></li>
+						<li><a href="chart-d3.aspx">d3 Chart</a></li>
+					</ul>--%>
+                        </li>
+
+                        <%--<li><a href="calendar.aspx"><i class="fa fa-calendar"></i> <span>Calendar</span></a></li>--%>
+                        <li class="has-sub"><a href='<%= ResolveUrl("TradeInventory/tpoinvoice.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-list-ul"></i><span>Purchase Invoices</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="map_vector.aspx">Vector Map</a></li>
+						<li><a href="map_google.aspx">Google Map</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("TradeInventory/tquotation.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-server"></i><span>Quotations</span> </a>
+                            <%--<ul class="sub-menu">
+						<li><a href="gallery.aspx">Gallery v1</a></li>
+						<li><a href="gallery_v2.aspx">Gallery v2</a></li>
+					</ul>--%>
+                        </li>
+                        <li class="has-sub active"><a href='<%= ResolveUrl("TradeInventory/tsalesorder.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-clipboard"></i><span>Sales Order</span> </a>
+
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("TradeInventory/tsoinvoice.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-archive"></i><span>Sales Invoices</span> </a>
+
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("Travel/tvisa.aspx")%>'>
+                            <%--<b class="caret"></b>--%>
+                            <i class="fa fa-book"></i><span>Visa Booking </span></a>
+
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("Travel/tticketing.aspx")%>'>
+                            <i class="fa fa-plane"></i><span>Ticket Booking</span> </a>
+
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("Travel/thotel.aspx")%>'>
+                            <i class="fa fa-bed"></i><span>Hotel Booking</span> </a>
+
+                        </li>
+
+                        <li class="has-sub"><a href='<%= ResolveUrl("Travel/texcursion_booking.aspx")%>'>
+                            <i class="fa fa-ship"></i><span>Excursion Booking</span> </a>
+
+                        </li>
+                        <li class="has-sub"><a href='<%= ResolveUrl("Travel/ttravel_expense_voucher.aspx")%>'>
+                            <i class="fa fa-address-card"></i><span>Expense Entries</span> </a>
+
+                        </li>
+                        <li class="menu-control menu-control-left show"><a href="javascript:;" data-click="prev-menu">
+                            <i class="fa fa-angle-left"></i></a></li>
+                        <li class="menu-control menu-control-right show"><a href="javascript:;" data-click="next-menu">
+                            <i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+                    <!-- end top-menu nav -->
+                </div>
+                <!-- end #content -->
+            </div>
+        <%--</div>--%>
+        <!-- END wrapper -->
+    </div>
+    <input id="scrollY" type="hidden" name="scrollY" value="0" />
+    <script src='<%= ResolveUrl("assetss/js/metisMenu.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assetss/js/jquery.slimscroll.js")%>'></script>
+
+    <!-- App js -->
+    <script src='<%= ResolveUrl("assetss/js/app.js")%>'></script>
+    <script src='<%= ResolveUrl("assetss/js/metisMenu.min.js")%>'></script>
+
+    <%--below was original--%>
+    <script src='<%= ResolveUrl("assets/plugins/jquery/jquery-3.2.1.min.js")%>'></script>
+
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src='<%= ResolveUrl("assets/plugins/jquery-ui/jquery-ui.min.js")%>'></script>
+
+
+
+    <script src='<%= ResolveUrl("assets/plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js")%>'></script>
+    <!--[if lt IE 9]>
+		<script src='<%= ResolveUrl("/assets/crossbrowserjs/html5shiv.js")%>'></script>
+		<script src='<%= ResolveUrl("assets/crossbrowserjs/respond.min.js")%>'></script>
+		<script src='<%= ResolveUrl("assets/crossbrowserjs/excanvas.min.js")%>'></script>
+	<![endif]-->
+    <script src='<%= ResolveUrl("assets/plugins/slimscroll/jquery.slimscroll.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/js-cookie/js.cookie.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/js/theme/default.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/js/apps.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/js/AjaxData.js?version=20200326")%>'></script>
+
+    <!-- ================== END BASE JS ================== -->
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+  <script src='<%= ResolveUrl("assets/plugins/gritter/js/jquery.gritter.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/flot/jquery.flot.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/flot/jquery.flot.time.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/flot/jquery.flot.resize.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/flot/jquery.flot.pie.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/sparkline/jquery.sparkline.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/jquery-jvectormap/jquery-jvectormap.min.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/plugins/jquery-jvectormap/jquery-jvectormap-world-mill-en.js")%>'></script>
+
+    <script src='<%= ResolveUrl("assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js")%>'></script>
+    <script src='<%= ResolveUrl("assets/js/demo/form-wizards.demo.min.js")%>'></script>
+
+
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd/mm/yy"
+
+            });
+        });
+    </script>
+
+
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    <script>
+        $(document).ready(function () {
+            App.init();
+
+        });
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script>
+        $(function () {
+            Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function () {
+                $(".js-example-placeholder-single").select2({
+                    placeholder: "Select a state",
+                    allowClear: true
+                });
+            });
+        });
+
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd/mm/yy"
+
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        $(document).on('click', ".tbClose", function () {
+            // var removeDiv =
+            debugger;
+            var len = $(this).parent().parent().prevAll().length;
+            ($(this.offsetParent.hash)).remove()
+            this.offsetParent.parentNode.remove();
+            $('.nav-tabs li:eq(' + (len - 1) + ') a').tab('show')
+            $('.nav-tabs li:eq(' + (len - 1) + ')').addClass('active')
+
+
+        });
+
+
+        $('#side-menu li a').click(function (e) {
+            e.preventDefault();
+            debugger;
+
+            var href = this.href;
+            var tabNameExists = false;
+            nameToCheck = $.trim(this.innerText);
+            $('#tabs ul li a span').each(function (i) {
+                console.log(this.innerText);
+                if (this.innerText == nameToCheck) {
+                    tabNameExists = true;
+                }
+            });
+            if (tabNameExists == false) {
+                var newTabName = $.trim(this.innerText).replaceAll(/\s/g, '').toUpperCase()
+                newTabName = newTabName.replace(/[^a-zA-Z ]/g, "");
+                var id = newTabName// $(".nav-tabs").children().length;
+
+                var t = '<li class="nav-item"><a id="a' + id + '" load-in="frame' + id + '" class="nav-link" href="#hr' + id + '" data-toggle="tab"><span style="font-size:14px; float: left; padding: 0 20px 0 0;font-weight:400;">' + this.innerText + '</span> &nbsp; <span class="tbClose" style="float:right"><i class="fa fa-times" style="display:block;float:right;"></i></span></a></li>';
+                $(".nav-tabs").append(t);
+                var tcontent = '<div id="hr' + id + '" class="tab-pane fade in "><iframe id="frame' + id + '" class="responsive-iframe" style="border:0px;min-height:485px;" width="100%" src="' + this.href + '" onload="resizeIframe(this)"></iframe></div>'
+                $(".tab-content").append(tcontent);
+                $(".tab-content>div").removeClass('show');
+                $(".tab-content>div").removeClass('active');
+                $('.nav-tabs li a').removeClass('active')
+                $('.nav-tabs li').removeClass('active')
+
+                $('#menutab a[href="hr' + id + '"]').tab('show')
+                $("#hr" + id).addClass("show");
+                $('#a' + id).addClass("active");
+                //$("#hr1" + id).first().addClass("active");
+            }
+            else {
+                // alert("This tab already exist");
+                $("div.warning").fadeIn(300).delay(1500).fadeOut(), 5000;
+            }
+            
+        });
+
+        $(document).on('click', ".nav-link", function () {
+            event.preventDefault();
+            var id_of_selected = $(this).attr('load-in');
+            var link_to_load = $('.tab-content #' + id_of_selected).contents().get(0).location.href;//$(this).attr('href');
+            var iframe_to_load = $(document).find('#' + id_of_selected);
+            $(".tab-content>div").removeClass('show');
+            iframe_to_load.parent().addClass('in show')
+        });
+
+
+    </script>
+    <script>
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'vh';
+        }
+    </script>
+
+    <script>
+        debugger;
+        window.onload = function () {
+            var scrollY = parseInt('<%=Request.Form["scrollY"] %>');
+            if (!isNaN(scrollY)) {
+                window.scrollTo(0, scrollY);
+            }
+        };
+        window.onscroll = function () {
+            var scrollY = document.body.scrollTop;
+            if (scrollY == 0) {
+                if (window.pageYOffset) {
+                    scrollY = window.pageYOffset;
+                }
+                else {
+                    scrollY = (document.body.parentElement) ? document.body.parentElement.scrollTop : 0;
+                }
+            }
+            if (scrollY > 0) {
+                var input = document.getElementById("scrollY");
+                if (input == null) {
+                    input = document.createElement("input");
+                    input.setAttribute("type", "hidden");
+                    input.setAttribute("id", "scrollY");
+                    input.setAttribute("name", "scrollY");
+                    document.forms[0].appendChild(input);
+                }
+                input.value = scrollY;
+            }
+        };
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+public partial class Accounting_rptGeneralLedger : System.Web.UI.Page
+{
+    tvisadet_Class objClass = new tvisadet_Class();
+    tacc_journal_voucherdet_Class objClassDet = new tacc_journal_voucherdet_Class();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            displayGrid();
+        }
+
+
+    }
+   
+    public void displayGrid()
+    {
+        try
+        {
+            objClass.dtApply = validation.dateToText(Request.QueryString["dtFrom"].ToString());
+            objClass.dtDOB = validation.dateToText(Request.QueryString["dtTo"].ToString());
+            objClass.sReference1 = "VS";
+            objClass.sNationality = "VR";
+
+            getGeneralLedger();
+            //  objClass.FillGrid(objClass, GridView1, "ShowGeneralLedgerDet", Request.QueryString["AccCode"].ToString()); 
+        }
+        catch (Exception ex)
+        {
+            //  valobj.showMsg(ex.Message, lblmsg);
+        }
+    }
+    public void getGeneralLedger()
+    {
+        DataTable dt = objClass.viewData(objClass, "ShowGeneralLedgerDet", Request.QueryString["AccCode"].ToString());
+        DataTable dtmain = new DataTable();
+        dtmain.Columns.Add("Account Code");
+        dtmain.Columns.Add("Voucher Date");
+        dtmain.Columns.Add("Voucher No");
+        dtmain.Columns.Add("sVoucherType");
+        dtmain.Columns.Add("Description");
+        dtmain.Columns.Add("Debit Amount");
+        dtmain.Columns.Add("Credit Amount");
+        dtmain.Columns.Add("Balance");
+        if (dt.Rows.Count > 0)
+        {
+
+            DataTable dt1 = objClass.viewData(objClass, "GeneralLedgerOpeningBal", Request.QueryString["AccCode"].ToString());
+            if (dt1.Rows.Count > 0)
+            {
+                  dtmain.Rows.Add(
+                               "",
+                               "",
+                               "",
+                                "",
+                               "Opening Balance",
+
+                               dt1.Rows[0]["DebitAmount"].ToString(),
+                               dt1.Rows[0]["CreditAmount"].ToString(),
+                               dt1.Rows[0]["nOpeningBal"].ToString()
+                               );
+               
+               
+            }
+            else
+            {
+                dtmain.Rows.Add(
+                                "",
+                                "",
+                                "",
+                                 "",
+                                "Opening Balance",
+                                0,
+                                0,
+                                0
+                                );
+            }
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+                dtmain.Rows.Add(
+                              dt.Rows[i]["Account Code"].ToString(),
+                              dt.Rows[i]["Voucher Date"].ToString(),
+                              dt.Rows[i]["Voucher No"].ToString(),
+                              dt.Rows[i]["sVoucherType"].ToString(),
+                              dt.Rows[i]["Description"].ToString(),
+                              dt.Rows[i]["nDebitAmt"].ToString(),
+                              dt.Rows[i]["nCreditAmt"].ToString(),
+                              (double.Parse(dtmain.Rows[i]["Balance"].ToString()) + double.Parse(dt.Rows[i]["nCreditAmt"].ToString()) - double.Parse(dt.Rows[i]["nDebitAmt"].ToString())).ToString()
+                           );
+
+            }
+
+            DataTable dtBal = objClass.viewData(objClass, "ShowGeneralLedgerBal", Request.QueryString["AccountID"].ToString());
+            if (dtBal.Rows.Count > 0)
+            {
+                dtmain.Rows.Add(
+                             "",
+                             "",
+                             "",
+                              "",
+                             "TOTAL RECIEPT",
+
+                             dtBal.Rows[0]["TotDebit"].ToString(),
+                             dtBal.Rows[0]["TotCredit"].ToString(),
+                             dtBal.Rows[0]["TotBalance"].ToString()
+                             );
+
+
+            }
+            else
+            {
+                dtmain.Rows.Add(
+                                "",
+                                "",
+                                "",
+                                 "",
+                                "Opening Balance",
+                                0,
+                                0,
+                                0
+                                );
+            }
+
+            GetFormData();
+
+        }
+
+
+        GridView1.DataSource = dtmain;
+        GridView1.DataBind();
+    }
+    public void GetFormData()
+    {
+        objClass.dtApply = validation.dateToText(Request.QueryString["dtFrom"].ToString());
+        objClass.dtDOB = validation.dateToText(Request.QueryString["dtTo"].ToString());
+
+        DataTable dt = objClass.viewData(objClass, "ShowGeneralLedgerBal", Request.QueryString["AccountID"].ToString()); // Session["eid"].ToString());
+        if (dt.Rows.Count > 0)
+        {
+
+            lblDate.Text = Request.QueryString["dtFrom"].ToString() + " To " + Request.QueryString["dtTo"].ToString();
+
+            lblAccountTitle.Text = dt.Rows[0][1].ToString() + " - " + dt.Rows[0][3].ToString();
+            lblAdd.Text = dt.Rows[0][5].ToString();
+            //lblCity.Text = dt.Rows[0][14].ToString();
+            // lblCountry.Text = dt.Rows[0][14].ToString();
+            lblPhone.Text = dt.Rows[0][6].ToString();
+            lblFax.Text = dt.Rows[0][9].ToString();
+            lblEmail.Text = dt.Rows[0][10].ToString();
+            lblWebsite.Text = dt.Rows[0][11].ToString();
+            lblCreatedDate.Text = dt.Rows[0][12].ToString();
+            lblTotDebit.Text = dt.Rows[0][15].ToString();
+            lblTotCredit.Text = dt.Rows[0][16].ToString();
+            if (double.Parse(dt.Rows[0][17].ToString()) < 0)
+            {
+                string val = dt.Rows[0][17].ToString();
+                var TotBal = val.Split('-');
+                lblTotBalance.Text = TotBal[1].ToString() + " " + "Dr";
+            }
+            else
+            {
+                lblTotBalance.Text = dt.Rows[0][17].ToString() + " " + "Cr";
+            }
+        }
+    }
+
+
+   
+
+}

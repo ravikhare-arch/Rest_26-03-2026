@@ -1,0 +1,31 @@
+﻿address
+{
+    color:black;
+}
+.invoice
+{
+    color:black;
+}
+.the-legend {
+            border-style: none;
+            border-width: 0;
+            font-size: 13px;
+            line-height: 15px;
+            margin-bottom: 0;
+            width: auto;
+            padding: 0 4px;
+            border: 1px solid #e0e0e0;
+        }
+.btn{
+    padding: 10px 5px !important;
+}
+.btn-xs {
+    padding: 5px 5px !important;
+}
+.btn-icon, .btn.btn-icon{    
+    padding: 0 !important;
+}
+.pagebg .btn {
+    padding: 2px 5px !important;
+    margin: 5px 0px;
+}

@@ -1,0 +1,109 @@
+﻿.splbar {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: space-between;
+    -ms-flex-line-pack: justify;
+    align-content: space-between;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    height: 48px;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabspl {
+    margin: 0;
+    border: none;
+    padding: 0 24px;
+    float: left;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, .54);
+    overflow: hidden;
+}
+
+    .tabspl.active {
+        border-bottom: 1px solid rgb(244, 67, 54);
+    }
+
+speltab-bar {
+    width: 100%;
+}
+
+.speltab {
+    border: 1px solid black;
+    padding: 0 24px;
+    margin: 2px 10px;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, .54);
+    overflow: hidden;
+}
+.speltab.active {
+    border: 1px solid #ee1534;
+}
+.tabspcl.active {
+    background: rgb(238 21 52);
+    color: white;
+    padding: 10px 20px;
+}
+.tab-pane {
+    display: none;
+}
+    .tab-pane.active {
+        display: block;
+    }
+@media only screen and (max-width: 600px) {
+     .tabspcl.active{
+       padding: 0px !important;
+     }
+    .speltab {
+        border: 1px solid black;
+        padding: 0 5px;
+        margin: 2px;
+        border-radius: 3px;
+        float: left;
+        position: relative;
+        display: block;
+        text-decoration: none;
+        height: 28px;
+        line-height: 28px;
+    }
+    .logo {
+        width: 100%;
+        padding: 0px !important;
+    }
+    .mobi_none{
+        display: none !important;
+    }
+        }
+@media (max-width:550px){
+    .splbar{
+        height: auto;
+    }
+}

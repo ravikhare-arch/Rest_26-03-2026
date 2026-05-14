@@ -1,0 +1,146 @@
+﻿
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #e5e5e5;
+            background: #1b82ec;
+            color: #fff;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            text-align: right;
+            border-top: 1px solid #e5e5e5;
+            background: #1b82ec;
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+
+        .modal-xl {
+            width: 80% !important;
+            max-width: 1200px;
+        }
+
+        .modal-body {
+            max-height: 80vh;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .btn {
+            padding: 0px 12px;
+        }
+        /*.modal-body {
+    position: relative;
+    padding: 0px;
+}*/
+        .close {
+            float: right;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 1px 0 #fff;
+            filter: alpha(opacity=20);
+            opacity: 2;
+        }
+
+        .btnspl {
+            min-width: 217px;
+            padding: 10px 50px;
+        }
+
+        .row {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+    
+  
+        .card-title {
+            text-align: center;
+            /*padding: 10px;*/
+            font-weight: 600;
+            border: 1px solid #0098da;
+        }
+
+        .text-white {
+            color: red !important;
+        }
+
+        .nav-tabs > li > a:hover {
+            background: #00bcd4;
+        }
+
+        label {
+            color: black;
+            padding-top: 8px;
+        }
+
+        .radio-inline, .checkbox-inline {
+            margin-top: -8px;
+        }
+
+        .well {
+            background: white;
+            border: 1px solid #0098da;
+        }
+
+
+            .well .fa {
+                color: Black;
+            }
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: white !important;
+        }
+
+        .card-block {
+            color: black;
+        }
+
+        .card {
+            background: whitesmoke !important;
+        }
+
+        .form-control {
+            border: 1px solid #00bcd4;
+        }
+
+        .table {
+            text-align: center !important;
+            border: 1px solid #0098da !important;
+            /*background: white;*/
+            /*margin-left: 15px;*/
+        }
+
+            .table th {
+                background: red !important;
+                color: white !important;
+                border: 1px solid white;
+                border-bottom: none;
+                padding: 5px;
+            }
+
+            .table td {
+                padding: 5px;
+            }
+            .bgTotal{
+              background: #7ac032 !important;
+                color: white !important;
+            }
+            .table tr:nth-of-type(even) {
+                background-color: rgba(94, 93, 82, 0.1);
+            }
+
+        .frm_sec {
+            border: 1px solid #0098da;
+            margin: 0;
+            border-radius: 4px;
+            box-shadow: 0 4px 3px 0 #0e6390c7;
+        }
+
+        .destination {
+            border-right: 1px solid #0098da;
+        }
+    

@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0036)https://cdpn.io/foxza/fullpage/JDaBF -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+    <link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+    <title>CodePen - sidebar with Bootstrap 3</title>
+    <link rel="stylesheet" href="./normalize.min.css">
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style>
+        #wrapper {
+            padding-left: 50px;
+            transition: all 0.5s ease;
+        }
+
+            #wrapper.toggled {
+                padding-left: 250px;
+            }
+
+        #sidebar-wrapper {
+            z-index: 1000;
+            position: fixed;
+            left: -200px;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+            background: #000;
+            padding-top: 15px;
+            transition: all 0.5s ease;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            left: -250px;
+            margin-left: 250px;
+        }
+
+        #page-content-wrapper {
+            width: 100%;
+            padding: 15px;
+        }
+
+        #wrapper.toggled #page-content-wrapper {
+            position: absolute;
+            margin-right: -50px;
+        }
+
+        /* Sidebar Styles */
+
+        .sidebar {
+            margin: 0;
+            padding: 0;
+        }
+
+            .sidebar li.title {
+                letter-spacing: 0.01em;
+                font-size: 2rem;
+                line-height: 4.2rem;
+            }
+
+            .sidebar ul {
+                margin: 0;
+                padding-left: 20px;
+                list-style: none;
+            }
+
+                .sidebar ul li {
+                    display: block;
+                }
+
+                    .sidebar ul li a {
+                        display: block;
+                        position: relative;
+                        text-decoration: none;
+                        color: #999999;
+                    }
+
+                        .sidebar ul li a [class*="icon"] {
+                            margin-right: 15px;
+                        }
+
+                        .sidebar ul li a#main-toggle:after,
+                        .sidebar ul li a.dropdown-toggle:after {
+                            right: 20px;
+                            bottom: 5px;
+                        }
+
+            .sidebar .sidebar__main {
+                border-bottom: 1px solid #373737;
+            }
+
+            .sidebar .sidebar__toggled {
+                font-size: 2rem;
+                line-height: 3.4rem;
+            }
+
+            .sidebar ul li.title,
+            .sidebar .sidebar__main--brand a {
+                color: #999999;
+            }
+
+        .dropdown-toggle {
+            padding-right: 20px;
+        }
+
+            #main-toggle:after,
+            .dropdown-toggle:after {
+                font-family: 'Glyphicons Halflings';
+                font-size: .7em;
+                position: absolute;
+                margin-left: .25em;
+                bottom: 0;
+                content: "\e114";
+            }
+
+        .sidebar__toggled {
+            border-bottom: 1px solid #444;
+        }
+
+        #main-toggle:after {
+            font-size: 1em;
+            content: "\e055";
+        }
+
+
+
+        @media(min-width:768px) {
+            #wrapper {
+                padding-left: 250px;
+            }
+
+                #wrapper.toggled {
+                    padding-left: 50px;
+                }
+
+            #sidebar-wrapper {
+                left: 250px;
+                margin-left: -250px;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                left: -200px;
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                padding: 20px;
+            }
+
+            #wrapper.toggled #page-content-wrapper {
+                position: relative;
+                margin-right: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body translate="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap sidebar</title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <div id="wrapper" class="">
+        <div id="sidebar-wrapper">
+            <nav class="sidebar">
+                <ul class="sidebar__toggled">
+                    <li>
+                        <a href="javascript:void(0)" id="main-toggle" class="sidebar-toggle">Menu</a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="sidebar">
+                <ul>
+                    <li class="title">Item Group</li>
+                    <li>
+                        <a><span class="icon glyphicon glyphicon-link"></span>Link1</a>
+                    </li>
+                    <li>
+                        <a><span class="icon glyphicon glyphicon-link"></span>link2</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="https://cdpn.io/foxza/fullpage/JDaBF#"><span class="icon glyphicon glyphicon-link"></span>Sub menu</a>
+                        <ul class="dropdown-menu" data-role="dropdown">
+                            <li>
+                                <a href="https://cdpn.io/foxza/fullpage/JDaBF#">Subitem 1</a>
+                            </li>
+                            <li>
+                                <a href="https://cdpn.io/foxza/fullpage/JDaBF#">Subitem 2</a>
+                            </li>
+                            <li>
+                                <a href="https://cdpn.io/foxza/fullpage/JDaBF#">Subitem 3</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="https://cdpn.io/foxza/fullpage/JDaBF">Subitem 4</a>
+                            </li>
+                            <li class="disabled">
+                                <a href="https://cdpn.io/foxza/fullpage/JDaBF#">Subitem 4</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div id="page-content-wrapper">
+            <!--<button class="btn btn-default sidebar-toggle">Toggle Sidebar</button>-->
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script id="rendered-js">
+		$(".sidebar-toggle").click(function (e) {
+		  e.preventDefault();
+		  $("#wrapper").toggleClass("toggled");
+		});
+
+		//$("[data-role=dropdown]").dropdown();
+		//# sourceURL=pen.js
+    </script>
+</body>
+
+</html>

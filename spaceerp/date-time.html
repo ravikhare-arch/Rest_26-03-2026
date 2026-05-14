@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<link href="css/datetimepicker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/datetimepicker.js"></script>-->
+    <link href="http://cdn.syncfusion.com/19.3.0.43/js/web/flat-azure/ej.web.all.min.css" rel="stylesheet" />
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+    <!--<script src="http://cdn.syncfusion.com/js/assets/external/jquery-1.10.2.min.js"> </script>-->
+    <script src="http://cdn.syncfusion.com/19.3.0.43/js/web/ej.web.all.min.js"></script>
+
+    <style>
+        body {
+            background-color: beige;
+            direction: ltr;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dateTime').ejDateTimePicker({
+                dateTimeFormat: "dddd, MMMM dd, yyyy hh:mm:ss tt",
+                timePopupWidth: "150px",
+                timeDisplayFormat: "hh:mm:ss tt",
+                width: '300px'
+
+            });
+            
+            //$('#picker-no-time').dateTimePicker({ showTime: false, dateFormat: 'DD/MM/YYYY', title: 'Select Date' });
+            $("#deletebutton").on("click", function () {
+                var dateTimeObj = $("#dateTime").ejDateTimePicker('instance');
+
+                //set value using datetime object
+
+                //dateTimeObj.option('value', new Date());
+
+                //get value using dateTimeObj and displays in alert box
+
+                alert(dateTimeObj.option('value'));
+
+                //var dateval = $("picker").dateTimePicker({ dateFormat: 'dd, mm, yy' });
+                //alert(dateval.val);
+                //var val = $('#picker').outerText();
+                //alert(val);
+               
+
+            });
+        });
+    </script>
+    <title>Date Time Picker</title>
+</head>
+<body>
+    <!--<div style="width: 250px; margin: 50px auto;">
+        <div id="picker"></div>
+        <input type="hidden" id="result" value="" />
+    </div>
+    <div style="width: 250px; margin: 50px auto;">
+        <div id="picker-no-time"></div>
+        <input type="hidden" id="result2" value="" />
+    </div>-->
+
+    <div class="content-container-fluid">
+        <div class="row">
+            <div class="cols-sample-area">
+                <div class="frame">
+                    <div class="control">
+                        <input type="text" id="dateTime" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="deletebutton">Cancel</button>
+</body>
+</html>

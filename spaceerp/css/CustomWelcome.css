@@ -1,0 +1,23 @@
+﻿     html, body {
+            overflow: hidden !important;
+        }
+
+        .tab-pane {
+            display: block;
+        }
+
+        #HIDDENDIV {
+            display: none;
+        }
+        .width-50 {
+            width: 45% !important;
+        }
+        #passtog.showIt #HIDDENDIV {
+            display: block;
+            width: 65%;
+            float: left;
+        }
+        .tab-pane .col-md-2{
+            padding: 0 !important;
+            margin: 0 !important;
+        }

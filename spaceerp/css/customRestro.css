@@ -1,0 +1,138 @@
+﻿
+#page-loader {
+    display: none;
+}
+
+.border-1-dashed {
+    border: 1px dashed;
+}
+
+.stats-left {
+    float: left;
+    width: 100%;
+    background: #18558a;
+    /*padding: 0px;*/
+}
+
+   .stats-left p {
+    color: white;
+    min-height: 50px;
+    position: relative;
+    top: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;    
+}
+.stats-right {
+    float: right;
+    width: 100%;
+    padding: 0.28em;
+}
+
+.fff a.ddd {
+    width: 30%;
+    padding: 3px 5px;
+    color: #fff;
+    background: #18558a;
+}
+
+.sp-minus a {
+    padding: 3px 7px !important;
+}
+
+.quntity-input {
+    margin: 0 0 0 4px;
+}
+
+p {
+    margin: 0;
+}
+
+.widget {
+    width: 33.33333333%;
+    padding: 5px;
+}
+
+.spltab {
+    height: 60px;
+    width: 100%;
+    padding: 12px;
+    vertical-align: middle;
+    line-height: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgba(244, 67, 54, 0);
+    color: #cccccc;
+    border-left: 5px solid #cccccc;
+    border-radius: 7px;
+    margin: 5px 0px;
+}
+
+    .spltab.active {
+        color: #e04545;
+        border-left: 5px solid red;
+    }
+
+input[type="submit"] {
+    margin-top: 0;
+    font-size: 0.8em;
+    padding: 5px !important;
+}
+
+input[type="button"] {
+    margin-top: 0;
+    font-size: 0.8em;
+    padding: 5px !important;
+}
+
+.btn {
+    margin: 2px 0;
+}
+
+.topsrch {
+    background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+    border: solid 1px #ccc;
+    padding: 9px 10px 9px 32px;
+    width: 50px;
+    border-radius: 10em;
+    transition: all .5s;
+}
+
+th {
+    background: #18558a;
+    color: #ffffff !important;
+    font-weight: 400;
+    padding: 5px !important;
+    border: 1px solid #fff;
+}
+
+.btn-primary:hover {
+    background: #18558a;
+    border-color: #18558a;
+}
+
+.table > thead > tr > th {
+    padding: 5px !important;
+    text-align: center;
+}
+  @media (max-width:550px) {
+    .btn {
+        width: auto;
+    }
+    input[type="button"]{
+        width: auto;
+        font-size: 0.6em;
+        padding: 2px !important;
+    }
+    input[type="submit"]{
+        width: auto;
+        font-size: 0.6em;
+        padding: 2px !important;
+
+    }
+    #divpayment label {
+    margin-left: 0px;
+   position: relative;
+    }
+    }

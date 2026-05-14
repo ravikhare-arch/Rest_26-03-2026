@@ -1,0 +1,24 @@
+﻿<style>
+    #HIDDENDIV {
+        display: none;
+    }
+
+    #passtog.show #HIDDENDIV {
+        display: block;
+    }
+
+    .width-50 {
+        width: 50% !important;
+    }
+</style>
+    <span class="toggleHide">
+        <span id="passw" class="input-group">
+            <input type="password" class="width-50" id="password" onkeydown="if (event.keyCode == 13) document.getElementById('button').click()" />
+            <input id="button" type="button" value="Enter" onclick="if (document.getElementById('password').value == 'PASS') {
+document.getElementById('passtog').classList.toggle('show');   document.getElementById('passw').style.display='none'; }
+else {  alert('Invalid Password!'); password.setSelectionRange(0, password.value.length);   } " />
+        </span>
+        <span id="passtog"> <span id="HIDDENDIV">₹<span id="allsales"> 0.00 </span></span></span>
+    </span>
+    <i class="fa fa-eye"></i>
+    <br /><br /><br />

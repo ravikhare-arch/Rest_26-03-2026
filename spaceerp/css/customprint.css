@@ -1,0 +1,207 @@
+﻿
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#invoice-POS {
+    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+    padding: 3mm;
+    width: 100mm;
+    /*border: 1px solid black;*/
+    margin: 0 auto;
+    background: #FFF;
+}
+
+.headerTitle {
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+    text-align: center;
+    font-size: 24pt;
+    font-weight: bold;
+}
+.headerAddress{
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+    text-align: center;
+    font-size: 12pt;
+
+}
+.headerSubTitle {
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+    text-align: center;
+    font-size: 14pt;
+    font-weight: normal;
+    border: 1px dashed;
+    margin: 2pt 0 2pt;
+}
+.tableNo {
+    width: 49%;
+    padding-bottom: 1mm;
+    font-size: 12pt;
+    font-weight: normal;
+    display: inline;
+    float: right;
+    text-align: right;
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+}
+.orderNo {
+    width: 49%;
+    padding-bottom: 1mm;
+    font-size: 12pt;
+    font-weight: bold;
+    display: inline;
+    float: left;
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+}
+.flex {
+    display: flex;
+    justify-content: center;
+}
+.totals {
+    flex-grow: 1;
+    align-self: center;
+    font-size: 12pt;
+    font-weight: bold;
+}
+.keepIt {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+}
+.totals .row {
+    display: flex;
+    text-align: right;
+}
+.totals .col1 {
+    text-align: right;
+    flex-grow: 1;
+}
+.totals .col3 {
+    width: 15mm;
+}
+/*::selection {background: #f31544; color: #FFF;}
+::moz-selection {background: #f31544; color: #FFF;}*/
+h1 {
+    font-size: 1.5em;
+    color: #222;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-family: 'Righteous', cursive;
+}
+
+h3 {
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 2em;
+}
+
+p {
+    font-size: .9em;
+    color: #666;
+    line-height: 1.2em;
+}
+
+#top, #mid, #bot { /* Targets all id with 'col-' */
+    border-bottom: 1px dashed #EEE;
+}
+
+.info {
+    display: block;
+    //float:left;
+    margin-left: 0;
+}
+
+.title {
+    border-top: 1px dashed black;
+    margin-top: 20px;
+}
+
+/*.title p {
+                text-align: right;
+            }*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    /*padding: 5px 0 5px 15px;*/
+    border-bottom: 1px dashed black;
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+}
+
+th {
+    text-align: left;
+}
+
+.tabletitle{    
+    border: 1px dashed;
+}
+.tabletitle th{
+    font-size: 14pt;
+    font-family: 'Equestria', 'Permanent Marker', cursive;
+    font-weight: bold;
+    margin: 2pt 0 2pt;
+}
+
+.service {
+    border-bottom: 1px solid #EEE;
+}
+
+.item {
+    width: 24mm;
+}
+
+.itemtext {
+    font-size: .5em;
+}
+.totals .section {
+    padding-top: 2mm;
+}
+#legalcopy {
+    margin-top: 5mm;
+}
+ /*@media print {
+            td {
+                border-bottom: 1px dashed black;
+            }
+            .totals .section {
+    padding-top: 2mm;
+}
+            .title {
+                border-top: 1px dashed black;
+                margin-top: 20px;
+            }            
+            .tabletitle {
+    font-size: 12pt;
+    font-weight: bold;
+    border: 1px dashed;
+    margin: 2pt 0 2pt;
+}
+
+            #menutab {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            .nav-tabs {
+                display: none !important;
+            }
+        #invoice-POS{
+          margin: 0 !important;
+              box-shadow: none !important;
+            }
+                .nav-tabs .nav-link {
+                    display: none !important;
+                }
+            .content-page .content {
+                margin-top: 0px !important;
+            }
+        }*/
