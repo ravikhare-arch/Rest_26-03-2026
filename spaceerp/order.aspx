@@ -368,7 +368,7 @@
         var roomFromUrl = urlParams["roomNo"];
         var ncNameFromUrl = urlParams["ncName"];
         var ncRadioFromUrl = urlParams["ncRadio"];
-
+        var isNCFromStorage = localStorage.getItem("isNCSelected"); // Safe declaration at top
         console.log("URL Data Received:", { id, roomFromUrl, ncRadioFromUrl, mode });
 
         // --- 2. Readonly Mode Logic ---

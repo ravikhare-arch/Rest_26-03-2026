@@ -1008,6 +1008,11 @@ table.dataTable {
 
                     var statusClass = item.TableStatus === 'Completed' ? 'label-success' : 'label-warning';
 
+                    // 🔥 ENHANCEMENT: Capture and encode variables for order.aspx autofill handshake
+                    var roomQs = encodeURIComponent(item.RoomNo || "");
+                    var ncNameQs = encodeURIComponent(item.CustomerName || "");
+                    var ncRadioQs = encodeURIComponent(item.NCRadio || item.ncRadio || "");
+
                     html += "<tr>" +
                         "<td>" + (i + 1) + "</td>" +
                         "<td>" + item.OrderID + "</td>" +
@@ -1030,8 +1035,10 @@ table.dataTable {
                         "<td class='text-right' style='font-weight:700; color:var(--navy);'>₹" + net.toFixed(2) + "</td>" +
                         "<td class='text-center'>" +
                         "<div class='action-wrap' style='display:flex; gap:5px; justify-content:center;'>" +
-                        "<a href='/order.aspx?id=" + item.OrderID + "&mode=readonly' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>"+
-                        //"<a href='/order.aspx?id=" + item.OrderID + "&mode=readonly'   class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
+
+                        // 🔥 ENHANCEMENT: Appended roomNo, ncName, status, orderType, and ncRadio parameters seamlessly
+                        "<a href='/order.aspx?id=" + item.OrderID + "&mode=readonly&status=" + encodeURIComponent(item.TableStatus || "") + "&orderType=" + encodeURIComponent(item.OrderType || "") + "&roomNo=" + roomQs + "&ncName=" + ncNameQs + "&ncRadio=" + ncRadioQs + "' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
+
                         "<button type='button' class='deletebtn btn-act btn-act-cancel' style='background:#e03434; color:#fff; padding:2px 8px; border-radius:4px; border:none;' data-order-id='" + item.OrderID + "' data-order-no='" + item.OrderNo + "' data-toggle='modal' data-target='#deleteModalCenter' title='Cancel'><i class='fa fa-trash'></i></button>" +
                         "</div>" +
                         "</td></tr>";
@@ -1125,7 +1132,6 @@ table.dataTable {
                 $("#div1").css("width", tableContentWidth + "px");
             }, 200);
         }
-
         // 7. Custom Export Button Triggers (Call these from your ASP buttons)
         function exportExcel() { $(".hidden-dt-excel").click(); }
         function exportPdf() { $(".hidden-dt-pdf").click(); }
