@@ -363,11 +363,17 @@
         var apiUrl = $("[id$='hdnApiurl']").val();
         var SGST = 0, CGST = 0, grandTotal = 0, tablename = "";
 
-        // Unified NC Lock Function
+        // Unified NC & Room Lock Control Module
         function checkNcAndLockRoom() {
             var isNcChecked = $("#NC").is(":checked");
+            var urlParams = getUrlVars();
+            var roomFromUrl = urlParams["roomNo"];
+            var savedRoom = localStorage.getItem("bill_roomNo"); // 🔥 Layer Item Check
+
+            var $roomInput = $("[id$='txtRoomNo']");
+
             if (isNcChecked) {
-                $("[id$='txtRoomNo']").val("").prop("disabled", true).css({
+                $roomInput.val("").prop("disabled", true).css({
                     "background-color": "#eeeeee",
                     "cursor": "not-allowed",
                     "pointer-events": "none"
@@ -380,12 +386,25 @@
                 $("#hdnRTID").val("");
                 $("#hdnGCID").val("");
             } else {
-                $("[id$='txtRoomNo']").prop("disabled", false).css({
-                    "background-color": "#ffffff",
-                    "cursor": "auto",
-                    "pointer-events": "auto"
-                });
-                $("#txtRoomNoDisplay").prop("disabled", false).css({
+                // 🔥 SURAKSHA LOCK: Agar URL ya LocalStorage kahin bhi room number pehle se fill h, toh strictly lock rakho
+                var hasRoom = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") ||
+                    (savedRoom && savedRoom !== "null" && savedRoom !== "");
+
+                if (hasRoom) {
+                    $roomInput.prop("disabled", true).css({
+                        "background-color": "#eeeeee",
+                        "cursor": "not-allowed",
+                        "pointer-events": "none"
+                    });
+                } else {
+                    $roomInput.prop("disabled", false).css({
+                        "background-color": "#ffffff",
+                        "cursor": "auto",
+                        "pointer-events": "auto"
+                    });
+                }
+
+                $("#txtRoomNoDisplay").css({
                     "background-color": "#f9f9f9",
                     "color": "black"
                 });
@@ -429,6 +448,7 @@
                 }, 1500);
             }
 
+            
             // --- 4. Autofill Logic ---
             if (ncRadioFromUrl === "NC") {
                 $("#NC").prop('checked', true);
@@ -438,17 +458,26 @@
             }
             checkNcAndLockRoom();
 
+            // Priority 1: URL Parameter se redirect hokar aana
             if (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") {
                 var decodedRoom = decodeURIComponent(roomFromUrl).replace(/\+/g, ' ');
                 $("#txtRoomNoDisplay").val(decodedRoom);
-                $("[id$='txtRoomNo']").val(decodedRoom);
+                $("[id$='txtRoomNo']").val(decodedRoom).prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed"
+                });
                 $("#Room_Serv").prop("checked", true);
             } else {
+                // Priority 2: Take_away page ke dynamic Print/View button (LocalStorage) se aana
                 var savedRoom = localStorage.getItem("bill_roomNo");
-                if (savedRoom && savedRoom !== "null") {
-                    $("[id$='txtRoomNo']").val(savedRoom);
+                if (savedRoom && savedRoom !== "null" && savedRoom !== "") {
+                    $("[id$='txtRoomNo']").val(savedRoom).prop("disabled", true).css({
+                        "background-color": "#eeeeee",
+                        "cursor": "not-allowed"
+                    });
                     $("#txtRoomNoDisplay").val(savedRoom);
                     $("#Room_Serv").prop("checked", true);
+                    console.log("Room locked from local storage context.");
                 }
             }
 
@@ -485,7 +514,19 @@
                             $("#txtcustname").val(r.NCName);
                             var roomValue = r.RoomNo || r.RoomNumber || "Not Assigned";
                             $("#txtRoomNoDisplay").val(roomValue);
+                          
+                           
                             $("[id$='txtRoomNo']").val(roomValue);
+
+                            // Secure dynamic protection database response layer logic mapping
+                            if (roomValue !== "Not Assigned" && roomValue !== "" && roomValue !== "-") {
+                                $("[id$='txtRoomNo']").prop("disabled", true).css({
+                                    "background-color": "#eeeeee",
+                                    "cursor": "not-allowed"
+                                });
+                            }
+                            //$("#txtRoomNoDisplay").val(roomValue);
+                            //$("[id$='txtRoomNo']").val(roomValue);
                             $("#txtcustaddress").val(r.CustomerAddress);
                             $("#txtcustemail").val(r.CustomerEmail);
                             $("#txtcustgst").val(r.CustomerGST);

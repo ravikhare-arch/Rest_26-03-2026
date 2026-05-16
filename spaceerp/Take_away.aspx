@@ -85,76 +85,118 @@
   </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
     <script type="text/javascript">
-        // 🛠️ CHHOTA REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD
+        // 🛠️ REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD & CLOSE POPUP
         function checkNcAndLockRoom() {
             var isNcChecked = $("#nc").is(":checked");
+
+            // Safe URL parameters evaluation layer
+            var urlParams = new URLSearchParams(window.location.search);
+            var roomFromUrl = urlParams.get('roomNo');
+
+            // Clean value check string check safely
+            var hasValidRoomUrl = (roomFromUrl && roomFromUrl !== "" && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined");
+
+            var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
+
             if (isNcChecked) {
-                // Input disable karo, value clear karo, and pointer-events: none se bilkul unclickable bana do
-                $("#txtRoomNo").val("").prop("disabled", true).css({
+                // Input disable karo, value clear karo, aur pointer-events: none se unclickable banao
+                $roomInput.val("").prop("disabled", true).css({
                     "background-color": "#eeeeee",
                     "cursor": "not-allowed",
                     "pointer-events": "none"
                 });
+                // Force close autocomplete menu if open
+                if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                    $roomInput.autocomplete("close");
+                }
                 $("#hdnRTID").val("");
                 $("#hdnGCID").val("");
             } else {
-                // Wapas enable karo
-                $("#txtRoomNo").prop("disabled", false).css({
-                    "background-color": "#ffffff",
-                    "cursor": "auto",
-                    "pointer-events": "auto"
-                });
+                // 🔥 LOCK ONLY IF REDIRECTED WITH VALID ROOM: Agar URL me sach me valid room aaya h, tabhi lock karo
+                if (hasValidRoomUrl) {
+                    $roomInput.prop("disabled", true).css({
+                        "background-color": "#eeeeee",
+                        "cursor": "not-allowed",
+                        "pointer-events": "none"
+                    });
+                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                        $roomInput.autocomplete("close");
+                    }
+                } else {
+                    // Fresh First-Time Order case: Dropdown poori tarah open rahega aur popup chalega
+                    $roomInput.prop("disabled", false).css({
+                        "background-color": "#ffffff",
+                        "cursor": "auto",
+                        "pointer-events": "auto"
+                    });
+                }
             }
         }
 
         $(document).ready(function () {
-            // Helper function to get URL parameters
             function getUrlParameter(name) {
                 name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
                 var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
                 var results = regex.exec(location.search);
                 return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
             }
+
             var urlParams = new URLSearchParams(window.location.search);
             var ncRadioVal = urlParams.get('ncRadio');
 
             if (ncRadioVal === "NC") {
-                // Take_away page par id 'nc' hai
                 $("#nc").prop('checked', true);
-
-                // Agar pehle se koi logic hai storage ka toh sync rakho
                 localStorage.setItem("isNCSelected", "true");
-                console.log("Takeaway: NC Radio Autofilled");
             }
-            // Capture values from URL
+
             var roomFromUrl = getUrlParameter('roomNo');
             var ncFromUrl = getUrlParameter('ncName');
             var ncRadioFromUrl = getUrlParameter('ncRadio');
-            // Auto-fill the fields if values exist
-            if (roomFromUrl !== "") {
-                // Using [id$=''] because ASP.NET sometimes mangles IDs (e.g., ctl00_txtRoomNo)
+
+            // Fresh verification boundaries for autofill hooks
+            if (roomFromUrl !== "" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl !== "-") {
                 var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
-                $roomInput.val(roomFromUrl).trigger('input').trigger('change');
-                console.log("Auto-filled Room No:", roomFromUrl);
+
+                // Lock elements only during direct redirection handshake
+                $roomInput.val(roomFromUrl).prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
+
+                // Immediate force close interval layout configuration
+                setTimeout(function () {
+                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                        $roomInput.autocomplete("close");
+                    }
+                }, 100);
+
+                $("#Room_Serv").prop("checked", true);
+                console.log("Redirected Order: Room field populated and locked successfully.", roomFromUrl);
+            } else {
+                // 🔥 FRESH ORDER CASE: Agar URL me room number nahi h, toh field open rakho aur purana item clear rakho
+                var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
+                $roomInput.prop("disabled", false).css({
+                    "background-color": "#ffffff",
+                    "cursor": "auto",
+                    "pointer-events": "auto"
+                });
+                console.log("Fresh Counter Order: Room field is unlocked for search.");
             }
 
             if (ncFromUrl !== "") {
                 var $ncInput = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
-                $ncInput.val(ncFromUrl).trigger('input').trigger('change');
-                console.log("Auto-filled NC Name:", ncFromUrl);
+                $ncInput.val(ncFromUrl).trigger('change');
             }
-            // 3. 🔥 Auto-check NC Radio Button
+
             if (ncRadioFromUrl === "NC") {
-                // Radio button ko id 'nc' se dhund kar check kar dega
                 $("#nc").prop('checked', true);
-
-                // Agar aapne niche koi custom logic likha hai localStorage ke liye, toh usey bhi update kar dega
                 localStorage.setItem("isNCSelected", "true");
-                console.log("Auto-selected NC Radio based on URL");
             }
 
-            // Page load hotey hi state check karo (In case URL se NC select hoke aaya ho)
+            // Trigger structural initial verification layer
             checkNcAndLockRoom();
         });
     </script>

@@ -218,25 +218,31 @@ $(document).ready(function () {
                 console.log("Extracted -> room:", roomVal, "nc:", ncNameVal, "rtid:", rtid, "gcid:", gcid);
 
                 // helper to set element by many selector fallbacks and trigger events
-                function setValueTo(selectorCandidates, value) {
+               
+                function setValueTo(selectorCandidates, value, isRoomField) {
                     for (var i = 0; i < selectorCandidates.length; i++) {
                         try {
                             var $el = $(selectorCandidates[i]);
                             if ($el.length) {
-                                $el.val(value).trigger('input').trigger('change');
-                                // ensure native value (in case jQuery returns wrapped set)
+                                $el.val(value).trigger('change');
                                 if ($el[0]) $el[0].value = value;
+
+                                // 🔥 FIX 2: Agar Room No bhara ja raha hai toh popup ko instant close karke lock kardo
+                                if (isRoomField && value !== "") {
+                                    if ($el.data("ui-autocomplete") || $el.autocomplete("instance")) {
+                                        $el.autocomplete("close");
+                                    }
+                                    $el.prop("disabled", true).css({ "background-color": "#eeeeee", "cursor": "not-allowed" });
+                                }
                                 return true;
                             }
-                        } catch (e) {
-                            console.warn("setValueTo error for", selectorCandidates[i], e);
-                        }
+                        } catch (e) { console.warn("setValueTo error", e); }
                     }
                     return false;
                 }
 
-                // Set Room and NC and hidden ids using multiple fallbacks
-                setValueTo(["#txtRoomNo", "input[id$='txtRoomNo']", "input[name='txtRoomNo' ]"], roomVal);
+                // 🔥 Pass true for Room No field, false for others
+                setValueTo(["#txtRoomNo", "input[id$='txtRoomNo']", "input[name='txtRoomNo']"], roomVal, true);
                 setValueTo(["#txtNCName", "input[id$='txtNCName']", "input[name='txtNCName' ]"], ncNameVal);
                 setValueTo(["#hdnRTID", "input[id$='hdnRTID' ]"], rtid);
                 setValueTo(["#hdnGCID", "input[id$='hdnGCID' ]"], gcid);
@@ -872,52 +878,37 @@ function openWindowForPrint(url) {
 }
 $("#txtRoomNo").autocomplete({
     minLength: 1,
-
-    // Dropdown ko page (body) ke hisab se set karenge kyunki values fixed hain
     appendTo: "body",
-
-    // 🔥 JADU YAHAN HAI: Exact aapki di hui values hardcode kar di hain
     open: function () {
         $(this).autocomplete("widget").css({
             "left": "931.949px",
             "top": "528.656px",
             "width": "81.825px",
             "position": "absolute",
-            "z-index": "999999" // Sabse upar dikhane ke liye
+            "z-index": "999999"
         });
     },
-
     source: function (request, response) {
         $.ajax({
             url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
             type: "GET",
             dataType: "json",
-            data: {
-                companyid: 1067
-            },
+            data: { companyid: 1067 },
             success: function (data) {
                 var uniqueRooms = [];
                 var roomSet = new Set();
-
                 $.each(data, function (index, item) {
                     if (!roomSet.has(item.RoomNo)) {
                         roomSet.add(item.RoomNo);
                         uniqueRooms.push(item);
                     }
                 });
-
                 response($.map(uniqueRooms, function (item) {
-                    return {
-                        label: item.RoomNo,         
-                        value: item.RoomNo,
-                        rtId: item.RTID,
-                        gcid: item.GCID
-                    };
+                    return { label: item.RoomNo, value: item.RoomNo, rtId: item.RTID, gcid: item.GCID };
                 }));
             }
         });
     },
-
     select: function (event, ui) {
         $("#txtRoomNo").val(ui.item.value);
         $("#hdnRTID").val(ui.item.rtId);
@@ -985,26 +976,17 @@ var qsNc = getUrlVars()["ncName"] ? decodeURIComponent(getUrlVars()["ncName"]) :
 
 // If redirected with room / nc in querystring, set fields immediately
 if (qsRoom || qsNc) {
-    var $txtRoom = $("#txtRoomNo");
-    if ($txtRoom.length === 0) $txtRoom = $("[id$='txtRoomNo']");
-    var $txtNC = $("#txtNCName");
-    if ($txtNC.length === 0) $txtNC = $("[id$='txtNCName']");
-
-    try {
+    setTimeout(function () {
+        var $txtRoom = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
+        var $txtNC = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
         if (qsRoom && $txtRoom.length) {
-            // Sirf value set karo, 'input' event trigger mat karo
             $txtRoom.val(qsRoom);
-
-            // Agar change trigger karna zaroori hai, toh karke turant blur() (focus remove) kar do
-            // Isse autocomplete popup khul ke turant band ho jayega ya dikhega hi nahi
-            $txtRoom.trigger('change').blur();
+            // 🔥 POPUP FIX 3: Dynamic close to hide popup instantly
+            if ($txtRoom.data("ui-autocomplete") || $txtRoom.autocomplete("instance")) {
+                $txtRoom.autocomplete("close");
+            }
+            $txtRoom.prop("disabled", true).css({ "background-color": "#eeeeee", "cursor": "not-allowed" }).blur();
         }
-        if (qsNc && $txtNC.length) {
-            // Same logic for NC Name
-            $txtNC.val(qsNc);
-            $txtNC.trigger('change').blur();
-        }
-    } catch (e) {
-        console.error("Autofill QS values error:", e);
-    }
+        if (qsNc && $txtNC.length) { $txtNC.val(qsNc).blur(); }
+    }, 150);
 }
