@@ -212,8 +212,8 @@ $(document).ready(function () {
                 }
 
                 // Optional: Agar aapne order.aspx ke liye 'lending' ID rakhi hai
-                if (ncRadioVal === "NC" && $("#lending").length) {
-                    $("#lending").prop('checked', true);
+                if (ncRadioVal === "NC" && $("#NC").length) {
+                    $("#NC").prop('checked', true);
                 }
                 console.log("Extracted -> room:", roomVal, "nc:", ncNameVal, "rtid:", rtid, "gcid:", gcid);
 

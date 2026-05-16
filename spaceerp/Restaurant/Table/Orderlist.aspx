@@ -617,55 +617,62 @@ table.dataTable {
         <div class="panel-body">
 
     <%-- ══ FILTER BAR (1 Row Desktop, Responsive Mobile) ════════════════ --%>
-    <div class="filter-row-wrap">
-        <div class="filter-grid" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
-            
-            <%-- Field 1: From Date --%>
-<div class="filter-field" style="flex: 1; min-width: 150px;">
-    <label class="col-form-label">From Date</label>
-    <div class="date-input-wrap">
-        <asp:TextBox ID="txttLastPurchase" runat="server" CssClass="form-control" type="date"></asp:TextBox>
+ 
+<div class="filter-row-wrap">
+    <div class="filter-grid" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
+        
+        <%-- Field 1: From Date --%>
+        <div class="filter-field" style="flex: 1; min-width: 150px;">
+            <label class="col-form-label">From Date</label>
+            <div class="date-input-wrap">
+                <asp:TextBox ID="txttLastPurchase" runat="server" CssClass="form-control" type="date"></asp:TextBox>
+            </div>
+        </div>
+
+        <%-- Field 2: To Date --%>
+        <div class="filter-field" style="flex: 1; min-width: 150px;">
+            <label class="col-form-label">To Date</label>
+            <div class="date-input-wrap">
+                <asp:TextBox ID="txttLastOrder" runat="server" CssClass="form-control" type="date"></asp:TextBox>
+            </div>
+        </div>
+
+        <%-- Field 3: Delivery Type (Fixed Layout Wrapper structural sync) --%>
+        <div class="filter-field" style="flex: 1; min-width: 150px;">
+            <label class="col-form-label">Delivery Type</label>
+            <asp:DropDownList ID="ddlDeliveryType" runat="server" CssClass="form-control">
+                <asp:ListItem Text="ALL" Value="0"></asp:ListItem>
+                <asp:ListItem Text="Take Away" Value="1"></asp:ListItem>
+                <asp:ListItem Text="Room Service" Value="2"></asp:ListItem>
+                <asp:ListItem Text="Dining" Value="3"></asp:ListItem>
+                <asp:ListItem Text="Dastarkhan" Value="4"></asp:ListItem>
+            </asp:DropDownList>
+        </div>
+
+        <%-- Field 4: Mode of Payment --%>
+        <div class="filter-field" style="flex: 1; min-width: 150px;">
+            <label class="col-form-label">Mode of Payment</label>
+            <asp:DropDownList ID="ddlpaymode" runat="server" CssClass="form-control">
+                <asp:ListItem Text="ALL" Value="0"></asp:ListItem>
+                <asp:ListItem Text="CASH" Value="CASH"></asp:ListItem>
+                <asp:ListItem Text="CARD" Value="CARD"></asp:ListItem>
+                <asp:ListItem Text="PAYTM" Value="PAYTM"></asp:ListItem>
+                <asp:ListItem Text="PHONEPE" Value="PHONEPE"></asp:ListItem>
+                <asp:ListItem Text="NC" Value="NC"></asp:ListItem>
+                <asp:ListItem Text="Room Service" Value="Room_Serv"></asp:ListItem>
+                <asp:ListItem Text="GPAY" Value="GPAY"></asp:ListItem>
+            </asp:DropDownList>
+        </div>
+
+        <%-- Field 5: Search Button --%>
+        <div class="filter-btn-wrap" style="flex: 0 0 auto;">
+            <button type="button" id="btnsearch" class="btn btn-primary" style="height: 38px; padding: 0 25px; font-weight: 700;">
+                &#128269;&nbsp; Search
+            </button>
+        </div>
+
     </div>
 </div>
-
-<%-- Field 2: To Date --%>
-<div class="filter-field" style="flex: 1; min-width: 150px;">
-    <label class="col-form-label">To Date</label>
-    <div class="date-input-wrap">
-        <asp:TextBox ID="txttLastOrder" runat="server" CssClass="form-control" type="date"></asp:TextBox>
-    </div>
-</div>
-
-            <%-- Field 3: Delivery Type --%>
-            <div class="filter-field" style="flex: 1; min-width: 150px;">
-                <label class="col-form-label">Delivery Type</label>
-                <asp:DropDownList ID="ddlDeliveryType" runat="server" CssClass="form-control"></asp:DropDownList>
-            </div>
-
-            <%-- Field 4: Mode of Payment --%>
-            <div class="filter-field" style="flex: 1; min-width: 150px;">
-                <label class="col-form-label">Mode of Payment</label>
-                <asp:DropDownList ID="ddlpaymode" runat="server" CssClass="form-control">
-                    <asp:ListItem Text="ALL" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="CASH" Value="CASH"></asp:ListItem>
-                    <asp:ListItem Text="CARD" Value="CARD"></asp:ListItem>
-                    <asp:ListItem Text="PAYTM" Value="PAYTM"></asp:ListItem>
-                    <asp:ListItem Text="PHONEPE" Value="PHONEPE"></asp:ListItem>
-                    <asp:ListItem Text="LENDING" Value="LENDING"></asp:ListItem>
-                    <asp:ListItem Text="MULTIPLE" Value="MULTIPLE"></asp:ListItem>
-                    <asp:ListItem Text="GPAY" Value="GPAY"></asp:ListItem>
-                </asp:DropDownList>
-            </div>
-
-            <%-- Field 5: Search Button --%>
-            <div class="filter-btn-wrap" style="flex: 0 0 auto;">
-                <button type="button" id="btnsearch" class="btn btn-primary" style="height: 38px; padding: 0 25px; font-weight: 700;">
-                    &#128269;&nbsp; Search
-                </button>
-            </div>
-
-        </div> <%-- /filter-grid --%>
-    </div> <%-- /filter-row-wrap --%>
 
 </div>
 
@@ -759,384 +766,329 @@ table.dataTable {
     <%-- ══════════════════════════════════════════════════════════
          JAVASCRIPT
     ═══════════════════════════════════════════════════════════ --%>
-    <script type="text/javascript">
+<script type="text/javascript">
+    var compName = "", compAddress = "", compCity = "", compContact = "";
+    var exportMessage = "";
+    var apiUrl = ($("[id$='hdnApiurl']").val() || '').replace(/\/+$/, '');
 
+    $(document).ready(function () {
+        var storedData = sessionStorage.getItem("CompanyListObj") || localStorage.getItem("CompanyListObj");
 
-        var compName = "", compAddress = "", compCity = "", compContact = "";
-        var exportMessage = "";
-        /* ─────────────────────────────────────────────────────────
-           1. API URL
-           ASP.NET runat="server" hidden renders as ctl00_..._hdnApiurl.
-           $("[id$='hdnApiurl']") matches regardless of master-page prefix.
-        ───────────────────────────────────────────────────────── */
-        var apiUrl = ($("[id$='hdnApiurl']").val() || '').replace(/\/+$/, '');
+        if (storedData) {
+            var companyDataArray = JSON.parse(storedData);
+            if (companyDataArray.length > 0) {
+                var comp = companyDataArray[0];
+                compName = comp.Name || "";
+                compAddress = comp.Address || "";
+                compCity = comp.City || "";
+                compContact = comp.Contactno || "";
 
-        /* ─────────────────────────────────────────────────────────
-           2. DOCUMENT READY
-        ───────────────────────────────────────────────────────── */
-        $(document).ready(function () {
-            var storedData = sessionStorage.getItem("CompanyListObj") || localStorage.getItem("CompanyListObj");
+                var uiHtml = "<strong style='color: #004080; font-size:14px;'>" + compName + "</strong><br/>" +
+                    compAddress + ", " + compCity + "<br/>" +
+                    "<i class='fa fa-phone'></i> " + compContact;
 
-            if (storedData) {
-                // String ko wapas JSON array/object me convert kiya
-                var companyDataArray = JSON.parse(storedData);
-                console.log("Data mil gaya bhai: ", companyDataArray);
+                $("#companySummaryUI").html(uiHtml);
 
-                if (companyDataArray.length > 0) {
-                    var comp = companyDataArray[0];
-                    compName = comp.Name || "";
-                    compAddress = comp.Address || "";
-                    compCity = comp.City || "";
-                    compContact = comp.Contactno || "";
+                $("[id$='hdnCompName']").val(compName);
+                $("[id$='hdnCompAddress']").val(compAddress + ", " + compCity);
+                $("[id$='hdnCompContact']").val(compContact);
 
-                    // UI ke liye HTML format
-                    var uiHtml = "<strong style='color: #004080; font-size:14px;'>" + compName + "</strong><br/>" +
-                        compAddress + ", " + compCity + "<br/>" +
-                        "<i class='fa fa-phone'></i> " + compContact;
-
-                    $("#companySummaryUI").html(uiHtml);
-
-                    // Hidden fields me set karna taaki C# (backend) Excel export me use kar sake
-                    $("[id$='hdnCompName']").val(compName);
-                    $("[id$='hdnCompAddress']").val(compAddress + ", " + compCity);
-                    $("[id$='hdnCompContact']").val(compContact);
-
-                    // Export (Excel/PDF) ke liye Plain Text format
-                    exportMessage = compAddress + ", " + compCity + "\nMobile: " + compContact;
-                }
-            } else {
-                console.log("Dono me se kisi bhi storage me data nahi hai bhai, pehle main page visit karna padega.");
+                exportMessage = compAddress + ", " + compCity + "\nMobile: " + compContact;
             }
+        }
 
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
-            var now = new Date();
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $("[id$='txttLastPurchase']").val(today);
+        $("[id$='txttLastOrder']").val(today);
 
-            // Dono input boxes mein aaj ki date fill ho jayegi
-            $("[id$='txttLastPurchase']").val(today);
-            $("[id$='txttLastOrder']").val(today);
-            loaddata();
-            // 2. Search Button
-            $("#btnsearch").on("click", function () { loaddata(); });
+        // Initial Default Data Load
+        loaddata();
 
-            // 3. Open Cancel Modal (Using Delegation)
-            $(document).on("click", ".deletebtn", function () {
-                // Button se direct ID uthao (Jo maine renderTable mein set ki hai niche)
-                var id = $(this).attr("data-order-id");
-                var orderNo = $(this).attr("data-order-no");
+        // Search Trigger Click Bind
+        $("#btnsearch").on("click", function () { loaddata(); });
 
-                $("#orderid").text(id);
-                $("#modal-order-badge").text("#" + (orderNo || id));
+        // Open Cancel Modal Logic
+        $(document).on("click", ".deletebtn", function () {
+            var id = $(this).attr("data-order-id");
+            var orderNo = $(this).attr("data-order-no");
 
-                // UI Reset
-                $("#modalConfirmView").show();
-                $("#modalResultView").hide();
-                $("#deletebutton").show().prop("disabled", false);
-                $("#lblsucess").hide();
-            });
+            $("#orderid").text(id);
+            $("#modal-order-badge").text("#" + (orderNo || id));
 
-            // 4. Confirm Cancel API Call
-            // 4. Confirm Cancel API Call
-            // 4. Confirm Cancel API Call
-            $(document).on("click", "#deletebutton", function () {
-                var id = $("#orderid").text().trim();
-                if (!id) return;
-
-                var $btn = $(this);
-                $btn.prop("disabled", true).text("Wait..."); // Button text change
-
-                $.ajax({
-                    type: "POST",
-                    url: apiUrl + '/api/Item/CancelOrder/' + id,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (response) {
-                        // response > 0 matlab success
-                        if (parseInt(response) > 0) {
-                            // Modal mein success dikhao
-                            showModalResult(true, "Order Cancelled Successfully!");
-
-                            // 1 second ka wait taaki user message padh le, fir PAGE REFRESH
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000);
-                        } else {
-                            alert("Order could not be cancelled.");
-                            $btn.prop("disabled", false).text("Confirm Cancel");
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error(xhr);
-                        alert("Error calling API");
-                        $btn.prop("disabled", false).text("Confirm Cancel");
-                    }
-                });
-            });
+            $("#modalConfirmView").show();
+            $("#modalResultView").hide();
+            $("#deletebutton").show().prop("disabled", false);
         });
 
-        // Modal helpers
-        function showModalResult(ok, msg) {
-            $("#modalConfirmView").hide();
-            $("#deletebutton").hide();
-            $("#modalResultView").show();
-            $("#modalResultMsg")
-                .css("color", ok ? "var(--green-dark)" : "var(--red)")
-                .text((ok ? "✔ " : "✖ ") + msg);
-        }
+        // Cancel Transaction Confirm Trigger
+        $(document).on("click", "#deletebutton", function () {
+            var id = $("#orderid").text().trim();
+            if (!id) return;
 
-        function SetButtonTextValue(t) {
-            var map = { "1": "Take Away Report", "2": "Room Service Report", "3": "Dine-In Report", "4": "Room Service@ Report" };
-            $("#lblheading").text(map[t] || "Completed Orders Report");
-        }
-
-
-        /* ═══════════════════════════════════════════════════════════════
-           LOAD DATA
-        ══════════════════════════════════════════════════════════════ */
-
-        /* ═══════════════════════════════════════════════════════════════
-   LOAD DATA - Updated for HTML5 Date Picker
-══════════════════════════════════════════════════════════════ */
-        function loaddata() {
-            // 1. HTML5 date picker seedha yyyy-mm-dd deta hai
-            var startDate = $("[id$='txttLastPurchase']").val();
-            var endDate = $("[id$='txttLastOrder']").val();
-            var payMode = $("[id$='ddlpaymode']").val();
-            var orderType = $("[id$='ddlDeliveryType']").val();
-
-            // Agar date select nahi ki toh aaj ki date bhej do (Safety check)
-            if (!startDate) startDate = new Date().toISOString().split('T')[0];
-            if (!endDate) endDate = new Date().toISOString().split('T')[0];
-
-            SetButtonTextValue(orderType);
-
-            if (!apiUrl) { alert("API URL is not configured on server."); return; }
-
-            // Table Reset aur Loader
-            if ($.fn.DataTable.isDataTable('#tblagentlist')) {
-                $('#tblagentlist').DataTable().clear().destroy();
-            }
-
-            $("#divpendingorders").html(
-                '<div class="report-loader"><div class="spinner-ring"></div><p>Refreshing Data...</p></div>'
-            );
-
-            // URL setup - Split wala jhanjhat khatam
-            var url = apiUrl + "/api/Item/CompletedOrders"
-                + "?orderType=" + encodeURIComponent(orderType)
-                + "&startDate=" + encodeURIComponent(startDate)
-                + "&endDate=" + encodeURIComponent(endDate)
-                + "&payMode=" + encodeURIComponent(payMode)
-                + "&_t=" + new Date().getTime();
-
-            console.log("[CompletedOrders Request]", url);
+            var $btn = $(this);
+            $btn.prop("disabled", true).text("Wait...");
 
             $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    renderTable(data);
-                },
-                error: function (xhr) {
-                    console.error("[Error]", xhr.status, xhr.responseText);
-                    $("#divpendingorders").html(
-                        '<div class="alert alert-danger" style="margin:16px 0;">' +
-                        '<strong>Error ' + xhr.status + ':</strong> ' +
-                        (xhr.responseText || "Failed to fetch data.").substring(0, 200) +
-                        '</div>'
-                    );
-                }
-            });
-        }
-
-
-        /* ═══════════════════════════════════════════════════════════════
-           RENDER TABLE
-           COLUMN INDEX MAP (0-indexed, 21 columns total):
-            0  Sr | 1  KOT | 2  Date | 3  Time | 4  Type
-            5  Rider | 6  Guest | 7  Status | 8  Room
-            9  S.Charge | 10 SubTotal | 11 Total | 12 Disc%
-           13  Disc | 14 AfterDisc | 15 SGST | 16 CGST
-           17  TotalGST | 18 Round | 19 NetTotal | 20 Action
-
-           FIX 1 (column alignment):
-             - thead has 21 <th>
-             - tbody rows each have 21 <td>
-             - tfoot has 21 <th>  (colspan=9 for label covers cols 0-8)
-             - autoWidth:true lets DataTables compute widths correctly
-        ══════════════════════════════════════════════════════════════ */
-        function renderTable(data) {
-            // 1. Table Header Setup (Exactly 20 Columns)
-            var html = "<table id='tblagentlist' class='table table-hover table-bordered nowrap' style='width:100%; overflow-x:auto; margin:0 !important; border-collapse: collapse !important;'> " +
-                "<thead><tr>" +
-                "<th>Sr.</th>" +
-                "<th>OrderID</th>" +
-                "<th>Order No</th>" +
-                "<th>Date</th>" +
-                "<th>Time</th>" +
-                "<th>Type</th>" +
-                "<th>Rider</th>" +
-                "<th>Guest</th>" +
-                "<th>Status</th>" +
-                "<th>Room No</th>" +
-                "<th>S.Charge</th>" +
-                "<th>SubTotal</th>" +
-                "<th>TotalAmt</th>" +
-                "<th>Disc%</th>" +
-                "<th>Discount</th>" +
-                "<th>AfterDisc</th>" +
-                "<th>SGST</th>" +
-                "<th>CGST</th>" +
-                "<th>NetTotal</th>" +
-                "<th class='text-center'>Action</th>" +
-                "</tr></thead><tbody>";
-
-            // 2. Table Body Logic
-            if (data && data.length > 0) {
-                $.each(data, function (i, item) {
-                    var svc = parseFloat(item.Charge) || 0;
-                    var sub = parseFloat(item.SubTotal) || 0;
-                    var totalAmt = parseFloat(item.TotalOrderAmount) || 0;
-                    var dPerc = parseFloat(item.DiscPercent) || 0;
-                    var dAmt = parseFloat(item.TotalDiscount) || 0;
-                    var aftD = parseFloat(item.AfterDisc) || 0;
-                    var sgst = parseFloat(item.SGST) || 0;
-                    var cgst = parseFloat(item.CGST) || 0;
-                    var net = parseFloat(item.TotalPaid) || 0;
-
-                    var statusClass = item.TableStatus === 'Completed' ? 'label-success' : 'label-warning';
-
-                    // 🔥 ENHANCEMENT: Capture and encode variables for order.aspx autofill handshake
-                    var roomQs = encodeURIComponent(item.RoomNo || "");
-                    var ncNameQs = encodeURIComponent(item.CustomerName || "");
-                    var ncRadioQs = encodeURIComponent(item.NCRadio || item.ncRadio || "");
-
-                    html += "<tr>" +
-                        "<td>" + (i + 1) + "</td>" +
-                        "<td>" + item.OrderID + "</td>" +
-                        "<td><span class='badge-kot'>" + item.OrderNo + "</span></td>" +
-                        "<td>" + item.OrderDate + "</td>" +
-                        "<td>" + item.OrderTime + "</td>" +
-                        "<td><small>" + item.OrderTypeName + "</small></td>" +
-                        "<td>" + (item.DeliveredBy || '-') + "</td>" +
-                        "<td>" + (item.CustomerName || 'Guest') + "</td>" +
-                        "<td><span class='label label-status " + statusClass + "'>" + item.TableStatus + "</span></td>" +
-                        "<td>" + (item.RoomNo || '-') + "</td>" +
-                        "<td class='text-right'>₹" + svc.toFixed(2) + "</td>" +
-                        "<td class='text-right'>₹" + sub.toFixed(2) + "</td>" +
-                        "<td class='text-right'>₹" + totalAmt.toFixed(2) + "</td>" +
-                        "<td class='text-center'>" + dPerc.toFixed(2) + "%</td>" +
-                        "<td class='text-right' style='color:#e03434;'>-₹" + dAmt.toFixed(2) + "</td>" +
-                        "<td class='text-right'>₹" + aftD.toFixed(2) + "</td>" +
-                        "<td class='text-right'>" + sgst.toFixed(2) + "</td>" +
-                        "<td class='text-right'>" + cgst.toFixed(2) + "</td>" +
-                        "<td class='text-right' style='font-weight:700; color:var(--navy);'>₹" + net.toFixed(2) + "</td>" +
-                        "<td class='text-center'>" +
-                        "<div class='action-wrap' style='display:flex; gap:5px; justify-content:center;'>" +
-
-                        // 🔥 ENHANCEMENT: Appended roomNo, ncName, status, orderType, and ncRadio parameters seamlessly
-                        "<a href='/order.aspx?id=" + item.OrderID + "&mode=readonly&status=" + encodeURIComponent(item.TableStatus || "") + "&orderType=" + encodeURIComponent(item.OrderType || "") + "&roomNo=" + roomQs + "&ncName=" + ncNameQs + "&ncRadio=" + ncRadioQs + "' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
-
-                        "<button type='button' class='deletebtn btn-act btn-act-cancel' style='background:#e03434; color:#fff; padding:2px 8px; border-radius:4px; border:none;' data-order-id='" + item.OrderID + "' data-order-no='" + item.OrderNo + "' data-toggle='modal' data-target='#deleteModalCenter' title='Cancel'><i class='fa fa-trash'></i></button>" +
-                        "</div>" +
-                        "</td></tr>";
-                });
-            } else {
-                html += "<tr><td colspan='20' class='text-center' style='padding:40px;'>No Orders Found.</td></tr>";
-            }
-
-            // 3. Footer Section (Poore 20 th tags fix kiye hain)
-            html += "</tbody><tfoot><tr>" +
-                "<th colspan='10' style='text-align:right; font-weight:bold;'>Total:</th>" +
-                "<th></th>" + // Index 10 (S.Charge)
-                "<th></th>" + // Index 11 (SubTotal)
-                "<th></th>" + // Index 12 (TotalAmt)
-                "<th></th>" + // Index 13 (Disc%)
-                "<th></th>" + // Index 14 (Discount)
-                "<th></th>" + // Index 15 (AfterDisc)
-                "<th></th>" + // Index 16 (SGST)
-                "<th></th>" + // Index 17 (CGST)
-                "<th></th>" + // Index 18 (NetTotal)
-                "<th></th>" + // Index 19 (Action)
-                "</tr></tfoot></table>";
-
-            // 4. Inject HTML into div
-            $("#divpendingorders").html(html);
-
-            // 5. DataTable Initialization
-            var table = $("#tblagentlist").DataTable({
-                "destroy": true,
-                "scrollX": false,
-                "autoWidth": false,
-
-                "scrollCollapse": true,
-                "pageLength": 25,
-                "dom": 'lBfrtip',
-                "buttons": [
-                    {
-                        extend: 'excelHtml5',
-                        className: 'hidden-dt-excel',
-                        title: compName ? compName + " - Completed Orders Report" : 'Completed Orders Report',
-                        messageTop: exportMessage, // Company Details in Excel
-                        footer: true,
-                        exportOptions: { columns: ':not(:last-child)' }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        className: 'hidden-dt-pdf',
-                        title: compName ? compName + " - Completed Orders Report" : 'Completed Orders Report',
-                        messageTop: exportMessage, // Company Details in PDF
-                        footer: true,
-                        orientation: 'landscape',
-                        pageSize: 'A4',
-                        exportOptions: { columns: ':not(:last-child)' },
-                        customize: function (doc) {
-                            // PDF header ko center align karna
-                            if (doc.content[1]) {
-                                doc.content[1].alignment = 'center';
-                                doc.content[1].margin = [0, 0, 0, 10];
-                            }
-                            if (doc.content[0]) {
-                                doc.content[0].alignment = 'center';
-                            }
-                        }
+                type: "POST",
+                url: apiUrl + '/api/Item/CancelOrder/' + id,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        showModalResult(true, "Order Cancelled Successfully!");
+                        setTimeout(function () { location.reload(); }, 1000);
+                    } else {
+                        alert("Order could not be cancelled.");
+                        $btn.prop("disabled", false).text("Confirm Cancel");
                     }
-                ],
-                "columnDefs": [{ "orderable": false, "targets": 19 }], // Action column sorting off
-                "footerCallback": function (row, data, start, end, display) {
-                    var api = this.api();
-                    var intVal = function (i) {
-                        return typeof i === 'string' ? i.replace(/[\₹,\-%,]/g, '') * 1 : typeof i === 'number' ? i : 0;
-                    };
-
-                    // Columns to sum: 10, 11, 12, 14, 15, 16, 17, 18
-                    [10, 11, 12, 14, 15, 16, 17, 18].forEach(function (index) {
-                        var total = api.column(index, { page: 'current' }).data().reduce(function (a, b) {
-                            return intVal(a) + intVal(b);
-                        }, 0);
-                        $(api.column(index).footer()).html('₹' + total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })).addClass('text-right');
-                    });
-                    // Disc% column (13) mein total nahi hota, toh '-' dikha diya
-                    $(api.column(13).footer()).html('-').addClass('text-center');
+                },
+                error: function () {
+                    alert("Error calling API");
+                    $btn.prop("disabled", false).text("Confirm Cancel");
                 }
             });
+        });
+    });
 
-            $(".dt-buttons").hide();
+    function showModalResult(ok, msg) {
+        $("#modalConfirmView").hide();
+        $("#deletebutton").hide();
+        $("#modalResultView").show();
+        $("#modalResultMsg").css("color", ok ? "var(--green-dark)" : "var(--red)").text((ok ? "✔ " : "✖ ") + msg);
+    }
 
-            // Scroll Fix
-            setTimeout(function () {
-                table.columns.adjust().draw();
-                var tableContentWidth = $(".dataTables_scrollBody table").outerWidth();
-                $("#div1").css("width", tableContentWidth + "px");
-            }, 200);
+    function SetButtonTextValue(t) {
+        var map = { "1": "Take Away Report", "2": "Room Service Report", "3": "Dine-In Report", "4": "Dastarkhan Report" };
+        $("#lblheading").text(map[t] || "Completed Orders Report");
+    }
+
+    function loaddata() {
+        // 1. Inputs ki values trim karke safe extraction
+        var startDate = ($("[id$='txttLastPurchase']").val() || "").trim();
+        var endDate = ($("[id$='txttLastOrder']").val() || "").trim();
+        var payMode = $("[id$='ddlpaymode']").val();
+        var orderType = $("[id$='ddlDeliveryType']").val();
+
+        // 2. Default Fallback Dates matching structure
+        if (!startDate) startDate = new Date().toISOString().split('T')[0];
+        if (!endDate) endDate = new Date().toISOString().split('T')[0];
+
+        SetButtonTextValue(orderType);
+
+        if (!apiUrl) { alert("API URL is not configured on server."); return; }
+
+        // 3. DataTable Memory Instance Safely Destroy without breaking Node Trees
+        if ($.fn.DataTable.isDataTable('#tblagentlist')) {
+            var oldTable = $('#tblagentlist').DataTable();
+            oldTable.clear().destroy();
+            $('#tblagentlist').empty();
         }
-        // 7. Custom Export Button Triggers (Call these from your ASP buttons)
-        function exportExcel() { $(".hidden-dt-excel").click(); }
-        function exportPdf() { $(".hidden-dt-pdf").click(); }
 
-    </script>
+        // 4. Loader Injection inside container
+        $("#divpendingorders").html(
+            '<div class="report-loader"><div class="spinner-ring"></div><p>Refreshing Data...</p></div>'
+        );
+
+        // 5. Build Clean API Param Strings
+        var url = apiUrl + "/api/Item/CompletedOrders"
+            + "?orderType=" + encodeURIComponent(orderType || "0")
+            + "&startDate=" + encodeURIComponent(startDate)
+            + "&endDate=" + encodeURIComponent(endDate)
+            + "&payMode=" + encodeURIComponent(payMode || "0")
+            + "&_t=" + new Date().getTime();
+
+        console.log("[CompletedOrders Ajax Request Initialized]", url);
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                renderTable(data);
+            },
+            error: function (xhr) {
+                console.error("[CompletedOrders Fetch Error]", xhr);
+                $("#divpendingorders").html(
+                    '<div class="alert alert-danger" style="margin:16px 0;">' +
+                    '<strong>Error ' + xhr.status + ':</strong> Failed to fetch filtered records.</div>'
+                );
+            }
+        });
+    }
+
+    function renderTable(data) {
+        // 1. Double check layer for removing any active instances
+        if ($.fn.DataTable.isDataTable('#tblagentlist')) {
+            $('#tblagentlist').DataTable().clear().destroy();
+            $('#tblagentlist').empty();
+        }
+
+        // 2. Strict 21 Column Header Structure Mapping
+        var html = "<table id='tblagentlist' class='table table-hover table-bordered nowrap' style='width:100%; margin:0 !important; border-collapse: collapse !important;'> " +
+            "<thead><tr>" +
+            "<th>Sr.</th>" +
+            "<th>OrderID</th>" +
+            "<th>Order No</th>" +
+            "<th>Payment Mode</th>" +
+            "<th>Date</th>" +
+            "<th>Time</th>" +
+            "<th>Type</th>" +
+            "<th>Rider</th>" +
+            "<th>Guest</th>" +
+            "<th>Status</th>" +
+            "<th>Room No</th>" +
+            "<th>S.Charge</th>" +
+            "<th>SubTotal</th>" +
+            "<th>TotalAmt</th>" +
+            "<th>Disc%</th>" +
+            "<th>Discount</th>" +
+            "<th>AfterDisc</th>" +
+            "<th>SGST</th>" +
+            "<th>CGST</th>" +
+            "<th>TotalPaid</th>" +
+            "<th class='text-center'>Action</th>" +
+            "</tr></thead><tbody>";
+
+        // 3. Loop Iterations Logic
+        if (data && data.length > 0) {
+            $.each(data, function (i, item) {
+                var svc = parseFloat(item.Charge) || 0;
+                var sub = parseFloat(item.SubTotal) || 0;
+                var totalAmt = parseFloat(item.TotalOrderAmount) || 0;
+                var dPerc = parseFloat(item.DiscPercent) || 0;
+                var dAmt = parseFloat(item.TotalDiscount) || 0;
+                var aftD = parseFloat(item.AfterDisc) || 0;
+                var sgst = parseFloat(item.SGST) || 0;
+                var cgst = parseFloat(item.CGST) || 0;
+                var net = parseFloat(item.TotalPaid) || 0;
+
+                var statusClass = item.TableStatus === 'Completed' ? 'label-success' : 'label-warning';
+
+                var roomQs = encodeURIComponent(item.RoomNo || "");
+                var ncNameQs = encodeURIComponent(item.CustomerName || "");
+                var ncRadioQs = encodeURIComponent(item.NCRadio || item.ncRadio || "");
+
+                html += "<tr>" +
+                    "<td>" + (i + 1) + "</td>" +
+                    "<td>" + item.OrderID + "</td>" +
+                    "<td><span class='badge-kot'>" + item.OrderNo + "</span></td>" +
+                    "<td>" + item.PayMode + "</td>" +
+                    "<td>" + item.OrderDate + "</td>" +
+                    "<td>" + item.OrderTime + "</td>" +
+                    "<td><small>" + item.OrderTypeName + "</small></td>" +
+                    "<td>" + (item.DeliveredBy || '-') + "</td>" +
+                    "<td>" + (item.CustomerName || 'Guest') + "</td>" +
+                    "<td><span class='label label-status " + statusClass + "'>" + item.TableStatus + "</span></td>" +
+                    "<td>" + (item.RoomNo || '-') + "</td>" +
+                    "<td class='text-right'>₹" + svc.toFixed(2) + "</td>" +
+                    "<td class='text-right'>₹" + sub.toFixed(2) + "</td>" +
+                    "<td class='text-right'>₹" + totalAmt.toFixed(2) + "</td>" +
+                    "<td class='text-center'>" + dPerc.toFixed(2) + "%</td>" +
+                    "<td class='text-right' style='color:#e03434;'>-₹" + dAmt.toFixed(2) + "</td>" +
+                    "<td class='text-right'>₹" + aftD.toFixed(2) + "</td>" +
+                    "<td class='text-right'>" + sgst.toFixed(2) + "</td>" +
+                    "<td class='text-right'>" + cgst.toFixed(2) + "</td>" +
+                    "<td class='text-right' style='font-weight:700; color:var(--navy);'>₹" + net.toFixed(2) + "</td>" +
+                    "<td class='text-center'>" +
+                    "<div class='action-wrap' style='display:flex; gap:5px; justify-content:center;'>";
+
+                // Dynamic tracking links binding block mapping
+                html += "<a href='/order.aspx?id=" + item.OrderID + "&status=" + encodeURIComponent(item.TableStatus || "") + "&orderType=" + encodeURIComponent(item.OrderType || "") + "&roomNo=" + roomQs + "&ncName=" + ncNameQs + "&ncRadio=" + ncRadioQs + "' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
+                    "<button type='button' class='deletebtn btn-act btn-act-cancel' style='background:#e03434; color:#fff; padding:2px 8px; border-radius:4px; border:none;' data-order-id='" + item.OrderID + "' data-order-no='" + item.OrderNo + "' data-toggle='modal' data-target='#deleteModalCenter' title='Cancel'><i class='fa fa-trash'></i></button>" +
+                    "</div>" +
+                    "</td></tr>";
+            });
+        } else {
+            html += "<tr><td colspan='21' class='text-center' style='padding:40px;'>No Orders Found.</td></tr>";
+        }
+
+        // 4. Strict Footer Balancing (Total 21 Cells including colspan mapping match)
+        html += "</tbody><tfoot><tr>" +
+            "<th colspan='11' style='text-align:right; font-weight:bold;'>Total:</th>" + // Covers columns index 0-10
+            "<th></th>" + // Index 11 (S.Charge)
+            "<th></th>" + // Index 12 (SubTotal)
+            "<th></th>" + // Index 13 (TotalAmt)
+            "<th></th>" + // Index 14 (Disc%)
+            "<th></th>" + // Index 15 (Discount)
+            "<th></th>" + // Index 16 (AfterDisc)
+            "<th></th>" + // Index 17 (SGST)
+            "<th></th>" + // Index 18 (CGST)
+            "<th></th>" + // Index 19 (TotalPaid)
+            "<th></th>" + // Index 20 (Action Spacer Column)
+            "</tr></tfoot></table>";
+
+        // 5. Content Injection into active DOM structure area container
+        $("#divpendingorders").html(html);
+
+        // 6. Secure Safe DataTables Initialization Layout Setup
+        var table = $("#tblagentlist").DataTable({
+            "destroy": true,
+            "scrollX": false,
+            "autoWidth": false,
+            "scrollCollapse": true,
+            "pageLength": 25,
+            "dom": 'lBfrtip',
+            "buttons": [
+                {
+                    extend: 'excelHtml5',
+                    className: 'hidden-dt-excel',
+                    title: compName ? compName + " - Completed Orders Report" : 'Completed Orders Report',
+                    messageTop: exportMessage,
+                    footer: true,
+                    exportOptions: { columns: ':not(:last-child)' }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'hidden-dt-pdf',
+                    title: compName ? compName + " - Completed Orders Report" : 'Completed Orders Report',
+                    messageTop: exportMessage,
+                    footer: true,
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+                    exportOptions: { columns: ':not(:last-child)' },
+                    customize: function (doc) {
+                        if (doc.content[1]) doc.content[1].alignment = 'center';
+                        if (doc.content[0]) doc.content[0].alignment = 'center';
+                    }
+                }
+            ],
+            "columnDefs": [{ "orderable": false, "targets": 20 }], // Fixed targets to Index 20
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api();
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\₹,\-%,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+
+                // Loop and perform calculation logic safely across mapped cell indexes
+                [11, 12, 13, 15, 16, 17, 18, 19].forEach(function (index) {
+                    var total = api.column(index, { page: 'current' }).data().reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                    $(api.column(index).footer()).html('₹' + total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })).addClass('text-right');
+                });
+                $(api.column(14).footer()).html('-').addClass('text-center');
+            }
+        });
+
+        // Hide background default layout buttons
+        $(".dt-buttons").hide();
+
+        // 7. Auto Columns alignment refresh trigger block
+        setTimeout(function () {
+            table.columns.adjust().draw();
+            var tableContentWidth = $(".dataTables_scrollBody table").outerWidth() || $("#tblagentlist").outerWidth();
+            if (tableContentWidth) {
+                $("#div1").css("width", tableContentWidth + "px");
+            }
+        }, 200);
+    }
+
+    function exportExcel() { $(".hidden-dt-excel").click(); }
+    function exportPdf() { $(".hidden-dt-pdf").click(); }
+</script>
 
     <%-- Scroll sync script --%>
     <script>

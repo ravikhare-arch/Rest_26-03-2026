@@ -576,8 +576,8 @@ else { alert('Invalid Password!'); password.setSelectionRange(0, password.value.
                         var oType = data[i].OrderType;
                         var tStatus = data[i].TableStatus;
                         var tID = data[i].TableID;
-                        var ncRadio = encodeURIComponent(data[i].ncRadio || ""); // Isse bhi encode kar diya safer side ke liye
-
+                       // var ncRadio = encodeURIComponent(data[i].ncRadio || ""); // Isse bhi encode kar diya safer side ke liye
+                        var ncRadio = encodeURIComponent(data[i].ncRadio || data[i].NCRadio || "");
                         recentorder += '<tr>' +
                             '<td>' + data[i].OrderNo + '</td>' +
                             '<td>' + (data[i].RoomNo || '-') + '</td>' +
@@ -597,7 +597,7 @@ else { alert('Invalid Password!'); password.setSelectionRange(0, password.value.
 
                             // Button 2: Close Order (order.aspx)
                             '<td>' +
-                            '<a href="/order.aspx?orderType=' + oType + '&id=' + orderId + '&status=' + tStatus + '&TableID=' + tID + '&roomNo=' + roomQs + '&ncName=' + ncQs + '&ncRadio=' + ncRadio + '" class="editbtn">' +
+                            '<a href="/order.aspx?orderType=' + oType +  '&id=' + orderId + '&status=' + tStatus + '&TableID=' + tID + '&roomNo=' + roomQs + '&ncName=' + ncQs + '&ncRadio=' + ncRadio + '" class="editbtn">' +
                             '<i class="glyphicon glyphicon-edit" style="color: blue"></i>' +
                             '</a></td>' +
                             '</tr>';

@@ -9,22 +9,14 @@
     <!-- Graph CSS -->
     <link href="css/font-awesome.css" rel="stylesheet" />
     <!-- jQuery -->
-    <!-- Graph CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
-        <!-- lined-icons -->
+    <!-- lined-icons -->
     <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
     <link href="css/jquery-ui.min.css" rel="stylesheet" />    
     <script src="js/jquery-3.6.0.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <%--auto complete script start--%>
-     <%--Ravi Code Start--%>
-   <%-- <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>--%>
-    <%--Ravi Code end Today --%>
-    <%--auto complete script end--%>
     <!--//skycons-icons-->
     <link href="css/customRestro.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -89,12 +81,33 @@
     ul.ui-autocomplete {
     position: absolute !important; 
     z-index: 999999 !important; /* Ek zero aur badha diya */
-    /* Agar abhi bhi "body" pe append ho raha hai, toh top/left manually fix mat karna, jQuery ko karne dena */
 }
   </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript">
+        // 🛠️ CHHOTA REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD
+        function checkNcAndLockRoom() {
+            var isNcChecked = $("#nc").is(":checked");
+            if (isNcChecked) {
+                // Input disable karo, value clear karo, and pointer-events: none se bilkul unclickable bana do
+                $("#txtRoomNo").val("").prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
+                $("#hdnRTID").val("");
+                $("#hdnGCID").val("");
+            } else {
+                // Wapas enable karo
+                $("#txtRoomNo").prop("disabled", false).css({
+                    "background-color": "#ffffff",
+                    "cursor": "auto",
+                    "pointer-events": "auto"
+                });
+            }
+        }
+
         $(document).ready(function () {
             // Helper function to get URL parameters
             function getUrlParameter(name) {
@@ -140,6 +153,9 @@
                 localStorage.setItem("isNCSelected", "true");
                 console.log("Auto-selected NC Radio based on URL");
             }
+
+            // Page load hotey hi state check karo (In case URL se NC select hoke aaya ho)
+            checkNcAndLockRoom();
         });
     </script>
 
@@ -174,7 +190,6 @@
             <input class="form-control topsrch" id="Destopsearch" onblur="this.placeholder = ''" onfocus="this.placeholder = 'Search Item Name (Ex: Aloo Gobi)'" style="width: 100%" type="search" placeholder="" />
         </div>
         <div class="col-md-2 col-sm-4 mobi-marginTop-10" id="divacnonac" style="display:none;">
-            <%--<label for="form-1-3" class="col-md-3 control-label">Type</label>--%>
             <select id="ddlacnonac" name="ddlacnonac" class="form-control js-example-placeholder-single" style="padding: 0px !important;">
                 <option value="0">Select AC / NON-AC </option>
                 <option value="1">NON - AC</option>
@@ -199,14 +214,6 @@
                     <span id="lblheading"></span>
                 </div>
             </div>
-            <%--<div class="col-md-1">
-                <div class="colpsbox_one_top" style="padding-left: 30px;">
-                    <div class="icon_corner">
-                        <i class="material-icons">assignment </i>
-                    </div>
-                    <span></span>&nbsp;
-                </div>
-            </div>--%>
             <div class="col-md-5 col-xs-5">
                 <div class="colpsbox_one_top" style="padding-left: 30px;">
                     <div class="icon_corner">
@@ -274,15 +281,12 @@
         </table>
         
 
-                <div class=" col-md-12 text-center mt-5">
+        <div class=" col-md-12 text-center mt-5">
             <input type="button" class="btn btn-primary" id="closetable" name="closetable" value="Close Table" />
             <input type="button" class="btn btn-primary" id="printbill" name="printbill" value="Print Bill" />
             <input type="button" class="btn btn-primary" id="saveKot" name="saveKot" value="Save KOT" />
-            <%--   <asp:Button Text="Save KOT" runat="server" CssClass="btn btn-primary" ID="saveKot" />--%>
-            <%--<asp:Button ID="Button3" CssClass="btn btn-primary" runat="server" Text="Print & Save KOT" />--%>
             <input type="button" class="btn btn-primary" id="printviewbill" name="printviewbill" value="Print/ View Bill" />
             <input type="button" class="btn btn-primary" id="printwithoutgst" name="printwithoutgst" value="Print Bill" />
-            <%--<asp:Button ID="Button4" CssClass="btn btn-primary" runat="server" Text="Reprint" />--%>
             <input type="button" class="btn btn-primary" id="gotopendorder" name="gotopendorder" value="Go To Pend Order" />
             <input type="button" class="btn btn-primary" id="gotodine" name="gotodine" value="Go To Dine-In" />
             <input type="button" class="btn btn-primary" id="gotodash" name="gotodash" value="Go To Dashboard" />
@@ -332,89 +336,10 @@
                 </tbody>
             </table>
         </div>
-        <%--<div>
-            <div id="tbldisccharge"> 
-                <div class="row">                               
-                        <div class="col-md-3">
-                            <span>Discount %</span>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" id="txtdiscount" style="width: 100px;" onchange="return CalculateDisc()" />
-                        </div>
-                        <div class="col-md-3">
-                            <label for="ApplyGST">Apply GST</label>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" id="ApplyGST" name="vehicle1" value="Bike" />                         
-                        </div>  
-                    </div>   
-
-                <div class="row mt-5" id="Drop-of" style="display:none">                 
-                        <div class="col-md-3">
-                            <span>CGST</span>
-                        </div>
-                        <div class="col-md-3"">
-                            <input type="text" id="txtchargepercent" style="width: 100px;" onchange="return CalculateChargebasedonPercent()" />
-                        </div>
-                        <div class="col-md-3">
-                            <span>SGST</span>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" id="txtcharges" style="width: 100px;" onchange="return CalculateCharge()" />
-                        </div>                         
-                   
-                </div>
-            </div>
-        </div>--%>
         <div id="wrapper1">
            <div id="div1">
               </div>
             </div>
-       <%-- <div id="wrapper2">
-            <div id="div2">
-             <div id="divpayment">
-              <table class="table paymentTable cart-table table-responsive-xs">                  
-        <tbody>
-          <tr>
-            <td>
-              <input type="radio" id="cash" name="fav_language" value="CASH">
-              <label for="card">Cash</label>
-            </td>
-            <td>
-              <input type="radio" id="card" name="fav_language" value="CARD">
-              <label for="card">Card</label>
-            </td>
-            <td>
-              <input type="radio" id="paytm" name="fav_language" value="PAYTM">
-              <label for="card">PAYTM</label>
-            </td>
-            <td>
-              <input type="radio" id="phonepe" name="fav_language" value="PHONEPE">
-              <label for="card">PHONEPE</label>
-            </td>
-            
-          </tr>
-        </tbody>
-                  <tbody>
-                      <tr>
-                      <td>
-              <input type="radio" id="lending" name="fav_language" value="LENDING">
-              <label for="card">LENDING</label>
-            </td>
-                     <td>
-              <input type="radio" id="multiple" name="fav_language" value="MULTIPLE">
-              <label for="card">MULTIPLE</label>
-            </td>
-                      <td>
-              <input type="radio" id="gpay" name="fav_language" value="GPAY">
-              <label for="card">GPAY</label>
-            </td>
-                          </tr>
-                  </tbody>
-         </table>
-         </div>
-        </div>
-        </div>  --%>
         
     </div>
 
@@ -470,6 +395,9 @@
                         localStorage.removeItem("isNCSelected");
                     }
                 }
+
+                // 🔥 MERI ADDED LINE: Jab bhi radio click hoga, checkNcAndLockRoom run ho jayega
+                checkNcAndLockRoom();
             });
 
         });
@@ -510,4 +438,3 @@
     <script src="js/takeaway-min.js"></script>
     
 </asp:Content>
-

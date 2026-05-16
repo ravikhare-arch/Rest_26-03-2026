@@ -79,8 +79,8 @@
                             <asp:ListItem Text="CARD" Value="CARD"></asp:ListItem>
                             <asp:ListItem Text="PAYTM" Value="PAYTM"></asp:ListItem>
                             <asp:ListItem Text="PHONEPE" Value="PHONEPE"></asp:ListItem>
-                            <asp:ListItem Text="LENDING" Value="LENDING"></asp:ListItem>
-                            <asp:ListItem Text="MULTIPLE" Value="MULTIPLE"></asp:ListItem>
+                            <asp:ListItem Text="NC" Value="NC"></asp:ListItem>
+                            <asp:ListItem Text="Room Serv" Value="Room Serv"></asp:ListItem>
                             <asp:ListItem Text="GPAY" Value="GPAY"></asp:ListItem>
                         </asp:DropDownList>
                     </div>

@@ -868,7 +868,6 @@ namespace RestaurantApi.Controllers
             connection objCon = new connection();
             SqlConnection conn = objCon.makeConnection();
 
-            // Multiple formats handle karne ke liye array (1/4/2026 or 01/04/2026 dono chalenge)
             string[] formats = { "yyyy-MM-dd", "yyyy-M-d", "dd/MM/yyyy", "d/M/yyyy" };
 
             try
@@ -877,10 +876,10 @@ namespace RestaurantApi.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 string formattedStart = "0";
                 string formattedEnd = "0";
+
                 if (!string.IsNullOrEmpty(startDate) && startDate != "0")
                 {
                     DateTime sDate;
-                    // TryParseExact pehle check karega, agar fail hua toh TryParse (Auto) check karega
                     if (DateTime.TryParseExact(startDate, formats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out sDate) ||
                         DateTime.TryParse(startDate, out sDate))
                     {
@@ -889,7 +888,6 @@ namespace RestaurantApi.Controllers
                     else { formattedStart = "0"; }
                 }
 
-                // ── To Date Parsing ──
                 if (!string.IsNullOrEmpty(endDate) && endDate != "0")
                 {
                     DateTime eDate;
@@ -901,8 +899,6 @@ namespace RestaurantApi.Controllers
                     else { formattedEnd = "0"; }
                 }
 
-
-                // Parameters binding - Procedure VARCHAR expect kar raha hai toh string hi jayega
                 cmd.Parameters.AddWithValue("@orderType", orderType ?? "0");
                 cmd.Parameters.AddWithValue("@StartDate", formattedStart);
                 cmd.Parameters.AddWithValue("@EndDate", formattedEnd);
@@ -916,8 +912,6 @@ namespace RestaurantApi.Controllers
                     SalesOrder item = new SalesOrder();
                     item.OrderID = Convert.ToInt32(reader["OrderID"]);
                     item.OrderNo = reader["OrderNo"].ToString();
-
-                    // SQL se already FORMAT(OrderDate, 'dd/MM/yyyy') ho kar aa raha hai
                     item.OrderDate = reader["OrderDate"].ToString();
                     item.OrderTime = reader["OrderTime"].ToString();
                     item.OrderTypeName = reader["OrderTypeName"].ToString();
@@ -926,7 +920,6 @@ namespace RestaurantApi.Controllers
                     item.TableStatus = reader["TableStatus"].ToString();
                     item.RoomNo = reader["RoomNo"].ToString();
 
-                    // Null checks + Conversion
                     item.Charge = reader["ServiceCharge"] == DBNull.Value ? 0 : Convert.ToDouble(reader["ServiceCharge"]);
                     item.SubTotal = reader["SubTotal"] == DBNull.Value ? 0 : Convert.ToDouble(reader["SubTotal"]);
                     item.TotalOrderAmount = reader["TotalAmount"] == DBNull.Value ? 0 : Convert.ToDouble(reader["TotalAmount"]);
@@ -937,7 +930,9 @@ namespace RestaurantApi.Controllers
                     item.CGST = reader["CGST"] == DBNull.Value ? 0 : Convert.ToDouble(reader["CGST"]);
                     item.GSTCost = reader["TotalGST"] == DBNull.Value ? 0 : Convert.ToDouble(reader["TotalGST"]);
                     item.RoundOff = reader["RoundOff"] == DBNull.Value ? 0 : Convert.ToDouble(reader["RoundOff"]);
-                    item.TotalPaid = reader["NetTotal"] == DBNull.Value ? 0 : Convert.ToDouble(reader["NetTotal"]);
+
+                    // 🔥 FIXED HERE: reader["NetTotal"] ko badal kar reader["TotalPaid"] kiya
+                    item.TotalPaid = reader["TotalPaid"] == DBNull.Value ? 0 : Convert.ToDouble(reader["TotalPaid"]);
                     item.PayMode = reader["PayMode"].ToString();
 
                     list.Add(item);
@@ -945,7 +940,6 @@ namespace RestaurantApi.Controllers
             }
             catch (Exception ex)
             {
-                // Debugging ke liye error throw karo
                 throw new Exception("Error parsing: " + startDate + " or " + endDate + ". Msg: " + ex.Message);
             }
             finally
@@ -954,7 +948,6 @@ namespace RestaurantApi.Controllers
             }
             return list;
         }
-
         [HttpGet]
         public List<SalesOrder> SalesOrderDetailReport(string orderType, string startDate, string endDate)
         {
