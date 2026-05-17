@@ -99,22 +99,30 @@
             var hasValidRoomUrl = (roomFromUrl && roomFromUrl !== "" && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined");
 
             var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
+            var $ncNameInput = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
 
             if (isNcChecked) {
-                // Input disable karo, value clear karo, aur pointer-events: none se unclickable banao
+                // Input disable karo, value clear karo, aur pointer-events block karke lock karo
                 $roomInput.val("").prop("disabled", true).css({
                     "background-color": "#eeeeee",
                     "cursor": "not-allowed",
                     "pointer-events": "none"
                 });
+
                 // Force close autocomplete menu if open
                 if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
                     $roomInput.autocomplete("close");
                 }
+
+                $ncNameInput.prop("disabled", false).css({
+                    "background-color": "#ffffff",
+                    "cursor": "auto",
+                    "pointer-events": "auto"
+                });
+
                 $("#hdnRTID").val("");
                 $("#hdnGCID").val("");
             } else {
-                // 🔥 LOCK ONLY IF REDIRECTED WITH VALID ROOM: Agar URL me sach me valid room aaya h, tabhi lock karo
                 if (hasValidRoomUrl) {
                     $roomInput.prop("disabled", true).css({
                         "background-color": "#eeeeee",
@@ -125,13 +133,18 @@
                         $roomInput.autocomplete("close");
                     }
                 } else {
-                    // Fresh First-Time Order case: Dropdown poori tarah open rahega aur popup chalega
                     $roomInput.prop("disabled", false).css({
                         "background-color": "#ffffff",
                         "cursor": "auto",
                         "pointer-events": "auto"
                     });
                 }
+
+                $ncNameInput.val("").prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
             }
         }
 
@@ -145,6 +158,7 @@
 
             var urlParams = new URLSearchParams(window.location.search);
             var ncRadioVal = urlParams.get('ncRadio');
+            var existingOrderId = urlParams.get('id'); // 🔥 NAYA CHECK: Redirected Order ID capture ki
 
             if (ncRadioVal === "NC") {
                 $("#nc").prop('checked', true);
@@ -155,18 +169,15 @@
             var ncFromUrl = getUrlParameter('ncName');
             var ncRadioFromUrl = getUrlParameter('ncRadio');
 
-            // Fresh verification boundaries for autofill hooks
             if (roomFromUrl !== "" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl !== "-") {
                 var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
 
-                // Lock elements only during direct redirection handshake
                 $roomInput.val(roomFromUrl).prop("disabled", true).css({
                     "background-color": "#eeeeee",
                     "cursor": "not-allowed",
                     "pointer-events": "none"
-                });
+                }).trigger('input').trigger('change');
 
-                // Immediate force close interval layout configuration
                 setTimeout(function () {
                     if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
                         $roomInput.autocomplete("close");
@@ -174,16 +185,13 @@
                 }, 100);
 
                 $("#Room_Serv").prop("checked", true);
-                console.log("Redirected Order: Room field populated and locked successfully.", roomFromUrl);
             } else {
-                // 🔥 FRESH ORDER CASE: Agar URL me room number nahi h, toh field open rakho aur purana item clear rakho
                 var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
                 $roomInput.prop("disabled", false).css({
                     "background-color": "#ffffff",
                     "cursor": "auto",
                     "pointer-events": "auto"
                 });
-                console.log("Fresh Counter Order: Room field is unlocked for search.");
             }
 
             if (ncFromUrl !== "") {
@@ -196,11 +204,61 @@
                 localStorage.setItem("isNCSelected", "true");
             }
 
-            // Trigger structural initial verification layer
+            // 🔥 FIX STANCE: Agar order pehle se bana hua load ho raha hai, toh NC radio button ko permanently block/disable kar do
+            if (existingOrderId && existingOrderId !== "" && existingOrderId !== "0") {
+                $("#nc").prop("disabled", true).parent().css({
+                    "cursor": "not-allowed",
+                    "opacity": "0.6",
+                    "pointer-events": "none"
+                });
+                console.log("Existing Order Flow: NC Selection has been strictly frozen.");
+            }
+
             checkNcAndLockRoom();
         });
     </script>
+    <style>
+    /* Dropdown ko input element ke exact container border par lock karne ke liye */
+    .ui-autocomplete.custom-room-dropdown {
+        position: absolute !important;
+        top: 100% !important; /* Input ke standard height ke theek niche se start hoga */
+        left: 0 !important;
+        width: 100% !important; /* Input width ke barabar automatically adjust ho jayega */
+        max-width: 200px;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+        max-height: 180px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 999999 !important;
+        padding: 4px 0;
+        margin-top: 2px;
+    }
 
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item {
+        padding: 8px 14px !important;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        font-size: 13px;
+        color: #334155;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Active selection hover class highlight background styling */
+    .ui-autocomplete.custom-room-dropdown .ui-state-active {
+        background-color: #1b4aab !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 0px !important;
+        margin: 0 !important;
+    }
+</style>
 
     <input type="hidden" runat="server" id="hdnApiurl" />
     <div id="RemarkModal" class="modal">
@@ -336,14 +394,15 @@
         </div>
        <div class="col-md-12 well" style="padding: 10px; background: #f9f9f9; border: 1px solid #ddd;">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="font-weight:bold;">Room No:</span>
-                        <input type="text" id="txtRoomNo" class="form-control room-input" placeholder="Search Room..." autocomplete="off" />
-                    </div>
-                    <input type="hidden" id="hdnRTID" />
-                    <input type="hidden" id="hdnGCID" />
-                </div>
+               <div class="col-md-4">
+    <!-- 🔥 Element container wrapper jise custom style relative di hai taaki dropdown theek niche lock ho sake -->
+    <div class="input-group search-container-relative" style="position: relative; overflow: visible !important;">
+        <span class="input-group-addon" style="font-weight:bold;">Room No:</span>
+        <input type="text" id="txtRoomNo" class="form-control room-input" placeholder="Search Room..." autocomplete="off" />
+    </div>
+    <input type="hidden" id="hdnRTID" />
+    <input type="hidden" id="hdnGCID" />
+</div>
             <div class="col-md-8">
                 <div class="input-group">
                     <span class="input-group-addon" style="font-weight:bold;">NC Name:</span>

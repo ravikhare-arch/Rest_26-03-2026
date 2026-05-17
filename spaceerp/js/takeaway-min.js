@@ -878,16 +878,23 @@ function openWindowForPrint(url) {
 }
 $("#txtRoomNo").autocomplete({
     minLength: 1,
-    appendTo: "body",
-    open: function () {
+
+    // 🔥 POPUP LOCK LAYER: Dropdown list ko theek usi relative input area class ke andar inject karega
+    appendTo: ".search-container-relative",
+
+    classes: {
+        "ui-autocomplete": "custom-room-dropdown" // Humne jo upar CSS design kiya hai, wo class bind ho jayegi
+    },
+
+    open: function (event, ui) {
+        // Kisi bhi manual hardcoded coordinates logic ki ab zarurat nahi hai, responsive fluid positions automatic manage ho jayegi
         $(this).autocomplete("widget").css({
-            "left": "931.949px",
-            "top": "528.656px",
-            "width": "81.825px",
-            "position": "absolute",
-            "z-index": "999999"
+            "top": "auto",  // Relative configuration absolute bypass checks
+            "left": "0px",
+            "position": "absolute"
         });
     },
+
     source: function (request, response) {
         $.ajax({
             url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",

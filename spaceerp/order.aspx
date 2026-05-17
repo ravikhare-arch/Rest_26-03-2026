@@ -365,12 +365,16 @@
 
         // Unified NC & Room Lock Control Module
         function checkNcAndLockRoom() {
-            var isNcChecked = $("#NC").is(":checked");
+            var $ncCheckbox = $("[id$='NC']");
+            var isNcChecked = $ncCheckbox.is(":checked");
+
             var urlParams = getUrlVars();
             var roomFromUrl = urlParams["roomNo"];
-            var savedRoom = localStorage.getItem("bill_roomNo"); // 🔥 Layer Item Check
+            var savedRoom = localStorage.getItem("bill_roomNo");
 
             var $roomInput = $("[id$='txtRoomNo']");
+            var $roomDisplay = $("[id$='txtRoomNoDisplay']");
+            var $paymentContainer = $("#divpayment"); // Dynamic Payment Section Container
 
             if (isNcChecked) {
                 $roomInput.val("").prop("disabled", true).css({
@@ -378,33 +382,59 @@
                     "cursor": "not-allowed",
                     "pointer-events": "none"
                 });
-                $("#txtRoomNoDisplay").val("Not Applicable (NC)").prop("disabled", true).css({
+
+                if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                    $roomInput.autocomplete("close");
+                }
+
+                $roomDisplay.val("Not Applicable (NC)").prop("disabled", true).css({
                     "background-color": "#eeeeee",
                     "cursor": "not-allowed",
                     "color": "#ff0000"
                 });
-                $("#hdnRTID").val("");
-                $("#hdnGCID").val("");
+
+                $("[id$='hdnRTID']").val("");
+                $("[id$='hdnGCID']").val("");
             } else {
-                // 🔥 SURAKSHA LOCK: Agar URL ya LocalStorage kahin bhi room number pehle se fill h, toh strictly lock rakho
                 var hasRoom = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") ||
                     (savedRoom && savedRoom !== "null" && savedRoom !== "");
 
                 if (hasRoom) {
-                    $roomInput.prop("disabled", true).css({
+                    // 1. Room Field ko strict freeze kardo
+                    $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
                         "background-color": "#eeeeee",
                         "cursor": "not-allowed",
                         "pointer-events": "none"
                     });
+
+                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                        $roomInput.autocomplete("close");
+                    }
+
+                    // 🔥 FIX: Saare payment mode radio buttons ko physically disabled kardo taaki change na ho sake
+                    $paymentContainer.find("input[type='radio']").prop("disabled", true);
+                    $paymentContainer.css({
+                        "opacity": "0.7",
+                        "pointer-events": "none",
+                        "cursor": "not-allowed"
+                    });
+                    console.log("Payment Modes and Room completely locked on Order Page.");
                 } else {
-                    $roomInput.prop("disabled", false).css({
+                    // Fresh Counter Bill: Sab khula rahega taaki select kar sakein
+                    $roomInput.prop("disabled", false).removeAttr("readonly").css({
                         "background-color": "#ffffff",
                         "cursor": "auto",
                         "pointer-events": "auto"
                     });
+                    $paymentContainer.find("input[type='radio']").prop("disabled", false);
+                    $paymentContainer.css({
+                        "opacity": "1",
+                        "pointer-events": "auto",
+                        "cursor": "auto"
+                    });
                 }
 
-                $("#txtRoomNoDisplay").css({
+                $roomDisplay.css({
                     "background-color": "#f9f9f9",
                     "color": "black"
                 });

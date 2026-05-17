@@ -659,7 +659,7 @@ table.dataTable {
                 <asp:ListItem Text="PAYTM" Value="PAYTM"></asp:ListItem>
                 <asp:ListItem Text="PHONEPE" Value="PHONEPE"></asp:ListItem>
                 <asp:ListItem Text="NC" Value="NC"></asp:ListItem>
-                <asp:ListItem Text="Room Service" Value="Room_Serv"></asp:ListItem>
+                <asp:ListItem Text="Room Service" Value="Room Service"></asp:ListItem>
                 <asp:ListItem Text="GPAY" Value="GPAY"></asp:ListItem>
             </asp:DropDownList>
         </div>
@@ -865,14 +865,13 @@ table.dataTable {
         $("#lblheading").text(map[t] || "Completed Orders Report");
     }
 
+    // 🔥 1. CORRECTED LOADDATA FUNCTION (SAFE RE-INITIALIZATION ZONE)
     function loaddata() {
-        // 1. Inputs ki values trim karke safe extraction
         var startDate = ($("[id$='txttLastPurchase']").val() || "").trim();
         var endDate = ($("[id$='txttLastOrder']").val() || "").trim();
         var payMode = $("[id$='ddlpaymode']").val();
         var orderType = $("[id$='ddlDeliveryType']").val();
 
-        // 2. Default Fallback Dates matching structure
         if (!startDate) startDate = new Date().toISOString().split('T')[0];
         if (!endDate) endDate = new Date().toISOString().split('T')[0];
 
@@ -880,19 +879,20 @@ table.dataTable {
 
         if (!apiUrl) { alert("API URL is not configured on server."); return; }
 
-        // 3. DataTable Memory Instance Safely Destroy without breaking Node Trees
+        // Secure layer to destroy old data tree instance without messing standard DOM elements
         if ($.fn.DataTable.isDataTable('#tblagentlist')) {
-            var oldTable = $('#tblagentlist').DataTable();
-            oldTable.clear().destroy();
-            $('#tblagentlist').empty();
+            try {
+                $('#tblagentlist').DataTable().clear().destroy(true);
+            } catch (err) {
+                console.log("Orderlist: DataTable bypass safety handled.");
+            }
         }
 
-        // 4. Loader Injection inside container
+        // Fresh Loader Template Injection
         $("#divpendingorders").html(
             '<div class="report-loader"><div class="spinner-ring"></div><p>Refreshing Data...</p></div>'
         );
 
-        // 5. Build Clean API Param Strings
         var url = apiUrl + "/api/Item/CompletedOrders"
             + "?orderType=" + encodeURIComponent(orderType || "0")
             + "&startDate=" + encodeURIComponent(startDate)
@@ -919,14 +919,12 @@ table.dataTable {
         });
     }
 
+    // 🔥 2. CORRECTED RENDERTABLE FUNCTION (STRICT 21 COLUMNS ALIGNMENT ZONE)
     function renderTable(data) {
-        // 1. Double check layer for removing any active instances
-        if ($.fn.DataTable.isDataTable('#tblagentlist')) {
-            $('#tblagentlist').DataTable().clear().destroy();
-            $('#tblagentlist').empty();
-        }
+        var targetContainer = document.getElementById("divpendingorders");
+        if (!targetContainer) return;
 
-        // 2. Strict 21 Column Header Structure Mapping
+        // Structured Header (Strict Grid Count - 21 Cells)
         var html = "<table id='tblagentlist' class='table table-hover table-bordered nowrap' style='width:100%; margin:0 !important; border-collapse: collapse !important;'> " +
             "<thead><tr>" +
             "<th>Sr.</th>" +
@@ -952,14 +950,14 @@ table.dataTable {
             "<th class='text-center'>Action</th>" +
             "</tr></thead><tbody>";
 
-        // 3. Loop Iterations Logic
         if (data && data.length > 0) {
             $.each(data, function (i, item) {
-                var svc = parseFloat(item.Charge) || 0;
+                // FIXED DATA PROPERTIES LAYER: Explicitly mapping to match Procedure output naming rules
+                var svc = parseFloat(item.ServiceCharge) || 0;
                 var sub = parseFloat(item.SubTotal) || 0;
-                var totalAmt = parseFloat(item.TotalOrderAmount) || 0;
+                var totalAmt = parseFloat(item.TotalAmount) || 0;
                 var dPerc = parseFloat(item.DiscPercent) || 0;
-                var dAmt = parseFloat(item.TotalDiscount) || 0;
+                var dAmt = parseFloat(item.DiscAmount) || 0;
                 var aftD = parseFloat(item.AfterDisc) || 0;
                 var sgst = parseFloat(item.SGST) || 0;
                 var cgst = parseFloat(item.CGST) || 0;
@@ -968,9 +966,10 @@ table.dataTable {
                 var statusClass = item.TableStatus === 'Completed' ? 'label-success' : 'label-warning';
 
                 var roomQs = encodeURIComponent(item.RoomNo || "");
-                var ncNameQs = encodeURIComponent(item.CustomerName || "");
-                var ncRadioQs = encodeURIComponent(item.NCRadio || item.ncRadio || "");
+                var ncNameQs = encodeURIComponent(item.Guest || "");
+                var ncRadioQs = encodeURIComponent(item.NCRadio || "");
 
+                // Built unified data rows string concatenation strictly matching 21 columns structure mapping
                 html += "<tr>" +
                     "<td>" + (i + 1) + "</td>" +
                     "<td>" + item.OrderID + "</td>" +
@@ -979,8 +978,8 @@ table.dataTable {
                     "<td>" + item.OrderDate + "</td>" +
                     "<td>" + item.OrderTime + "</td>" +
                     "<td><small>" + item.OrderTypeName + "</small></td>" +
-                    "<td>" + (item.DeliveredBy || '-') + "</td>" +
-                    "<td>" + (item.CustomerName || 'Guest') + "</td>" +
+                    "<td>" + (item.Rider || '-') + "</td>" +
+                    "<td>" + (item.Guest || 'Guest') + "</td>" +
                     "<td><span class='label label-status " + statusClass + "'>" + item.TableStatus + "</span></td>" +
                     "<td>" + (item.RoomNo || '-') + "</td>" +
                     "<td class='text-right'>₹" + svc.toFixed(2) + "</td>" +
@@ -993,21 +992,20 @@ table.dataTable {
                     "<td class='text-right'>" + cgst.toFixed(2) + "</td>" +
                     "<td class='text-right' style='font-weight:700; color:var(--navy);'>₹" + net.toFixed(2) + "</td>" +
                     "<td class='text-center'>" +
-                    "<div class='action-wrap' style='display:flex; gap:5px; justify-content:center;'>";
-
-                // Dynamic tracking links binding block mapping
-                html += "<a href='/order.aspx?id=" + item.OrderID + "&status=" + encodeURIComponent(item.TableStatus || "") + "&orderType=" + encodeURIComponent(item.OrderType || "") + "&roomNo=" + roomQs + "&ncName=" + ncNameQs + "&ncRadio=" + ncRadioQs + "' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
+                    "<div class='action-wrap' style='display:flex; gap:5px; justify-content:center;'> " +
+                    "<a href='/order.aspx?id=" + item.OrderID + "&status=" + encodeURIComponent(item.TableStatus || "") + "&orderType=" + encodeURIComponent(item.OrderType || "") + "&roomNo=" + roomQs + "&ncName=" + ncNameQs + "&ncRadio=" + ncRadioQs + "' class='btn-act btn-act-edit' style='background:#1b4aab; color:#fff; padding:2px 8px; border-radius:4px;' title='Edit'><i class='fa fa-edit'></i></a>" +
                     "<button type='button' class='deletebtn btn-act btn-act-cancel' style='background:#e03434; color:#fff; padding:2px 8px; border-radius:4px; border:none;' data-order-id='" + item.OrderID + "' data-order-no='" + item.OrderNo + "' data-toggle='modal' data-target='#deleteModalCenter' title='Cancel'><i class='fa fa-trash'></i></button>" +
                     "</div>" +
-                    "</td></tr>";
+                    "</td>" +
+                    "</tr>";
             });
         } else {
             html += "<tr><td colspan='21' class='text-center' style='padding:40px;'>No Orders Found.</td></tr>";
         }
 
-        // 4. Strict Footer Balancing (Total 21 Cells including colspan mapping match)
+        // Footers Mapping Balancing Setup (Total 21 Cells structure mapping match)
         html += "</tbody><tfoot><tr>" +
-            "<th colspan='11' style='text-align:right; font-weight:bold;'>Total:</th>" + // Covers columns index 0-10
+            "<th colspan='11' style='text-align:right; font-weight:bold;'>Total:</th>" + // Index 0 to 10 matching fields bounds
             "<th></th>" + // Index 11 (S.Charge)
             "<th></th>" + // Index 12 (SubTotal)
             "<th></th>" + // Index 13 (TotalAmt)
@@ -1017,13 +1015,13 @@ table.dataTable {
             "<th></th>" + // Index 17 (SGST)
             "<th></th>" + // Index 18 (CGST)
             "<th></th>" + // Index 19 (TotalPaid)
-            "<th></th>" + // Index 20 (Action Spacer Column)
+            "<th></th>" + // Index 20 (Action Column Spacer Area)
             "</tr></tfoot></table>";
 
-        // 5. Content Injection into active DOM structure area container
-        $("#divpendingorders").html(html);
+        // Injection layer sequence execution block safely
+        targetContainer.innerHTML = html;
 
-        // 6. Secure Safe DataTables Initialization Layout Setup
+        // Intialize clean native DataTable properties framework
         var table = $("#tblagentlist").DataTable({
             "destroy": true,
             "scrollX": false,
@@ -1055,14 +1053,13 @@ table.dataTable {
                     }
                 }
             ],
-            "columnDefs": [{ "orderable": false, "targets": 20 }], // Fixed targets to Index 20
+            "columnDefs": [{ "orderable": false, "targets": 20 }],
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api();
                 var intVal = function (i) {
                     return typeof i === 'string' ? i.replace(/[\₹,\-%,]/g, '') * 1 : typeof i === 'number' ? i : 0;
                 };
 
-                // Loop and perform calculation logic safely across mapped cell indexes
                 [11, 12, 13, 15, 16, 17, 18, 19].forEach(function (index) {
                     var total = api.column(index, { page: 'current' }).data().reduce(function (a, b) {
                         return intVal(a) + intVal(b);
@@ -1073,10 +1070,9 @@ table.dataTable {
             }
         });
 
-        // Hide background default layout buttons
         $(".dt-buttons").hide();
 
-        // 7. Auto Columns alignment refresh trigger block
+        // Responsive alignment adjust trigger binding context
         setTimeout(function () {
             table.columns.adjust().draw();
             var tableContentWidth = $(".dataTables_scrollBody table").outerWidth() || $("#tblagentlist").outerWidth();
