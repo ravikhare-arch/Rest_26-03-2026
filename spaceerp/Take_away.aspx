@@ -2,22 +2,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">    
     <link href="css/floating-form.css" rel="stylesheet" />
-    <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-    <!-- Custom CSS -->
     <link href="css/style.css" rel='stylesheet' type='text/css' />
-    <!-- Graph CSS -->
     <link href="css/font-awesome.css" rel="stylesheet" />
-    <!-- jQuery -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- jQuery -->
     <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
-    <!-- lined-icons -->
     <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
     <link href="css/jquery-ui.min.css" rel="stylesheet" />    
     <script src="js/jquery-3.6.0.js"></script>
     <script src="js/jquery-ui.min.js"></script>
-    <!--//skycons-icons-->
     <link href="css/customRestro.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     
@@ -82,142 +75,6 @@
     position: absolute !important; 
     z-index: 999999 !important; /* Ek zero aur badha diya */
 }
-  </style>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
-    <script type="text/javascript">
-        // 🛠️ REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD & CLOSE POPUP
-        function checkNcAndLockRoom() {
-            var isNcChecked = $("#nc").is(":checked");
-
-            // Safe URL parameters evaluation layer
-            var urlParams = new URLSearchParams(window.location.search);
-            var roomFromUrl = urlParams.get('roomNo');
-
-            // Clean value check string check safely
-            var hasValidRoomUrl = (roomFromUrl && roomFromUrl !== "" && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined");
-
-            var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
-            var $ncNameInput = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
-
-            if (isNcChecked) {
-                // Input disable karo, value clear karo, aur pointer-events block karke lock karo
-                $roomInput.val("").prop("disabled", true).css({
-                    "background-color": "#eeeeee",
-                    "cursor": "not-allowed",
-                    "pointer-events": "none"
-                });
-
-                // Force close autocomplete menu if open
-                if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                    $roomInput.autocomplete("close");
-                }
-
-                $ncNameInput.prop("disabled", false).css({
-                    "background-color": "#ffffff",
-                    "cursor": "auto",
-                    "pointer-events": "auto"
-                });
-
-                $("#hdnRTID").val("");
-                $("#hdnGCID").val("");
-            } else {
-                if (hasValidRoomUrl) {
-                    $roomInput.prop("disabled", true).css({
-                        "background-color": "#eeeeee",
-                        "cursor": "not-allowed",
-                        "pointer-events": "none"
-                    });
-                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                        $roomInput.autocomplete("close");
-                    }
-                } else {
-                    $roomInput.prop("disabled", false).css({
-                        "background-color": "#ffffff",
-                        "cursor": "auto",
-                        "pointer-events": "auto"
-                    });
-                }
-
-                $ncNameInput.val("").prop("disabled", true).css({
-                    "background-color": "#eeeeee",
-                    "cursor": "not-allowed",
-                    "pointer-events": "none"
-                });
-            }
-        }
-
-        $(document).ready(function () {
-            function getUrlParameter(name) {
-                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-                var results = regex.exec(location.search);
-                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-            }
-
-            var urlParams = new URLSearchParams(window.location.search);
-            var ncRadioVal = urlParams.get('ncRadio');
-            var existingOrderId = urlParams.get('id'); // 🔥 NAYA CHECK: Redirected Order ID capture ki
-
-            if (ncRadioVal === "NC") {
-                $("#nc").prop('checked', true);
-                localStorage.setItem("isNCSelected", "true");
-            }
-
-            var roomFromUrl = getUrlParameter('roomNo');
-            var ncFromUrl = getUrlParameter('ncName');
-            var ncRadioFromUrl = getUrlParameter('ncRadio');
-
-            if (roomFromUrl !== "" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl !== "-") {
-                var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
-
-                $roomInput.val(roomFromUrl).prop("disabled", true).css({
-                    "background-color": "#eeeeee",
-                    "cursor": "not-allowed",
-                    "pointer-events": "none"
-                }).trigger('input').trigger('change');
-
-                setTimeout(function () {
-                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                        $roomInput.autocomplete("close");
-                    }
-                }, 100);
-
-                $("#Room_Serv").prop("checked", true);
-            } else {
-                var $roomInput = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
-                $roomInput.prop("disabled", false).css({
-                    "background-color": "#ffffff",
-                    "cursor": "auto",
-                    "pointer-events": "auto"
-                });
-            }
-
-            if (ncFromUrl !== "") {
-                var $ncInput = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
-                $ncInput.val(ncFromUrl).trigger('change');
-            }
-
-            if (ncRadioFromUrl === "NC") {
-                $("#nc").prop('checked', true);
-                localStorage.setItem("isNCSelected", "true");
-            }
-
-            // 🔥 FIX STANCE: Agar order pehle se bana hua load ho raha hai, toh NC radio button ko permanently block/disable kar do
-            if (existingOrderId && existingOrderId !== "" && existingOrderId !== "0") {
-                $("#nc").prop("disabled", true).parent().css({
-                    "cursor": "not-allowed",
-                    "opacity": "0.6",
-                    "pointer-events": "none"
-                });
-                console.log("Existing Order Flow: NC Selection has been strictly frozen.");
-            }
-
-            checkNcAndLockRoom();
-        });
-    </script>
-    <style>
     /* Dropdown ko input element ke exact container border par lock karne ke liye */
     .ui-autocomplete.custom-room-dropdown {
         position: absolute !important;
@@ -251,6 +108,222 @@
     }
 
     /* Active selection hover class highlight background styling */
+    .ui-autocomplete.custom-room-dropdown .ui-state-active {
+        background-color: #1b4aab !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 0px !important;
+        margin: 0 !important;
+    }
+  </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script type="text/javascript">
+        // 🛠️ REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD & CLOSE POPUP
+        function checkNcAndLockRoom() {
+            var $ncCheckbox = $("[id$='nc']");
+            var isNcChecked = $ncCheckbox.is(":checked");
+
+            // Safe URL parameters evaluation layer
+            var urlParams = new URLSearchParams(window.location.search);
+            var roomFromUrl = urlParams.get('roomNo');
+
+            // Clean value check string check safely
+            var hasValidRoomUrl = (roomFromUrl && roomFromUrl !== "" && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined");
+
+            var $roomInput = $("[id$='txtRoomNo']");
+            var $ncNameInput = $("[id$='txtNCName']");
+
+            if (isNcChecked) {
+                // Input disable karo, value clear karo, aur pointer-events block karke lock karo
+                $roomInput.val("").prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
+
+                // Force close autocomplete menu if open
+                if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                    $roomInput.autocomplete("close");
+                }
+
+                $ncNameInput.prop("disabled", false).css({
+                    "background-color": "#ffffff",
+                    "cursor": "auto",
+                    "pointer-events": "auto"
+                });
+
+                $("[id$='hdnRTID']").val("");
+                $("[id$='hdnGCID']").val("");
+            } else {
+                // LOCK ONLY IF REDIRECTED WITH VALID ROOM
+                if (hasValidRoomUrl) {
+                    $roomInput.prop("disabled", true).css({
+                        "background-color": "#eeeeee",
+                        "cursor": "not-allowed",
+                        "pointer-events": "none"
+                    });
+                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                        $roomInput.autocomplete("close");
+                    }
+                } else {
+                    // Fresh First-Time Order case
+                    $roomInput.prop("disabled", false).css({
+                        "background-color": "#ffffff",
+                        "cursor": "auto",
+                        "pointer-events": "auto"
+                    });
+                }
+
+                $ncNameInput.val("").prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var ncRadioVal = urlParams.get('ncRadio');
+            var existingOrderId = urlParams.get('id');
+
+            var $ncCheckbox = $("[id$='nc']");
+
+            if (ncRadioVal === "NC") {
+                $ncCheckbox.prop('checked', true);
+                localStorage.setItem("isNCSelected", "true");
+            }
+
+            var roomFromUrl = getUrlParameter('roomNo');
+            var ncFromUrl = getUrlParameter('ncName');
+            var ncRadioFromUrl = getUrlParameter('ncRadio');
+
+            var $roomInput = $("[id$='txtRoomNo']");
+
+            if (roomFromUrl !== "" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl !== "-") {
+                $roomInput.val(roomFromUrl).prop("disabled", true).css({
+                    "background-color": "#eeeeee",
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                }).trigger('input').trigger('change');
+
+                setTimeout(function () {
+                    if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                        $roomInput.autocomplete("close");
+                    }
+                }, 100);
+
+                $("[id$='Room_Serv']").prop("checked", true);
+                console.log("Redirected Order: Room field populated and locked successfully.", roomFromUrl);
+            } else {
+                $roomInput.prop("disabled", false).css({
+                    "background-color": "#ffffff",
+                    "cursor": "auto",
+                    "pointer-events": "auto"
+                });
+                console.log("Fresh Counter Order: Room field is unlocked for search.");
+            }
+
+            if (ncFromUrl !== "") {
+                var $ncInput = $("[id$='txtNCName']");
+                $ncInput.val(ncFromUrl).trigger('change');
+            }
+
+            if (ncRadioFromUrl === "NC") {
+                $ncCheckbox.prop('checked', true);
+                localStorage.setItem("isNCSelected", "true");
+            }
+
+            // 🔥 MASTER ID ENGINE FIX: Agar existing order load ho rha h, toh NC button lock ho par baaki saare action buttons ENALBED ho jayein!
+            if (existingOrderId && existingOrderId !== "" && existingOrderId !== "0") {
+                // 1. NC button ko un-check hone se lock karo
+                $ncCheckbox.prop("disabled", true).css({
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                }).parent().css({
+                    "cursor": "not-allowed",
+                    "pointer-events": "none"
+                });
+
+                // 2. 🔥 BUTTON ENABLE FIX: Saare action buttons ko strictly force enable karo taaki operation block na ho
+                $("#closetable, #printbill, #saveKot, #printviewbill, #printwithoutgst, #gotopendorder, #gotodine, #gotodash, #gotocancel")
+                    .prop("disabled", false)
+                    .removeAttr("disabled")
+                    .show()
+                    .css({
+                        "pointer-events": "auto",
+                        "cursor": "pointer",
+                        "opacity": "1"
+                    });
+
+                console.log("Existing Order Flow: NC frozen, Action buttons forced ENABLED.");
+            }
+
+            // Trigger structural initial verification layer
+            checkNcAndLockRoom();
+
+            // MASTER ENGINE CLICK SYNC BOUNDARY
+            var lastChecked = null;
+            $ncCheckbox.on('click', function () {
+                if (lastChecked === this) {
+                    this.checked = false;
+                    lastChecked = null;
+                    localStorage.removeItem("isNCSelected");
+                } else {
+                    lastChecked = this;
+                    if (this.id.toLowerCase().indexOf('nc') !== -1 || $(this).val() === "NC") {
+                        localStorage.setItem("isNCSelected", "true");
+                    } else {
+                        localStorage.removeItem("isNCSelected");
+                    }
+                }
+                checkNcAndLockRoom();
+            });
+        });
+    </script>
+
+    <style>
+    /* Dropdown ko input element ke exact container border par lock karne ke liye */
+    .ui-autocomplete.custom-room-dropdown {
+        position: absolute !important;
+        top: 100% !important; 
+        left: 0 !important;
+        width: 100% !important; 
+        max-width: 200px;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+        max-height: 180px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 999999 !important;
+        padding: 4px 0;
+        margin-top: 2px;
+    }
+
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item {
+        padding: 8px 14px !important;
+        border-bottom: 1px solid #f1f5f9;
+        cursor: pointer;
+        font-size: 13px;
+        color: #334155;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item:last-child {
+        border-bottom: none;
+    }
+
     .ui-autocomplete.custom-room-dropdown .ui-state-active {
         background-color: #1b4aab !important;
         color: #ffffff !important;
@@ -297,7 +370,7 @@
             </select>
 
         </div>
-        <div class="col-md-5 col-xs-12 mobi_none mobad">
+        <div class="col-md-5 col-xs-12 mopai_none mopad">
             <div class="col-md-3 col-xs-3">
                 <div id="divtablename" class="colpsbox_one_top" style="padding-left: 35px;">
                     <div class="icon_corner">
@@ -329,7 +402,6 @@
     </div>
     <div class="col-md-2 col-sm-2 col-xs-4 mopad">
         <div class="scroll-box mob-height300" style="width: 100%; float: left; height: 400px;">
-            <!--custom-widgets-->
             <div class="custom-widgets">
                 <div class="row-one" id="GroupData">
 
@@ -340,7 +412,6 @@
     </div>
     <div class="col-md-5 col-sm-5 col-xs-8 nopad mobipad-2">
         <div class="scroll-box mob-height300" style="width: 100%; float: left; height: 400px;">
-            <!--custom-widgets-->
             <div id="GroupItemData" class="custom-widgets">
                 <div class="row-one">
                     <div class="clearfix"></div>
@@ -363,8 +434,6 @@
                 </thead>
                 <tbody id="OrderRow">
                 </tbody>
-
-                <!---->
             </table>
         </div>
         
@@ -395,7 +464,6 @@
        <div class="col-md-12 well" style="padding: 10px; background: #f9f9f9; border: 1px solid #ddd;">
             <div class="row">
                <div class="col-md-4">
-    <!-- 🔥 Element container wrapper jise custom style relative di hai taaki dropdown theek niche lock ho sake -->
     <div class="input-group search-container-relative" style="position: relative; overflow: visible !important;">
         <span class="input-group-addon" style="font-weight:bold;">Room No:</span>
         <input type="text" id="txtRoomNo" class="form-control room-input" placeholder="Search Room..." autocomplete="off" />
@@ -414,7 +482,6 @@
             </div>
         </div>
      <td>
-    <!-- Added name="fav_language" to group it with others -->
     <input type="radio" id="nc" name="fav_language" value="NC" />
     <label for="nc">NC</label>
 </td>
@@ -461,48 +528,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-
-            $('#openBtn').click(function () {
-                $('#myModal').modal({
-                    show: true
-                })
-            });
-
-            $(document).on('show.bs.modal', '.modal', function (event) {
-                var zIndex = 1040 + (10 * $('.modal:visible').length);
-                $(this).css('z-index', zIndex);
-                setTimeout(function () {
-                    $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-                }, 0);
-            });
-            // Variable to keep track of the last checked radio button
-            var lastChecked = null;
-
-            $('input[name="fav_language"]').on('click', function () {
-                if (lastChecked === this) {
-                    // If clicking the same one again, uncheck it
-                    this.checked = false;
-                    lastChecked = null;
-                    localStorage.removeItem("isNCSelected");
-                } else {
-                    lastChecked = this;
-
-                    // Check if the specific one clicked is 'nc'
-                    if (this.id === 'nc') {
-                        localStorage.setItem("isNCSelected", "true");
-                    } else {
-                        localStorage.removeItem("isNCSelected");
-                    }
-                }
-
-                // 🔥 MERI ADDED LINE: Jab bhi radio click hoga, checkNcAndLockRoom run ho jayega
-                checkNcAndLockRoom();
-            });
-
-        });
-    </script>
 
     <%--Date & Time by asif --%>
     <script>
@@ -517,7 +542,7 @@
     <%--// Group Item active inactive button  By asif --%>
     <script>
         $(document).ready(function () {
-            $(".spltab").click(function () {
+            $(document).on("click", ".spltab", function () {
                 $(".spltab").removeClass("active");
                 $(this).addClass("active");
             });
@@ -530,8 +555,6 @@
                     $("#Drop-of").css('display', 'block');
                 } else {
                     $("#Drop-of").css('display', 'none');
-
-
                 }
             });
         });
