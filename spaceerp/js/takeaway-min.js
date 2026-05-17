@@ -877,53 +877,118 @@ function openWindowForPrint(url) {
 
 }
 $("#txtRoomNo").autocomplete({
+
     minLength: 1,
 
-    // 🔥 POPUP LOCK LAYER: Dropdown list ko theek usi relative input area class ke andar inject karega
+    // 🔥 Dropdown parent
     appendTo: ".search-container-relative",
 
     classes: {
-        "ui-autocomplete": "custom-room-dropdown" // Humne jo upar CSS design kiya hai, wo class bind ho jayegi
+        "ui-autocomplete": "custom-room-dropdown"
     },
 
-    open: function (event, ui) {
-        // Kisi bhi manual hardcoded coordinates logic ki ab zarurat nahi hai, responsive fluid positions automatic manage ho jayegi
-        $(this).autocomplete("widget").css({
-            "top": "auto",  // Relative configuration absolute bypass checks
-            "left": "0px",
-            "position": "absolute"
+    // 🔥 Hamesha upar open
+    position: {
+        my: "left bottom",
+        at: "left top",
+        collision: "none"
+    },
+
+    open: function () {
+
+        var $input = $(this);
+
+        var $dropdown = $input.autocomplete("widget");
+
+        // Input ki exact width
+        $dropdown.css({
+            width: $input.outerWidth() + "px",
+            zIndex: 999999
+        });
+
+        // 🔥 Force upward placement
+        var inputPos = $input.position();
+
+        $dropdown.css({
+            left: inputPos.left + "px",
+            top: (inputPos.top - $dropdown.outerHeight()) + "px"
         });
     },
 
+    // 🔥 Live Search
     source: function (request, response) {
+
         $.ajax({
+
             url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
+
             type: "GET",
+
             dataType: "json",
-            data: { companyid: 1067 },
+
+            data: {
+                companyid: 1067
+            },
+
             success: function (data) {
-                var uniqueRooms = [];
+
                 var roomSet = new Set();
+
+                var mappedItems = [];
+
                 $.each(data, function (index, item) {
-                    if (!roomSet.has(item.RoomNo)) {
-                        roomSet.add(item.RoomNo);
-                        uniqueRooms.push(item);
+
+                    if (item && item.RoomNo) {
+
+                        var roomNo = item.RoomNo.toString().trim();
+
+                        if (!roomSet.has(roomNo)) {
+
+                            roomSet.add(roomNo);
+
+                            mappedItems.push({
+                                label: roomNo,
+                                value: roomNo,
+                                rtId: item.RTID,
+                                gcid: item.GCID
+                            });
+                        }
                     }
                 });
-                response($.map(uniqueRooms, function (item) {
-                    return { label: item.RoomNo, value: item.RoomNo, rtId: item.RTID, gcid: item.GCID };
-                }));
+
+                // 🔥 Filter typing text
+                var filteredResults = $.ui.autocomplete.filter(
+                    mappedItems,
+                    request.term
+                );
+
+                response(filteredResults);
             }
         });
     },
-    select: function (event, ui) {
+
+    // Keyboard navigation
+    focus: function (event, ui) {
+
         $("#txtRoomNo").val(ui.item.value);
+
+        return false;
+    },
+
+    // 🔥 Select item
+    select: function (event, ui) {
+
+        $("#txtRoomNo").val(ui.item.value);
+
         $("#hdnRTID").val(ui.item.rtId);
+
         $("#hdnGCID").val(ui.item.gcid);
+
+        $(this).autocomplete("close");
+
         return false;
     }
 });
-
 function GetRecentOrders() {
     $.ajax({
         type: "GET",

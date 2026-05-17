@@ -16,106 +16,73 @@
     
     <link href="css/CustomTake.css" rel="stylesheet" />
     <link href="css/floating-form.css" rel="stylesheet" />
-  <style>
-      .tbClose {
-          display: block;
-          float: right;
-      }
-      /* Input field ko chota aur clean banane ke liye */
-.room-input {
-    width: 100% !important;
-    max-width: 200px; /* Isse width control mein rahegi */
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
+<style>
 
-.room-input:focus {
-    border-color: #66afe9;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-}
+    .search-container-relative {
+        position: relative;
+    }
 
-/* Autocomplete dropdown (UI-Menu) ko sundar banane ke liye */
-.ui-autocomplete {
-    background: #ffffff !important;
-    border: 1px solid #ddd !important;
-    border-radius: 4px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    max-height: 200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    z-index: 9999 !important; /* Dialog ke upar dikhne ke liye */
-}
-
-.ui-menu-item {
-    padding: 8px 12px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.ui-menu-item:last-child {
-    border-bottom: none;
-}
-
-.ui-state-active, .ui-widget-content .ui-state-active {
-    background-color: #337ab7 !important; /* Blue color highlight */
-    color: #fff !important;
-    border: none !important;
-}
-.well, .input-group {
-    overflow: visible !important;
-}
-    ul.ui-autocomplete {
-    position: absolute !important; 
-    z-index: 999999 !important; /* Ek zero aur badha diya */
-}
-    /* Dropdown ko input element ke exact container border par lock karne ke liye */
+    /* 🔥 FORCED UPWARD DROPDOWN */
     .ui-autocomplete.custom-room-dropdown {
+
         position: absolute !important;
-        top: 100% !important; /* Input ke standard height ke theek niche se start hoga */
+
         left: 0 !important;
-        width: 100% !important; /* Input width ke barabar automatically adjust ho jayega */
-        max-width: 200px;
+
+        width: 100% !important;
+
         background: #ffffff !important;
+
         border: 1px solid #cbd5e1 !important;
+
         border-radius: 6px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+
+        box-shadow: 0 -6px 16px rgba(0,0,0,0.15) !important;
+
         max-height: 180px;
+
         overflow-y: auto;
+
         overflow-x: hidden;
-        z-index: 999999 !important;
+
+        z-index: 99999999 !important;
+
         padding: 4px 0;
-        margin-top: 2px;
     }
 
-    .ui-autocomplete.custom-room-dropdown .ui-menu-item {
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item-wrapper {
+
         padding: 8px 14px !important;
+
         border-bottom: 1px solid #f1f5f9;
+
         cursor: pointer;
+
         font-size: 13px;
+
         color: #334155;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
 
-    .ui-autocomplete.custom-room-dropdown .ui-menu-item:last-child {
+    .ui-autocomplete.custom-room-dropdown .ui-menu-item:last-child .ui-menu-item-wrapper {
         border-bottom: none;
     }
 
-    /* Active selection hover class highlight background styling */
     .ui-autocomplete.custom-room-dropdown .ui-state-active {
+
         background-color: #1b4aab !important;
+
         color: #ffffff !important;
+
         border: none !important;
+
         border-radius: 0px !important;
+
         margin: 0 !important;
     }
-  </style>
+
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
@@ -291,47 +258,7 @@
         });
     </script>
 
-    <style>
-    /* Dropdown ko input element ke exact container border par lock karne ke liye */
-    .ui-autocomplete.custom-room-dropdown {
-        position: absolute !important;
-        top: 100% !important; 
-        left: 0 !important;
-        width: 100% !important; 
-        max-width: 200px;
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 6px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
-        max-height: 180px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        z-index: 999999 !important;
-        padding: 4px 0;
-        margin-top: 2px;
-    }
 
-    .ui-autocomplete.custom-room-dropdown .ui-menu-item {
-        padding: 8px 14px !important;
-        border-bottom: 1px solid #f1f5f9;
-        cursor: pointer;
-        font-size: 13px;
-        color: #334155;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .ui-autocomplete.custom-room-dropdown .ui-menu-item:last-child {
-        border-bottom: none;
-    }
-
-    .ui-autocomplete.custom-room-dropdown .ui-state-active {
-        background-color: #1b4aab !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 0px !important;
-        margin: 0 !important;
-    }
-</style>
 
     <input type="hidden" runat="server" id="hdnApiurl" />
     <div id="RemarkModal" class="modal">
@@ -463,13 +390,31 @@
         </div>
        <div class="col-md-12 well" style="padding: 10px; background: #f9f9f9; border: 1px solid #ddd;">
             <div class="row">
-               <div class="col-md-4">
-    <div class="input-group search-container-relative" style="position: relative; overflow: visible !important;">
-        <span class="input-group-addon" style="font-weight:bold;">Room No:</span>
-        <input type="text" id="txtRoomNo" class="form-control room-input" placeholder="Search Room..." autocomplete="off" />
+            <div class="col-md-4">
+
+    <!-- 🔥 IMPORTANT -->
+    <div class="search-container-relative">
+
+        <div class="input-group">
+
+            <span class="input-group-addon" style="font-weight:bold;">
+                Room No:
+            </span>
+
+            <input type="text"
+                   id="txtRoomNo"
+                   class="form-control room-input"
+                   placeholder="Search Room..."
+                   autocomplete="off" />
+
+        </div>
+
     </div>
+
     <input type="hidden" id="hdnRTID" />
+
     <input type="hidden" id="hdnGCID" />
+
 </div>
             <div class="col-md-8">
                 <div class="input-group">
