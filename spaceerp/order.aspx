@@ -640,6 +640,9 @@
              var currentGrandTotal = parseFloat($("#lblgrandtotal").html()) || 0;
              var isGstApplied = $('#isApplyGST').is(':checked');
 
+             // 🔥 SECURITY LAYER: Textbox se current room value nikaalo (Bypass hidden variables dependency)
+             var inputRoomNo = ($("#txtRoomNo").val() || "").trim();
+
              salesOrder.OrderID = orderId;
              salesOrder.nLoginID = localStorage.getItem("nLoginId");
              salesOrder.sUserFullName = localStorage.getItem("sUserFullName");
@@ -655,7 +658,7 @@
              salesOrder.isApplyGST = isGstApplied;
              salesOrder.CustomerNumber = $("#txtcustnumber").val();
              salesOrder.CustomerAddress = $("#txtcustaddress").val();
-             salesOrder.RoomNumber = $("#txtRoomNo").val();
+             salesOrder.RoomNumber = inputRoomNo; // Direct set inputRoomNo here
 
              salesOrderList.push(salesOrder);
 
@@ -724,21 +727,15 @@
                  url: apiUrl + '/api/Item/UpdateOrderStatus/' + orderId,
                  contentType: "application/json;charset=utf-8",
                  success: function (response) {
-                     var isRoomAssigned = parseInt($("#hdnGCID").val()) > 0;
+                     var hiddenGcid = parseInt($("#hdnGCID").val()) || 0;
 
-                     if (isDirectPayment && !isRoomAssigned) {
-                         $.ajax({
-                             type: "POST",
-                             url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddCashFoodBill",
-                             data: JSON.stringify(billPayloadArray),
-                             contentType: "application/json",
-                             success: function (res) {
-                                 alert("Bill Closed! Total: " + currentGrandTotal);
-                                 HideControls();
-                                 triggerAutomaticPrint(orderId, isGstApplied);
-                             }
-                         });
-                     } else if (isRoomAssigned) {
+                     // 🔥 MASTER CONTROL FIX: Agar payment mode 'Room Service' hai, ya textbox me valid room likha hai, 
+                     // ya hidden gcid active hai, aur payment type NC nahi hai—toh hamesha Restaurant Bill hit hoga!
+                     var isRoomBill = (hiddenGcid > 0) ||
+                         (selectedPaymentMode === "Room Service") ||
+                         (inputRoomNo !== "" && inputRoomNo !== "-" && inputRoomNo !== "Not Assigned" && selectedPaymentMode !== "NC");
+
+                     if (isRoomBill) {
                          $.ajax({
                              type: "POST",
                              url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddRestaurantBill",
@@ -746,6 +743,18 @@
                              contentType: "application/json",
                              success: function (res) {
                                  alert("Hotel Bill Saved! Total: " + currentGrandTotal);
+                                 HideControls();
+                                 triggerAutomaticPrint(orderId, isGstApplied);
+                             }
+                         });
+                     } else if (isDirectPayment) {
+                         $.ajax({
+                             type: "POST",
+                             url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddCashFoodBill",
+                             data: JSON.stringify(billPayloadArray),
+                             contentType: "application/json",
+                             success: function (res) {
+                                 alert("Bill Closed! Total: " + currentGrandTotal);
                                  HideControls();
                                  triggerAutomaticPrint(orderId, isGstApplied);
                              }
