@@ -7,7 +7,6 @@
     <link href="css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
     <link href="css/font-awesome.css" rel="stylesheet" />
-    <!-- jQuery -->
     <!-- Graph CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- jQuery -->
@@ -15,12 +14,9 @@
     <!-- lined-icons -->
     <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
     <script src="js/jquery-3.6.0.js"></script>
-    <!--//skycons-icons-->
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
     <link href="css/floating-form.css" rel="stylesheet" />
-
     <link href="css/customRestro.css" rel="stylesheet" />
     <link href="../../css/customOrder.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -32,7 +28,7 @@
 
         .disc-charge-table {
             border-collapse: separate;
-            border-spacing: 15px 12px; /* Horizontal + Vertical Gap */
+            border-spacing: 15px 12px;
         }
 
             .disc-charge-table td {
@@ -84,7 +80,6 @@
                     <span id="lbltablename"></span>&nbsp;
                 </div>
             </div>
-
         </div>
         <div class="col-md-5 text-right">
             <input type="button" class="btn btn-primary" id="gototorderlist" name="gototorderlist" />
@@ -107,7 +102,6 @@
                 </thead>
                 <tbody id="OrderRow">
                 </tbody>
-
             </table>
         </div>
         <div>
@@ -167,7 +161,6 @@
                         <td>
                             <label id="lblcharge"></label>
                         </td>
-
                     </tr>
                 </tbody>
                 <tbody>
@@ -188,7 +181,6 @@
                         </td>
                         <td>
                             <input type="text" id="txtgivenamount" class="floating-input" placeholder=" " onchange="GivenReturnCalculation()" />
-
                         </td>
                         <td><a href="#">Return Amount :</a> </td>
                         <td>
@@ -196,7 +188,6 @@
                         </td>
                     </tr>
                 </tbody>
-
             </table>
         </div>
         <div id="wrapper1">
@@ -212,13 +203,10 @@
                                 <td>
                                     <input type="radio" id="cash" name="fav_language" value="CASH" />
                                     <label for="card">Cash</label>
-
-
                                 </td>
                                 <td>
                                     <input type="radio" id="card" name="fav_language" value="CARD" />
                                     <label for="card">Card</label>
-
                                 </td>
                                 <td>
                                     <input type="radio" id="paytm" name="fav_language" value="PAYTM" />
@@ -240,27 +228,17 @@
                                     <input type="radio" id="gpay" name="fav_language" value="GPAY" />
                                     <label for="card">GPAY</label>
                                 </td>
-
-                                <%--<td>
-                    <input type="radio" id="nc" name="fav_language" value="NC" />
-                    <label for="card">NC</label>
-                     </td>--%>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
         <div class=" col-md-12 text-center">
-
             <input type="button" class="btn btn-primary" id="closetable" name="closetable" value="Close Table" />
             <input type="button" class="btn btn-primary" id="printbill" name="printbill" value="Print With GST Bill" />
             <input type="button" class="btn btn-primary" id="chargelist" name="chargelist" value="Edit Chargelist" />
             <input type="button" class="btn btn-primary" id="printwithoutgst" name="printwithoutgst" value=" KOT RE-Print Bill" />
-
-
-            <%--<asp:Button ID="Button4" CssClass="btn btn-primary" runat="server" Text="" />--%>
         </div>
     </div>
     <div class="col-md-6 splcontent ">
@@ -269,36 +247,30 @@
                 :To Save the Customer Details Contact Number is Mandatory.</h4>
         </div>
         <div class="floating-label">
-            <%--<asp:TextBox ID="txtcustname" runat="server" class="floating-input" type="text" placeholder=" " />--%>
             <input type="text" id="txtcustname" class="floating-input" placeholder=" " />
             <span class="highlight"></span>
             <label>Customer Name<span class="req">*</span></label>
         </div>
         <div class="floating-label">
-
             <input type="text" id="txtcustnumber" class="floating-input" placeholder=" " />
             <span class="highlight"></span>
             <label>Customer Number<span class="req">*</span></label>
         </div>
         <div class="floating-label">
-
             <input type="text" id="txtcustaddress" class="floating-input" placeholder=" " />
             <span class="highlight"></span>
             <label>Customer Address<span class="req">*</span></label>
         </div>
         <div class="floating-label">
             <input type="text" id="txtcustgst" class="floating-input" placeholder=" " />
-
             <span class="highlight"></span>
             <label>Customer GSTIN<span class="req">*</span></label>
             <span class="highlight"></span>
         </div>
         <div class="floating-label">
             <input type="text" id="txtcustemail" class="floating-input" placeholder=" " />
-
             <span class="highlight"></span>
             <label>Customer Email<span class="req">*</span></label>
-
         </div>
         <br />
         <div class="floating-label">
@@ -318,30 +290,22 @@
                     <tr>
                         <td><span>Discount %</span></td>
                         <td>
-                            <input type="text" id="txtdiscount"
-                                onchange="return CalculateDisc()" />
+                            <input type="text" id="txtdiscount" onchange="return CalculateDisc()" />
                         </td>
-
                         <td><span>Discount Value</span></td>
                         <td>
-                            <input type="text" id="txtdisccountvalue"
-                                onchange="return CalculateDiscountbasedonValue()" />
+                            <input type="text" id="txtdisccountvalue" onchange="return CalculateDiscountbasedonValue()" />
                         </td>
                     </tr>
-
                     <tr>
                         <td><span>Charges %</span></td>
                         <td>
-                            <input type="text" id="txtchargepercent"
-                                onchange="return CalculateChargebasedonPercent()" />
+                            <input type="text" id="txtchargepercent" onchange="return CalculateChargebasedonPercent()" />
                         </td>
-
                         <td><span>Charges</span></td>
                         <td>
-                            <input type="text" id="txtcharges"
-                                onchange="return CalculateCharge()" />
+                            <input type="text" id="txtcharges" onchange="return CalculateCharge()" />
                         </td>
-
                         <td>
                             <span>Room No</span>
                         </td>
@@ -354,225 +318,107 @@
                 </tbody>
             </table>
         </div>
-        <div></div>
     </div>
 
-
 <script type="text/javascript">
-    // Global Reference URL
     var apiUrl = $("[id$='hdnApiurl']").val();
     var SGST = 0, CGST = 0, grandTotal = 0, tablename = "";
 
-    // 🔥 FIXED REUSABLE LOCK ENGINE
-    //function checkNcAndLockRoom() {
-    //    var $ncCheckbox = $("[id$='NC']");
-    //    var isNcChecked = $ncCheckbox.is(":checked");
-
-    //    var urlParams = getUrlVars();
-    //    var roomFromUrl = urlParams["roomNo"];
-    //    var savedRoom = localStorage.getItem("bill_roomNo");
-
-    //    var $roomInput = $("[id$='txtRoomNo']");
-    //    var $roomDisplay = $("[id$='txtRoomNoDisplay']");
-    //    var $paymentContainer = $("#divpayment");
-
-    //    if (isNcChecked) {
-    //        $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
-    //            "background-color": "#eeeeee",
-    //            "cursor": "not-allowed",
-    //            "pointer-events": "none"
-    //        });
-
-    //        if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-    //            $roomInput.autocomplete("close");
-    //        }
-
-    //        $roomDisplay.val("Not Applicable (NC)").prop("disabled", true).css({
-    //            "background-color": "#eeeeee",
-    //            "cursor": "not-allowed",
-    //            "color": "#ff0000",
-    //            "font-weight": "bold"
-    //        });
-
-    //        $("[id$='hdnRTID']").val("");
-    //        $("[id$='hdnGCID']").val("");
-
-    //        if ($paymentContainer.length) {
-    //            $paymentContainer.find("input[type='radio']").prop("disabled", true);
-    //        }
-    //    } else {
-    //        var hasRoom = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") ||
-    //            (savedRoom && savedRoom !== "null" && savedRoom !== "");
-
-    //        if (hasRoom) {
-    //            $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
-    //                "background-color": "#eeeeee",
-    //                "cursor": "not-allowed",
-    //                "pointer-events": "none"
-    //            });
-
-    //            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-    //                $roomInput.autocomplete("close");
-    //            }
-
-    //            if ($paymentContainer.length) {
-    //                $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true);
-    //                $("#Room_Serv").prop("disabled", false).prop("checked", true);
-    //                $paymentContainer.css({
-    //                    "opacity": "1",
-    //                    "pointer-events": "auto",
-    //                    "cursor": "auto"
-    //                });
-    //            }
-    //        } else {
-    //            $roomInput.prop("disabled", false).removeAttr("readonly").css({
-    //                "background-color": "#ffffff",
-    //                "cursor": "auto",
-    //                "pointer-events": "auto"
-    //            });
-
-    //            if ($paymentContainer.length) {
-    //                $paymentContainer.find("input[type='radio']").prop("disabled", false);
-    //                $paymentContainer.css({
-    //                    "opacity": "1",
-    //                    "pointer-events": "auto",
-    //                    "cursor": "auto"
-    //                });
-    //            }
-    //        }
-
-    //        if ($roomDisplay.val() === "Not Applicable (NC)") {
-    //            $roomDisplay.val("");
-    //        }
-    //        $roomDisplay.css({
-    //            "background-color": "#f9f9f9",
-    //            "color": "black"
-    //        });
-    //    }
-    //}
     function checkNcAndLockRoom() {
         var $ncCheckbox = $("[id$='NC']");
-        var isNcChecked = $ncCheckbox.is(":checked");
-
-        var urlParams = getUrlVars();
-        var roomFromUrl = urlParams["roomNo"];
-        var savedRoom = localStorage.getItem("bill_roomNo");
-
         var $roomInput = $("[id$='txtRoomNo']");
         var $roomDisplay = $("[id$='txtRoomNoDisplay']");
         var $paymentContainer = $("#divpayment");
 
-        // Check kar rahe hain ki kya room ka data maujood hai
-        var hasRoomData = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl.trim() !== "") ||
-            (savedRoom && savedRoom !== "null" && savedRoom.trim() !== "");
+        var urlParams = getUrlVars();
+        var roomFromUrl = urlParams["roomNo"];
+        var savedRoom = localStorage.getItem("bill_roomNo");
+        var ncRadioFromUrl = urlParams["ncRadio"];
 
-        if (!hasRoomData && !isNcChecked) {
-            // ========================================================
-            // BHAI AGAR SAB BLANK HAI TOH SIRF YEH 3 CHEEZIN BLOCK HONGI
-            // ========================================================
+        var hasRoom = false;
+        if (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl.toString().trim() !== "") {
+            hasRoom = true;
+        }
+        if (savedRoom && savedRoom !== "null" && savedRoom !== "undefined" && savedRoom.toString().trim() !== "") {
+            hasRoom = true;
+        }
 
-            // 1. Room Number Input block kar do
-            $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
-                "background-color": "#eeeeee",
-                "cursor": "not-allowed",
-                "pointer-events": "none"
-            });
-            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                $roomInput.autocomplete("close");
-            }
-            $roomDisplay.val("").css({
-                "background-color": "#eeeeee",
-                "color": "black"
-            });
+        var isNcExplicitlySelected = (ncRadioFromUrl === "NC") || $ncCheckbox.is(":checked");
 
-            // 2. NC Checkbox block kar do
-            $ncCheckbox.prop("disabled", true).css({
-                "cursor": "not-allowed"
-            });
+        if (!hasRoom && !isNcExplicitlySelected) {
+            console.log("Blocking state initialized: Blank state.");
 
-            // 3. Room Service (#Room_Serv) block kar do, baaki saare payment chalu rahenge
-            if ($paymentContainer.length) {
-                // Saare payment buttons ko pehle active karo (taaki dusre use ho sakein)
-                $paymentContainer.find("input[type='radio']").prop("disabled", false);
-
-                // Lekin sirf Room Service (#Room_Serv) ko specifically disabled aur uncheck kar do
-                $("#Room_Serv").prop("disabled", true).prop("checked", false);
-
-                // Pure payment container ko lock nahi karenge, use click hone denge
-                $paymentContainer.css({
-                    "opacity": "1",
-                    "pointer-events": "auto",
-                    "cursor": "auto"
-                });
-            }
-
-            $("[id$='hdnRTID']").val("");
-            $("[id$='hdnGCID']").val("");
-
-        } else if (isNcChecked) {
-            // Condition 2: Agar NC Checked hai (Pehle jaisa hi)
-            $ncCheckbox.prop("disabled", false);
+            $ncCheckbox.prop("checked", false).prop("disabled", true).attr("disabled", "disabled");
 
             $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
-                "background-color": "#eeeeee",
-                "cursor": "not-allowed",
-                "pointer-events": "none"
+                "background-color": "#eeeeee", "cursor": "not-allowed", "pointer-events": "none"
+            });
+            $roomDisplay.val("Not Applicable (Blank)").prop("disabled", true).css({
+                "background-color": "#eeeeee", "cursor": "not-allowed", "color": "#ff0000"
             });
 
             if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
                 $roomInput.autocomplete("close");
             }
 
-            $roomDisplay.val("Not Applicable (NC)").prop("disabled", true).css({
-                "background-color": "#eeeeee",
-                "cursor": "not-allowed",
-                "color": "#ff0000",
-                "font-weight": "bold"
+            if ($paymentContainer.length) {
+                $paymentContainer.find("input[type='radio']").prop("disabled", false).removeAttr("disabled");
+                $("#Room_Serv").prop("checked", false).prop("disabled", true).attr("disabled", "disabled");
+                $("#NC").prop("checked", false).prop("disabled", true).attr("disabled", "disabled");
+
+                var currentChecked = $("input[name='fav_language']:checked").val();
+                if (currentChecked === "NC" || currentChecked === "Room Service") {
+                    $("#cash").prop("checked", true);
+                }
+            }
+            return;
+        }
+
+        if (isNcExplicitlySelected) {
+            $ncCheckbox.prop("disabled", false).removeAttr("disabled");
+
+            $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
+                "background-color": "#eeeeee", "cursor": "not-allowed", "pointer-events": "none"
+            });
+
+            if ($roomDisplay.val() !== "Not Applicable (NC)") {
+                $roomDisplay.val("Not Applicable (NC)");
+            }
+
+            $roomDisplay.prop("disabled", true).css({
+                "background-color": "#eeeeee", "cursor": "not-allowed", "color": "#ff0000", "font-weight": "bold"
             });
 
             $("[id$='hdnRTID']").val("");
             $("[id$='hdnGCID']").val("");
 
             if ($paymentContainer.length) {
-                $paymentContainer.find("input[type='radio']").prop("disabled", true);
+                $paymentContainer.find("input[type='radio']").not("#NC").prop("disabled", true).attr("disabled", "disabled");
+                $("#NC").prop("disabled", false).removeAttr("disabled").prop("checked", true);
             }
-        } else {
-            // Condition 3: Agar Room Number data maujood hai (Pehle jaisa hi)
-            $ncCheckbox.prop("disabled", false);
-
+        }
+        else {
+            $ncCheckbox.prop("disabled", false).removeAttr("disabled");
             $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
-                "background-color": "#eeeeee",
-                "cursor": "not-allowed",
-                "pointer-events": "none"
+                "background-color": "#eeeeee", "cursor": "not-allowed", "pointer-events": "none"
             });
-
-            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                $roomInput.autocomplete("close");
-            }
-
             if ($paymentContainer.length) {
-                $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true);
-                $("#Room_Serv").prop("disabled", false).prop("checked", true); // Room Service chalu aur select ho jayegi
-                $paymentContainer.css({
-                    "opacity": "1",
-                    "pointer-events": "auto",
-                    "cursor": "auto"
-                });
+                $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true).attr("disabled", "disabled");
+                $("#Room_Serv").prop("disabled", false).removeAttr("disabled").prop("checked", true);
             }
-
-            if ($roomDisplay.val() === "Not Applicable (NC)") {
+            if ($roomDisplay.val() === "Not Applicable (NC)" || $roomDisplay.val() === "Not Applicable (Blank)") {
                 $roomDisplay.val("");
             }
-            $roomDisplay.css({
-                "background-color": "#f9f9f9",
-                "color": "black"
-            });
+            $roomDisplay.css({ "background-color": "#f9f9f9", "color": "black" });
         }
     }
 
     $(document).ready(function () {
-        var urlParams = getUrlVars();
+        $("input[name='fav_language']").on("change", function () {
+            checkNcAndLockRoom();
+        });
 
+        var urlParams = getUrlVars();
         var id = urlParams["id"];
         var tablestatus = urlParams["status"];
         var orderType = urlParams["orderType"];
@@ -727,256 +573,211 @@
             }
         }
 
-        // --- 🚀 CLOSE TABLE MASTER LOGIC (WITH GCID FALLBACK PROTECTION) ---
-        $(document.body).on("click", "#closetable", function () {
-            var id = getUrlVars()["id"];
-            var selectedPaymentMode = $("input[name='fav_language']:checked").val() || "CASH";
+        setTimeout(function () {
+            checkNcAndLockRoom();
+        }, 200);
+    });
 
-            // Direct payment modes list
-            var isDirectPayment = ["CASH", "CARD", "PAYTM", "PHONEPE", "GPAY", "MULTIPLE", "NC"].includes(selectedPaymentMode);
+    // --- 🚀 CLOSE TABLE MASTER LOGIC (WITH INTEGRATED PRINT PREVIEW ROUTING) ---
+    // --- 🚀 CLOSE TABLE MASTER LOGIC (WITH SILENT LAN PRINT + PREVIEW ROUTING) ---
+    $(document.body).on("click", "#closetable", function () {
+        var id = getUrlVars()["id"];
+        var selectedPaymentMode = $("input[name='fav_language']:checked").val() || "CASH";
+        var isDirectPayment = ["CASH", "CARD", "PAYTM", "PHONEPE", "GPAY", "MULTIPLE", "NC"].includes(selectedPaymentMode);
 
-            // --- 1. CURRENT UI VALUES ---
-            var currentSubTotal = parseFloat($("#subtotal").html()) || 0;
-            var finalCharges = parseFloat($("#lblcharge").html()) || 0;
-            var currentDiscount = parseFloat($("#lbldiscount").html()) || 0;
-            var currentCGST = parseFloat($("#lblCGST").html()) || 0;
-            var currentSGST = parseFloat($("#lblSGST").html()) || 0;
-            var currentGrandTotal = parseFloat($("#lblgrandtotal").html()) || 0;
-            var finalRoundedGrandTotal = Math.round(currentGrandTotal);
+        var currentSubTotal = parseFloat($("#subtotal").html()) || 0;
+        var finalCharges = parseFloat($("#lblcharge").html()) || 0;
+        var currentDiscount = parseFloat($("#lbldiscount").html()) || 0;
+        var currentCGST = parseFloat($("#lblCGST").html()) || 0;
+        var currentSGST = parseFloat($("#lblSGST").html()) || 0;
+        var currentGrandTotal = parseFloat($("#lblgrandtotal").html()) || 0;
+        var finalRoundedGrandTotal = Math.round(currentGrandTotal);
+        var isGstApplied = $('#isApplyGST').is(':checked');
 
-            var isGstApplied = $('#isApplyGST').is(':checked');
+        var inputRoomNo = $("#txtRoomNo").val() ? $("#txtRoomNo").val().toString().trim() : "";
+        var displayRoomNo = $("#txtRoomNoDisplay").val() ? $("#txtRoomNoDisplay").val().toString().trim() : "";
+        var finalRoomNo = inputRoomNo || displayRoomNo;
 
-            // --- 2. ROOM & GCID RESOLUTION WITH LIVE FALLBACK ---
-            var inputRoomNo = $("#txtRoomNo").val() ? $("#txtRoomNo").val().toString().trim() : "";
-            var displayRoomNo = $("#txtRoomNoDisplay").val() ? $("#txtRoomNoDisplay").val().toString().trim() : "";
-            var finalRoomNo = inputRoomNo || displayRoomNo;
+        var rawGcid = $("#hdnGCID").val();
+        var gcidValue = parseInt(rawGcid ? rawGcid.toString().trim() : "0", 10);
 
-            var rawGcid = $("#hdnGCID").val();
-            var gcidValue = parseInt(rawGcid ? rawGcid.toString().trim() : "0", 10);
-
-            // 🔥 [CRITICAL RECOVERY]: अगर gcidValue 0 या null है, लेकिन रूम नंबर मौजूद है, तो API से लाइव मैच कराओ
-            if ((gcidValue === 0 || isNaN(gcidValue)) && finalRoomNo !== "" && finalRoomNo.toLowerCase() !== "not assigned" && finalRoomNo.toLowerCase() !== "not applicable (nc)") {
-                console.log("GCID 0 या Null मिला! लाइव रिकवरी इंजन शुरू हो रहा है रूम के लिए: " + finalRoomNo);
-
-                $.ajax({
-                    url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
-                    type: "GET",
-                    dataType: "json",
-                    async: false, // सिंक्रोनस रखेंगे ताकि GCID मिलने के बाद ही नीचे का कोड चले
-                    data: { companyid: 1040 },
-                    success: function (occupiedRoomsList) {
-                        $.each(occupiedRoomsList, function (index, item) {
-                            // रूम नंबर मैच होते ही GCID और RTID रिकवर कर लो
-                            if (item.RoomNo.toString().trim() === finalRoomNo.toString().trim()) {
-                                gcidValue = parseInt(item.GCID, 10);
-                                $("#hdnGCID").val(gcidValue);
-                                $("#hdnRTID").val(item.RTID);
-                                console.log("Success! GCID रिकवर हो गया: " + gcidValue);
-                                return false; // लूप ब्रेक करने के लिए
-                            }
-                        });
-                    }
-                });
-            }
-
-            // अब चेक करो कि रूम वैलिड असाइन हुआ है या पेमेंट मोड Room Service है
-            var isRoomAssigned = (gcidValue > 0) || (finalRoomNo !== "" && finalRoomNo !== "0" && finalRoomNo.toLowerCase() !== "not assigned" && finalRoomNo.toLowerCase() !== "not applicable (nc)");
-
-            if (selectedPaymentMode.toLowerCase() === "room service" || selectedPaymentMode.toLowerCase() === "room_serv") {
-                isRoomAssigned = true;
-            }
-
-            // --- 3. SALES ORDER OBJECT CREATION ---
-            var salesOrder = new Object();
-            var salesOrderList = [];
-
-            salesOrder.OrderID = id;
-            salesOrder.nLoginID = localStorage.getItem("nLoginId");
-            salesOrder.sUserFullName = localStorage.getItem("sUserFullName");
-            salesOrder.TableName = localStorage.getItem("current_tableName") || $("#lbltablename").text().trim() || "";
-            salesOrder.CustomerName = $("#txtcustname").val();
-            salesOrder.PayMode = selectedPaymentMode;
-            salesOrder.GrandTotal = finalRoundedGrandTotal;
-            salesOrder.SubTotal = currentSubTotal;
-            salesOrder.TotalDiscount = currentDiscount;
-            salesOrder.Charge = finalCharges;
-            salesOrder.CGST = currentCGST;
-            salesOrder.SGST = currentSGST;
-            salesOrder.isApplyGST = isGstApplied;
-            salesOrder.CustomerNumber = $("#txtcustnumber").val();
-            salesOrder.CustomerAddress = $("#txtcustaddress").val();
-            salesOrder.RoomNumber = finalRoomNo;
-
-            salesOrderList.push(salesOrder);
-
-            // --- 4. PAYLOAD PREPARATION (Items Mapping) ---
-            var billPayloadArray = [];
-            var today = new Date();
-            var formattedDate = today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getFullYear();
-
-            var discountRatio = currentSubTotal > 0 ? (currentDiscount / currentSubTotal) : 0;
-            var rows = $("#OrderRow tr");
-            var totalItems = rows.length;
-            var runningTotal = 0;
-
-            rows.each(function (index) {
-                var menuDesc = $(this).find("td:eq(0)").text().trim();
-                var menuId = $(this).find("td:eq(0)").attr("menuid");
-                var rate = parseFloat($(this).find(".OneUnitPrice").text()) || 0;
-                var qty = parseFloat($(this).find("td:eq(2)").text()) || 0;
-
-                var itemTotalRaw = rate * qty;
-                var itemDiscount = itemTotalRaw * discountRatio;
-                var itemAfterDiscount = itemTotalRaw - itemDiscount;
-
-                var itemSgst = 0;
-                var itemCgst = 0;
-                if (isGstApplied) {
-                    itemSgst = Number((itemAfterDiscount * 0.025).toFixed(2));
-                    itemCgst = Number((itemAfterDiscount * 0.025).toFixed(2));
-                }
-
-                var itemNetTotal = Number((itemAfterDiscount + itemSgst + itemCgst).toFixed(2));
-                var finalItemNetTotal = 0;
-                var roundOff = 0;
-
-                if (index === totalItems - 1) {
-                    finalItemNetTotal = parseFloat((finalRoundedGrandTotal - runningTotal).toFixed(2));
-                    roundOff = parseFloat((finalItemNetTotal - itemNetTotal).toFixed(2));
-                } else {
-                    finalItemNetTotal = parseFloat(itemNetTotal.toFixed(2));
-                    runningTotal += finalItemNetTotal;
-                    roundOff = 0;
-                }
-
-                billPayloadArray.push({
-                    "companyid": 1040,
-                    "kotno": id,
-                    "tablename": localStorage.getItem("current_tableName") || "",
-                    "billno": id,
-                    "date": formattedDate,
-                    "MenuDescription": menuDesc,
-                    "rate": rate,
-                    "quantity": qty,
-                    "guest": $("#txtcustname").val() || "Walk-in Guest",
-                    "total": parseFloat(itemAfterDiscount.toFixed(2)),
-                    "sgst": parseFloat(itemSgst.toFixed(2)),
-                    "cgst": parseFloat(itemCgst.toFixed(2)),
-                    "nettotal": finalItemNetTotal,
-                    "roundoff": roundOff,
-                    "gcid": gcidValue, // 🔥 अब यहाँ कभी भी 0 या null नहीं जाएगा!
-                    "menuid": menuId,
-                    "paymentMode": selectedPaymentMode
-                });
-            });
-
-            // --- 5. AJAX PIPELINE SEND ---
+        if ((gcidValue === 0 || isNaN(gcidValue)) && finalRoomNo !== "" && finalRoomNo.toLowerCase() !== "not assigned" && finalRoomNo.toLowerCase() !== "not applicable (nc)") {
             $.ajax({
-                type: "POST",
-                data: JSON.stringify(salesOrderList),
-                url: apiUrl + '/api/Item/UpdateOrderStatus/' + id,
-                contentType: "application/json;charset=utf-8",
-                success: function (response) {
-
-                    // 🏨 होटल रूम बिल रूटिंग
-                    if (isRoomAssigned && gcidValue > 0) {
-                        console.log("Executing Route -> AddRestaurantBill API with GCID: " + gcidValue);
-                        $.ajax({
-                            type: "POST",
-                            url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddRestaurantBill",
-                            data: JSON.stringify(billPayloadArray),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (res) {
-                                alert("Hotel Room Bill Saved Successfully! Total: " + finalRoundedGrandTotal);
-                                HideControls();
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("AddRestaurantBill Error:", xhr.responseText);
-                                alert("Error executing Hotel Restaurant Room Bill endpoint.");
-                            }
-                        });
-                    }
-                    // 💵 काउंटर/कैश बिल रूटिंग
-                    else if (isDirectPayment) {
-                        console.log("Executing Route -> AddCashFoodBill API");
-                        $.ajax({
-                            type: "POST",
-                            url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddCashFoodBill",
-                            data: JSON.stringify(billPayloadArray),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (res) {
-                                alert("Counter Bill Closed Successfully! Total: " + finalRoundedGrandTotal);
-                                HideControls();
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("AddCashFoodBill Error:", xhr.responseText);
-                                alert("Error executing Cash Food Bill endpoint.");
-                            }
-                        });
-                    }
-                    else {
-                        alert("Order Updated Successfully!");
-                        HideControls();
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Master Order Database Sync Failed.");
+                url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
+                type: "GET", dataType: "json", async: false, data: { companyid: 1040 },
+                success: function (occupiedRoomsList) {
+                    $.each(occupiedRoomsList, function (index, item) {
+                        if (item.RoomNo.toString().trim() === finalRoomNo.toString().trim()) {
+                            gcidValue = parseInt(item.GCID, 10);
+                            $("#hdnGCID").val(gcidValue);
+                            $("#hdnRTID").val(item.RTID);
+                            return false;
+                        }
+                    });
                 }
             });
-        });
-
-        // Navigation Handlers
-        $(document.body).on("click", "#btnback", function () {
-            window.location.href = "/Take_away.aspx?status=" + tablestatus + "&orderType=" + orderType + "&id=" + id + "&tablename=" + tablename + "";
-        });
-        $(document.body).on("click", "#gototorderlist", function () {
-            window.location.href = "/Restaurant/Table/Orderlist.aspx?orderType=" + orderType + "";
-        });
-        $(document.body).on("click", "#printbill", function () {
-            window.location.href = "/Print.aspx?id=" + id + "";
-        });
-        $(document.body).on("click", "#gotovoid", function () {
-            window.location.href = "/Restaurant/Table/VoidOrderlist.aspx";
-        });
-
-        // --- 🖨️ RAVI'S THERMAL PRINTER ROUTINES ---
-        function openWindowForPrint(url) {
-            var myWindow = window.open(url, "myWindow", "width=200,height=100");
-            setTimeout(function () { if (myWindow) myWindow.close(); }, 200);
         }
 
-        $(document.body).on("click", "#printwithoutgst", function () {
-            if ($('#OrderRow tr').length > 0) {
-                var orderID = getUrlVars()["id"];
-                if (orderID) {
-                    var printUrl = "http://127.0.0.1:8085/api/Printing/Print/" + orderID + "?printerName=LAN1";
-                    openWindowForPrint(printUrl);
-                } else {
-                    alert("Order ID not found!");
-                }
-            } else {
-                alert("The cart is empty. Cannot generate a print!");
+        var isRoomAssigned = (gcidValue > 0) || (finalRoomNo !== "" && finalRoomNo !== "0" && finalRoomNo.toLowerCase() !== "not assigned" && finalRoomNo.toLowerCase() !== "not applicable (nc)");
+        if (selectedPaymentMode.toLowerCase() === "room service" || selectedPaymentMode.toLowerCase() === "room_serv") {
+            isRoomAssigned = true;
+        }
+
+        var salesOrder = new Object();
+        var salesOrderList = [];
+
+        salesOrder.OrderID = id;
+        salesOrder.nLoginID = localStorage.getItem("nLoginId");
+        salesOrder.sUserFullName = localStorage.getItem("sUserFullName");
+        salesOrder.TableName = localStorage.getItem("current_tableName") || $("#lbltablename").text().trim() || "";
+        salesOrder.CustomerName = $("#txtcustname").val();
+        salesOrder.PayMode = selectedPaymentMode;
+        salesOrder.GrandTotal = finalRoundedGrandTotal;
+        salesOrder.SubTotal = currentSubTotal;
+        salesOrder.TotalDiscount = currentDiscount;
+        salesOrder.Charge = finalCharges;
+        salesOrder.CGST = currentCGST;
+        salesOrder.SGST = currentSGST;
+        salesOrder.isApplyGST = isGstApplied;
+        salesOrder.CustomerNumber = $("#txtcustnumber").val();
+        salesOrder.CustomerAddress = $("#txtcustaddress").val();
+        salesOrder.RoomNumber = finalRoomNo;
+
+        salesOrderList.push(salesOrder);
+
+        var billPayloadArray = [];
+        var today = new Date();
+        var formattedDate = today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getFullYear();
+
+        var discountRatio = currentSubTotal > 0 ? (currentDiscount / currentSubTotal) : 0;
+        var rows = $("#OrderRow tr");
+        var totalItems = rows.length;
+        var runningTotal = 0;
+
+        rows.each(function (index) {
+            var menuDesc = $(this).find("td:eq(0)").text().trim();
+            var menuId = $(this).find("td:eq(0)").attr("menuid");
+            var rate = parseFloat($(this).find(".OneUnitPrice").text()) || 0;
+            var qty = parseFloat($(this).find("td:eq(2)").text()) || 0;
+
+            var itemTotalRaw = rate * qty;
+            var itemDiscount = itemTotalRaw * discountRatio;
+            var itemAfterDiscount = itemTotalRaw - itemDiscount;
+
+            var itemSgst = 0, itemCgst = 0;
+            if (isGstApplied) {
+                itemSgst = Number((itemAfterDiscount * 0.025).toFixed(2));
+                itemCgst = Number((itemAfterDiscount * 0.025).toFixed(2));
             }
+
+            var itemNetTotal = Number((itemAfterDiscount + itemSgst + itemCgst).toFixed(2));
+            var finalItemNetTotal = 0, roundOff = 0;
+
+            if (index === totalItems - 1) {
+                finalItemNetTotal = parseFloat((finalRoundedGrandTotal - runningTotal).toFixed(2));
+                roundOff = parseFloat((finalItemNetTotal - itemNetTotal).toFixed(2));
+            } else {
+                finalItemNetTotal = parseFloat(itemNetTotal.toFixed(2));
+                runningTotal += finalItemNetTotal;
+                roundOff = 0;
+            }
+
+            billPayloadArray.push({
+                "companyid": 1040, "kotno": id, "tablename": localStorage.getItem("current_tableName") || "",
+                "billno": id, "date": formattedDate, "MenuDescription": menuDesc, "rate": rate, "quantity": qty,
+                "guest": $("#txtcustname").val() || "Walk-in Guest", "total": parseFloat(itemAfterDiscount.toFixed(2)),
+                "sgst": parseFloat(itemSgst.toFixed(2)), "cgst": parseFloat(itemCgst.toFixed(2)), "nettotal": finalItemNetTotal,
+                "roundoff": roundOff, "gcid": gcidValue, "menuid": menuId, "paymentMode": selectedPaymentMode
+            });
         });
 
-        $(document.body).on("click", "#printbill", function () {
-            if ($('#OrderRow tr').length > 0) {
-                var orderID = getUrlVars()["id"];
-                if (orderID) {
-                    var printUrl = "http://127.0.0.1:8085/api/Printing/PrintWithGst/" + orderID + "?printerName=LAN1";
-                    openWindowForPrint(printUrl);
-                } else {
-                    alert("Order ID not found!");
-                }
-            } else {
-                alert("The cart is empty. Cannot generate a print!");
+        // 🛠️ INTERNAL HELPER: Silent LAN Printer Trigger Engine
+        function executeSilentLanPrintAndRedirect() {
+            if (id) {
+                // Agar GST laga h toh GST waala silent link hit hoga, nahi toh simple waala
+                var targetPrintUrl = isGstApplied
+                    ? "http://127.0.0.1:8085/api/Printing/PrintWithGst/" + id + "?printerName=LAN1"
+                    : "http://127.0.0.1:8085/api/Printing/Print/" + id + "?printerName=LAN1";
+
+                // Silent window call executing in background
+                openWindowForPrint(targetPrintUrl);
+                console.log("Silent LAN Print triggered for Order: " + id);
             }
+
+            // Background processing complete -> Move to dynamic review page
+            setTimeout(function () {
+                window.location.href = "/Print.aspx?id=" + id;
+            }, 300);
+        }
+
+        // --- AJAX DATA SYNC ROUTING PIPELINE ---
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(salesOrderList),
+            url: apiUrl + '/api/Item/UpdateOrderStatus/' + id,
+            contentType: "application/json;charset=utf-8",
+            success: function (response) {
+                // 🏨 CASE A: HOTEL ROOM POSTING
+                if (isRoomAssigned && gcidValue > 0) {
+                    $.ajax({
+                        type: "POST", url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddRestaurantBill",
+                        data: JSON.stringify(billPayloadArray), contentType: "application/json; charset=utf-8", dataType: "json",
+                        success: function (res) {
+                            alert("Hotel Room Bill Saved Successfully! Total: " + finalRoundedGrandTotal);
+                            HideControls();
+                            executeSilentLanPrintAndRedirect(); // 🔥 1. Silent LAN print out + 2. Redirect
+                        },
+                        error: function (xhr) { alert("Error executing Hotel Restaurant Room Bill endpoint."); }
+                    });
+                }
+                // 💵 CASE B: DIRECT COUNTER PAYMENTS (CASH, UPI, CARDS)
+                else if (isDirectPayment) {
+                    $.ajax({
+                        type: "POST", url: "https://hotelpremierinn.rstpms.com/Hotel/API/AddCashFoodBill",
+                        data: JSON.stringify(billPayloadArray), contentType: "application/json; charset=utf-8", dataType: "json",
+                        success: function (res) {
+                            alert("Counter Bill Closed Successfully! Total: " + finalRoundedGrandTotal);
+                            HideControls();
+                            executeSilentLanPrintAndRedirect(); // 🔥 1. Silent LAN print out + 2. Redirect
+                        },
+                        error: function (xhr) { alert("Error executing Cash Food Bill endpoint."); }
+                    });
+                }
+                else {
+                    alert("Order Updated Successfully!");
+                    HideControls();
+                    executeSilentLanPrintAndRedirect();
+                }
+            },
+            error: function (xhr) { alert("Master Order Database Sync Failed."); }
         });
     });
 
-    // Calculations Modules
+    $(document.body).on("click", "#btnback", function () {
+        window.location.href = "/Take_away.aspx?status=" + tablestatus + "&orderType=" + orderType + "&id=" + id + "&tablename=" + tablename + "";
+    });
+    $(document.body).on("click", "#gototorderlist", function () {
+        window.location.href = "/Restaurant/Table/Orderlist.aspx?orderType=" + orderType + "";
+    });
+    $(document.body).on("click", "#printbill", function () {
+        window.location.href = "/Print.aspx?id=" + id + "";
+    });
+    $(document.body).on("click", "#gotovoid", function () {
+        window.location.href = "/Restaurant/Table/VoidOrderlist.aspx";
+    });
+
+    function openWindowForPrint(url) {
+        var myWindow = window.open(url, "myWindow", "width=200,height=100");
+        setTimeout(function () { if (myWindow) myWindow.close(); }, 200);
+    }
+
+    $(document.body).on("click", "#printwithoutgst", function () {
+        if ($('#OrderRow tr').length > 0) {
+            var orderID = getUrlVars()["id"];
+            if (orderID) openWindowForPrint("http://127.0.0.1:8085/api/Printing/Print/" + orderID + "?printerName=LAN1");
+        } else { alert("The cart is empty."); }
+    });
+
     function recalculateAll(subTotal, discountAmount, charges) {
         var totalAfterDisc = subTotal - discountAmount;
         var isGstChecked = $('#isApplyGST').is(':checked');
@@ -1001,71 +802,54 @@
         $("#lblRoundOff").html((roundOffValue >= 0 ? "+" : "") + roundOffValue.toFixed(2));
 
         var orderId = getUrlVars()["id"];
-        var billingData = {
-            discountPercent: $("#txtdiscount").val() || "0",
-            discountValue: discountAmount.toFixed(2),
-            chargePercent: $("#txtchargepercent").val() || "0",
-            chargeValue: charges.toFixed(2),
-            roundOff: roundOffValue.toFixed(2),
-            grandTotal: roundedGrandTotal
-        };
-        localStorage.setItem("bill_data_" + orderId, JSON.stringify(billingData));
+        localStorage.setItem("bill_data_" + orderId, JSON.stringify({
+            discountPercent: $("#txtdiscount").val() || "0", discountValue: discountAmount.toFixed(2),
+            chargePercent: $("#txtchargepercent").val() || "0", chargeValue: charges.toFixed(2),
+            roundOff: roundOffValue.toFixed(2), grandTotal: roundedGrandTotal
+        }));
     }
 
     function CalculateDisc() {
         var discountPercent = $("#txtdiscount").val().trim();
         var subTotal = parseFloat($("#subtotal").html()) || 0;
         var currentCharges = parseFloat($("#lblcharge").html()) || 0;
-
         if (discountPercent !== "" && !isNaN(discountPercent) && parseFloat(discountPercent) >= 0) {
             $("#txtdisccountvalue").val("").prop("disabled", true);
-            var discountAmount = (subTotal * parseFloat(discountPercent)) / 100;
-            recalculateAll(subTotal, discountAmount, currentCharges);
-        } else {
-            ResetToOriginalTotal();
-        }
+            recalculateAll(subTotal, (subTotal * parseFloat(discountPercent)) / 100, currentCharges);
+        } else { ResetToOriginalTotal(); }
     }
 
     function CalculateDiscountbasedonValue() {
         var discountValue = $("#txtdisccountvalue").val().trim();
         var subTotal = parseFloat($("#subtotal").html()) || 0;
         var currentCharges = parseFloat($("#lblcharge").html()) || 0;
-
         if (discountValue !== "" && !isNaN(discountValue) && parseFloat(discountValue) >= 0) {
             $("#txtdiscount").val("").prop("disabled", true);
             recalculateAll(subTotal, parseFloat(discountValue), currentCharges);
-        } else {
-            ResetToOriginalTotal();
-        }
+        } else { ResetToOriginalTotal(); }
     }
 
     function CalculateCharge() {
         var chargeVal = parseFloat($("#txtcharges").val()) || 0;
         var subTotal = parseFloat($("#subtotal").html()) || 0;
         var currentDisc = parseFloat($("#lbldiscount").html()) || 0;
-
         if (chargeVal >= 0) {
             $("#txtchargepercent").val("").prop("disabled", (chargeVal > 0));
             $("#lblcharge").html(chargeVal.toFixed(2));
             recalculateAll(subTotal, currentDisc, chargeVal);
-        } else {
-            ResetToOriginalTotal();
-        }
+        } else { ResetToOriginalTotal(); }
     }
 
     function CalculateChargebasedonPercent() {
         var chargePercent = parseFloat($("#txtchargepercent").val()) || 0;
         var subTotal = parseFloat($("#subtotal").html()) || 0;
         var currentDisc = parseFloat($("#lbldiscount").html()) || 0;
-
         if (chargePercent > 0) {
             $("#txtcharges").val("").prop("disabled", true);
             var calculatedCharge = (subTotal * chargePercent) / 100;
             $("#lblcharge").html(calculatedCharge.toFixed(2));
             recalculateAll(subTotal, currentDisc, calculatedCharge);
-        } else {
-            ResetToOriginalTotal();
-        }
+        } else { ResetToOriginalTotal(); }
     }
 
     function ResetToOriginalTotal() {
@@ -1076,10 +860,7 @@
 
     function DisplayOrderItems(id) {
         $.ajax({
-            type: "GET",
-            url: apiUrl + '/api/Item/OrderDetailbyOrderID/' + id,
-            dataType: "json",
-            contentType: "application/json;charset=utf-8",
+            type: "GET", url: apiUrl + '/api/Item/OrderDetailbyOrderID/' + id, dataType: "json", contentType: "application/json;charset=utf-8",
             success: function (data) {
                 var orderDetail = "";
                 $.each(data, function (i) {
@@ -1093,18 +874,12 @@
     function GivenReturnCalculation() {
         var givenamnt = parseFloat($('#txtgivenamount').val()) || 0;
         var grandtot = parseFloat($("#lblgrandtotal").html()) || 0;
-        if (givenamnt > 0) {
-            $('#lblreturnamount').html((givenamnt - grandtot).toFixed(2));
-        } else {
-            $('#lblreturnamount').html("0.00");
-        }
+        $('#lblreturnamount').html(givenamnt > 0 ? (givenamnt - grandtot).toFixed(2) : "0.00");
     }
 
     function getUrlVars() {
         var vars = [];
-        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-            vars[key] = value;
-        });
+        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) { vars[key] = value; });
         return vars;
     }
 
@@ -1117,27 +892,9 @@
     function SetPaymentMode(PayMode) {
         $("input[name='fav_language']").prop("checked", false);
         if (!PayMode) return;
-
         var cleanMode = PayMode.toLowerCase().trim();
-        var targetId = "";
-
-        if (cleanMode === "room service" || cleanMode === "room_serv" || cleanMode === "room serv") {
-            targetId = "Room_Serv";
-        } else if (cleanMode === "cash") {
-            targetId = "cash";
-        } else if (cleanMode === "card") {
-            targetId = "card";
-        } else if (cleanMode === "paytm") {
-            targetId = "paytm";
-        } else if (cleanMode === "phonepe") {
-            targetId = "phonepe";
-        } else if (cleanMode === "gpay") {
-            targetId = "gpay";
-        } else if (cleanMode === "nc") {
-            targetId = "NC";
-        }
-
-        if (targetId !== "") {
+        var targetId = (cleanMode === "room service" || cleanMode === "room_serv" || cleanMode === "room serv") ? "Room_Serv" : cleanMode;
+        if (["cash", "card", "paytm", "phonepe", "gpay", "NC", "Room_Serv"].includes(targetId)) {
             $("#" + targetId).prop("checked", true);
         }
     }
@@ -1146,8 +903,7 @@
         if (orderType === "1") $("#gototorderlist").val('Back to Take Away Report');
         if (orderType === "2") $("#gototorderlist").val('Back to Door Delivery Report');
         if (orderType === "3" || orderType === "4") {
-            $("#divtablename").show();
-            $("#lbltablename").html(tablename);
+            $("#divtablename").show(); $("#lbltablename").html(tablename);
             $("#gototorderlist").val(orderType === "3" ? 'Back to Dine-In Report' : 'Back to Dastarkhan Report');
         }
     }
@@ -1155,14 +911,8 @@
     function GetTableName(tableID) {
         var rettablename = "";
         $.ajax({
-            type: "GET",
-            url: apiUrl + '/api/DineIn/GetTableName/' + tableID,
-            dataType: "json",
-            contentType: "application/json;charset=utf-8",
-            async: false,
-            success: function (response) {
-                if (response) rettablename = response;
-            }
+            type: "GET", url: apiUrl + '/api/DineIn/GetTableName/' + tableID, dataType: "json", contentType: "application/json;charset=utf-8", async: false,
+            success: function (response) { if (response) rettablename = response; }
         });
         return rettablename;
     }
@@ -1171,18 +921,11 @@
         minLength: 1,
         source: function (request, response) {
             $.ajax({
-                url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
-                type: "GET",
-                dataType: "json",
-                data: { companyid: 1040 }, // 🔥 FIXED BACK TO 1040
+                url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms", type: "GET", dataType: "json", data: { companyid: 1040 },
                 success: function (data) {
-                    var uniqueRooms = [];
-                    var roomSet = new Set();
+                    var uniqueRooms = [], roomSet = new Set();
                     $.each(data, function (index, item) {
-                        if (!roomSet.has(item.RoomNo)) {
-                            roomSet.add(item.RoomNo);
-                            uniqueRooms.push(item);
-                        }
+                        if (!roomSet.has(item.RoomNo)) { roomSet.add(item.RoomNo); uniqueRooms.push(item); }
                     });
                     response($.map(uniqueRooms, function (item) {
                         return { label: item.RoomNo, value: item.RoomNo, rtId: item.RTID, gcid: item.GCID };
@@ -1191,9 +934,7 @@
             });
         },
         select: function (event, ui) {
-            $("#txtRoomNo").val(ui.item.value);
-            $("#hdnRTID").val(ui.item.rtId);
-            $("#hdnGCID").val(ui.item.gcid);
+            $("#txtRoomNo").val(ui.item.value); $("#hdnRTID").val(ui.item.rtId); $("#hdnGCID").val(ui.item.gcid);
             return false;
         }
     });
@@ -1210,7 +951,3 @@
         };
     </script>
 </asp:Content>
-
-
-
-

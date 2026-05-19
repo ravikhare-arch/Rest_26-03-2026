@@ -979,7 +979,7 @@ table.dataTable {
                     "<td>" + item.OrderTime + "</td>" +
                     "<td><small>" + item.OrderTypeName + "</small></td>" +
                     "<td>" + (item.Rider || '-') + "</td>" +
-                    "<td>" + (item.Guest || 'Guest') + "</td>" +
+                    "<td>" + (item.CustomerName || '') + "</td>" +
                     "<td><span class='label label-status " + statusClass + "'>" + item.TableStatus + "</span></td>" +
                     "<td>" + (item.RoomNo || '-') + "</td>" +
                     "<td class='text-right'>₹" + svc.toFixed(2) + "</td>" +

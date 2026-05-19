@@ -19,10 +19,14 @@ public partial class NCMaster : System.Web.UI.Page
             {
                 string token = DateTime.Now.Ticks.ToString();
                 Session["NCMaster"] = token;
+
+                // Agar 'viewstate' ek normal property/variable hai toh thik hai, 
+                // nahi toh standard treeka: ViewState["NCMaster"] = token; hota hai.
                 viewstate = token;
 
-                // Order Type Dropdown Fill kerna
-                objordertype.ddlOperation(objordertype, "Show", "", ddlordertype);
+                // ORDER TYPE DROPDOWN FILL LOGIC COMMENTED OUT
+                // Kyunki front-end se dropdown ko comment kar diya hai, isko chalane par error aa sakta hai.
+                // objordertype.ddlOperation(objordertype, "Show", "", ddlordertype);
             }
         }
         catch (Exception ex)

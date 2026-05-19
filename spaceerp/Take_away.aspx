@@ -265,20 +265,69 @@
             // 1. Page load hote hi data fetch karega
             loadNCDropdownData();
 
-            // 2. Input box ya arrow trigger par click karne par dropdown toggle hoga
-            $("#txtNCName, #btnDropdownTrigger").on("click", function (e) {
+            // 2. Input box par click ya type karne par dropdown dikhao aur filter karo
+            $("#txtNCName").on("focus click keyup", function (e) {
                 e.stopPropagation();
-                $("#ncDropdownList").stop(true, true).slideToggle(200);
+
+                var searchText = $(this).val().toLowerCase().trim();
+                var $listItems = $("#ulNCItems li.nc-item");
+
+                // Agar user ne kuch type kiya hai toh filter karo
+                if (searchText !== "") {
+                    var matchCount = 0;
+                    $listItems.each(function () {
+                        var itemText = $(this).text().toLowerCase();
+                        if (itemText.indexOf(searchText) > -1) {
+                            $(this).show();
+                            matchCount++;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    // Agar koi match nahi mila toh "No Results Found" message dikhao
+                    if (matchCount === 0) {
+                        if ($("#ncNoResults").length === 0) {
+                            $("#ulNCItems").append('<li id="ncNoResults" class="list-group-item text-muted" style="padding:10px 14px; font-style:italic;">No matching records found</li>');
+                        }
+                    } else {
+                        $("#ncNoResults").remove();
+                    }
+                } else {
+                    // Agar input khali hai toh saare items dikhao
+                    $listItems.show();
+                    $("#ncNoResults").remove();
+                }
+
+                // Dropdown show karo smoothly
+                $("#ncDropdownList").show();
             });
 
-            // 3. Dropdown item select karne par text-box me set hona
-            $(document).on("click", "#ulNCItems li.nc-item", function () {
+            // 3. Chevron arrow click control (Toggle mechanism)
+            $("#btnDropdownTrigger").on("click", function (e) {
+                e.stopPropagation();
+                var $dropdown = $("#ncDropdownList");
+                if ($dropdown.is(":visible")) {
+                    $dropdown.hide();
+                } else {
+                    $("#ulNCItems li.nc-item").show(); // Saare items reset karo dikhane ke liye
+                    $("#ncNoResults").remove();
+                    $dropdown.stop(true, true).slideDown(200);
+                    $("#txtNCName").focus();
+                }
+            });
+
+            // 4. Dropdown item select karne par text-box me data fill karna (Using Event Delegation)
+            $(document).on("click", "#ulNCItems li.nc-item", function (e) {
+                e.stopPropagation();
                 var selectedValue = $(this).text().trim();
-                $("#txtNCName").val(selectedValue);
-                $("#ncDropdownList").hide();
+
+                $("#txtNCName").val(selectedValue).trigger('change'); // Value fill ho gayi
+                $("#ncDropdownList").hide(); // Dropdown close ho gaya
+                console.log("Selected NC Name Filled:", selectedValue);
             });
 
-            // 4. Dropdown ke bahar click karne par use automatic close karna
+            // 5. Dropdown ke bahar kahin bhi click karne par close ho jaye
             $(document).on("click", function (e) {
                 if (!$(e.target).closest('#ncDropdownList, #txtNCName, #btnDropdownTrigger').length) {
                     $("#ncDropdownList").hide();
@@ -287,10 +336,8 @@
         });
 
         function loadNCDropdownData() {
-            // 1. Hidden field se absolute API base URL uthayein (Agar khali hai toh current root use karein)
             var apiBaseUrl = $("[id$='hdnApiurl']").val() || "";
 
-            // Ensure karein ki URL trailing slash handle ho jaye
             if (apiBaseUrl !== "" && !apiBaseUrl.endsWith("/")) {
                 apiBaseUrl += "/";
             }
@@ -300,9 +347,9 @@
 
             $.ajax({
                 type: "GET",
-                url: fullApiUrl, // 🔥 FIXED: Ab sahi dynamic hosted API domain hit hoga
+                url: fullApiUrl,
                 contentType: "application/json; charset=utf-8",
-                dataType: "text", // Kyuki direct string collection list hai
+                dataType: "text",
                 success: function (data) {
                     var listItems = "";
                     try {
@@ -310,6 +357,7 @@
 
                         if (response && response.length > 0) {
                             for (var i = 0; i < response.length; i++) {
+                                // Yahan ensure kiya hai ki class 'nc-item' strictly maintained rahe dynamic binding me
                                 listItems += '<li class="list-group-item nc-item" style="cursor:pointer; padding:10px 14px; border-bottom:1px solid #f1f5f9; color:#334155; font-size:13px;">' + response[i] + '</li>';
                             }
                         } else {
@@ -495,17 +543,18 @@
                 </div>
                
              </div>--%>
-             <div class="col-md-8">
+            <div class="col-md-8">
     <div class="input-group" style="position: relative;">
         <span class="input-group-addon" style="font-weight:bold;">NC Name:</span>
-        <input type="text" id="txtNCName" class="form-control" placeholder="Click to select NC Name..." autocomplete="off" style="cursor: pointer;" readonly />
+        <!-- 🔥 FIX: 'readonly' attribute aur 'cursor:pointer' hata diya taaki typing chalu ho sake -->
+        <input type="text" id="txtNCName" class="form-control" placeholder="Type to search or click to select NC Name..." autocomplete="off" />
         <span class="input-group-addon" id="btnDropdownTrigger" style="cursor: pointer;"><i class="glyphicon glyphicon-chevron-down"></i></span>
     </div>
     
     <!-- Custom Dropdown Container -->
     <div id="ncDropdownList" style="display: none; position: absolute; width: 100%; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 4px; z-index: 999999 !important; box-shadow: 0px 4px 12px rgba(0,0,0,0.15);">
         <ul id="ulNCItems" class="list-group" style="margin: 0; padding: 0; list-style: none;">
-            <!-- Data dynamically append hoga -->
+            <!-- Data dynamically append hoga aur search filter yahi perform hoga -->
         </ul>
     </div>
 </div>

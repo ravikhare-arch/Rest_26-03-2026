@@ -8,23 +8,33 @@
 
     <style>
         .content-page .content { margin-left: auto; margin-right: auto; display: block; margin-top: 0px; margin-bottom: 0px; padding: 0px; }
-        .table { text-align: center !important; border: 1px solid #0098da !important; }
-        .table th { background: linear-gradient(90deg, #ff0015 31%, #595959 69%) !important; border: 1px solid white; padding: 5px; color: white !important; text-align:center; }
-        .table td { padding: 5px; vertical-align: middle !important; }
-        .modal-header { background: #1b82ec; color: #fff; }
+        
+        /* Table theme matches the blue outline of image */
+        .table { text-align: center !important; border: 1px solid #005580 !important; }
+        
+        /* Table Header changed from red/gray gradient to Deep Blue matching the image */
+        .table th { background: #005580 !important; border: 1px solid #fff; padding: 10px; color: white !important; text-align:center; font-weight: normal; }
+        .table td { padding: 8px; vertical-align: middle !important; border: 1px solid #ddd !important; }
+        
+        /* Modal Colors */
+        .modal-header { background: #005580; color: #fff; }
         .modal-footer { background: #f5f5f5; }
+        
+        /* Custom red 'Create New' button like the image */
+        .btn-create-custom { background-color: #e60000 !important; color: white !important; font-weight: bold; border: none; border-radius: 4px; padding: 6px 14px; }
+        .btn-create-custom:hover { background-color: #cc0000 !important; color: white !important; }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:Label ID="lblmsg" runat="server"></asp:Label>
     
-    <div class="panel panel-inverse" style="margin-top:20px;">
-        <div class="panel-heading" style="background:#242a30; color:white; padding:10px 15px;">
+    <div class="panel panel-inverse" style="margin-top:20px; border: 1px solid #003366;">
+        <div class="panel-heading" style="background:#003366; color:white; padding:10px 15px; position: relative;">
             <div class="panel-heading-btn pull-left">
-                <a href="#" class="btn btn-info btn-sm" id="lnklist" data-toggle="modal" data-target="#exampleModalCenter">Create New&nbsp;<i class="fa fa-plus"></i></a>
+                <a href="#" class="btn btn-create-custom btn-sm" id="lnklist" data-toggle="modal" data-target="#exampleModalCenter">Create New&nbsp;<i class="fa fa-plus"></i></a>
             </div>
-            <h4 class="panel-title text-center" style="margin:0; line-height:30px;">NC Master</h4>
+            <h4 class="panel-title text-center" style="margin:0; line-height:30px; font-weight: 500;">Area Master</h4>
         </div>
         
         <div class="panel-body">
@@ -32,26 +42,20 @@
                 <div id="divagentlist"></div>
             </div>
 
-            <!-- Create/Edit Modal Popup -->
             <div class="modal fade" id="exampleModalCenter" role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog modal-md" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
-                            <h4 class="modal-title">NC Master Entry</h4>
+                            <h4 class="modal-title">Create Name </h4>
                         </div>
                         <div class="modal-body">
                             <div class="form-horizontal">
+                                
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Order Type <span style="color:red;">*</span></label>
+                                    <label class="col-md-4 control-label">Area Name</label>
                                     <div class="col-md-8">
-                                        <asp:DropDownList ID="ddlordertype" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">NC Name <span style="color:red;">*</span></label>
-                                    <div class="col-md-8">
-                                        <asp:TextBox ID="txttablename" CssClass="form-control" runat="server" placeholder="Enter NC Name"></asp:TextBox>
+                                        <asp:TextBox ID="txttablename" CssClass="form-control" runat="server" placeholder="Enter Area Name"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -75,7 +79,6 @@
         </div>
     </div>
 
-    <!-- Delete Modal Popup -->
     <div class="modal fade" id="deleteModalCenter" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -108,7 +111,7 @@
                 if (validatedata()) {
                     var obj = {
                         AreaName: $("#<%=txttablename.ClientID %>").val(),
-                        OrderType: $("#<%=ddlordertype.ClientID %>").val()
+                        OrderType: "0" // Defaulting to 0 since order type field is commented out
                     };
 
                     $.ajax({
@@ -140,11 +143,10 @@
 
                 var id = $(this).closest('tr').find('.td_ncid').text().trim();
                 var ncName = $(this).closest('tr').find('.td_ncname').text().trim();
-                var orderTypeVal = $(this).closest('tr').find('.td_ordertypeid').text().trim();
 
                 $("#hdn_ncid").val(id);
                 $("#<%=txttablename.ClientID %>").val(ncName);
-                $("#<%=ddlordertype.ClientID %>").val(orderTypeVal);
+                // Order Type setting removed from edit since it's commented out
             });
 
             // UPDATE METHOD
@@ -152,7 +154,7 @@
                 if (validatedata()) {
                     var obj = {
                         AreaName: $("#<%=txttablename.ClientID %>").val(),
-                        OrderType: $("#<%=ddlordertype.ClientID %>").val(),
+                        OrderType: "0",
                         AreaID: $("#hdn_ncid").val()
                     };
 
@@ -220,16 +222,15 @@
 
         function cleardata() {
             $("#<%=txttablename.ClientID %>").val('');
-            $("#<%=ddlordertype.ClientID %>").val('0');
             $("#hdn_ncid").val('');
             $("#lbelsucess, #lbelupdatesucess, #lblrequirefield").hide();
         }
 
+        // VALIDATION METHOD (Order Type restriction removed, Mandatory constraint removed)
         function validatedata() {
             var ncname = $("#<%=txttablename.ClientID %>").val().trim();
-            var ordertype = $("#<%=ddlordertype.ClientID %>").val();
 
-            if (ncname == "" || ordertype == "0" || ordertype == null) {
+            if (ncname == "") {
                 $("#lblrequirefield").show();
                 return false;
             }
@@ -244,8 +245,9 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (mainlist) {
-                    var html = "<table id='tblagentlist' class='table table-striped table-bordered' style='width:100%'>" +
-                        "<thead><tr><th style='width:10%'>Sr No.</th><th>NC Name</th><th>Order Type</th><th style='width:20%'>Action</th>" +
+                    // Table headers dynamically updated to match image colors and titles
+                    var html = "<table id='tblagentlist' class='table table-striped' style='width:100%'>" +
+                        "<thead><tr><th style='width:10%'>Sr No.</th><th>Table Name</th><th style='width:20%'>Edit/Delete</th>" +
                         "<th style='display:none'>NC_ID</th><th style='display:none'>OrderTypeID</th></tr></thead><tbody>";
 
                     if (mainlist.d && mainlist.d.mpagemasterobjlist) {
@@ -253,10 +255,12 @@
                             html += '<tr>';
                             html += '<td>' + (i + 1) + '</td>';
                             html += '<td class="td_ncname">' + mainlist.d.mpagemasterobjlist[i].AreaName + '</td>';
-                            html += '<td class="td_ordertypename">' + mainlist.d.mpagemasterobjlist[i].OrderTypeName + '</td>';
+
+                            // Order Type ka data cell (<td>) yaha se hata diya gaya hai taaki screen par show na ho
+
                             html += '<td>' +
-                                '<a href="#" class="editbtn btn btn-xs btn-success" data-toggle="modal" data-target="#exampleModalCenter" style="margin-right:10px;"><i class="glyphicon glyphicon-edit"></i> Edit</a>' +
-                                '<a href="#" class="deletebtn btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModalCenter"><i class="glyphicon glyphicon-trash"></i> Delete</a>' +
+                                '<a href="#" class="editbtn btn btn-xs btn-success" data-toggle="modal" data-target="#exampleModalCenter" style="margin-right:10px;"><i class="glyphicon glyphicon-edit"></i></a>' +
+                                '<a href="#" class="deletebtn btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteModalCenter"><i class="glyphicon glyphicon-trash"></i></a>' +
                                 '</td>';
                             html += '<td class="td_ncid" style="display:none;">' + mainlist.d.mpagemasterobjlist[i].AreaID + '</td>';
                             html += '<td class="td_ordertypeid" style="display:none;">' + mainlist.d.mpagemasterobjlist[i].OrderType + '</td>';
@@ -268,7 +272,7 @@
 
                     $("#tblagentlist").DataTable({
                         destroy: true,
-                        language: { searchPlaceholder: "Search NC Name..." }
+                        language: { searchPlaceholder: "Search..." }
                     });
                 },
                 error: function (xhr) { alert("Error loading grid data."); }
