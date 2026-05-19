@@ -17,6 +17,11 @@ namespace RestaurantApi
         public int ItemMasterID { get; set; }
         public string ItemName { get; set; }
     }
+    public class NCNameResult
+    {
+        public int OrderTypeID { get; set; }
+        public string NC_Name { get; set; }
+    }
     public partial class GetItembyGroupId_Result
     {
         [Key]

@@ -69,7 +69,42 @@ namespace RestaurantApi.Controllers
 
             // return Ok(getItembyGroupId_Result);
         }
+        [HttpGet]
+        [Route("api/item/GetNCNameBasedOnOrderType")]
+        public List<string> GetNCNameBasedOnOrderType()
+        {
+            List<string> ncNamesList = new List<string>();
+            SqlConnection conn;
+            connection objCon = new connection();
 
+            try
+            {
+                conn = objCon.makeConnection();
+                using (SqlCommand sql_cmnd = new SqlCommand("USP_GetNCNameFromOrderType", conn))
+                {
+                    sql_cmnd.CommandType = CommandType.StoredProcedure;
+
+                    // 🔥 FIXED: Direct DataReader se data read karenge, extra ExecuteNonQuery block hata diya hai
+                    using (SqlDataReader reader = sql_cmnd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["NC_Name"] != DBNull.Value)
+                            {
+                                ncNamesList.Add(reader["NC_Name"].ToString());
+                            }
+                        }
+                    }
+                }
+                objCon.closeConnection();
+            }
+            catch (Exception ex)
+            {
+                // Fail-safe system check: logs inside runtime if needed
+                ncNamesList.Add("Backend Error: " + ex.Message);
+            }
+            return ncNamesList;
+        }
         public List<GetItembyGroupId_Result> GetItembyGroupId_Result(long id, int deliveryType,int acnonac)
         {
             List<GetItembyGroupId_Result> ItemList = new List<GetItembyGroupId_Result>();

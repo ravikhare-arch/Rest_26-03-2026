@@ -87,6 +87,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <script type="text/javascript">
+
+        
         // 🛠️ REUSABLE FUNCTION TO LOCK/UNLOCK ROOM INPUT FIELD & CLOSE POPUP
         function checkNcAndLockRoom() {
             var $ncCheckbox = $("[id$='nc']");
@@ -256,6 +258,76 @@
                 checkNcAndLockRoom();
             });
         });
+
+
+
+        $(document).ready(function () {
+            // 1. Page load hote hi data fetch karega
+            loadNCDropdownData();
+
+            // 2. Input box ya arrow trigger par click karne par dropdown toggle hoga
+            $("#txtNCName, #btnDropdownTrigger").on("click", function (e) {
+                e.stopPropagation();
+                $("#ncDropdownList").stop(true, true).slideToggle(200);
+            });
+
+            // 3. Dropdown item select karne par text-box me set hona
+            $(document).on("click", "#ulNCItems li.nc-item", function () {
+                var selectedValue = $(this).text().trim();
+                $("#txtNCName").val(selectedValue);
+                $("#ncDropdownList").hide();
+            });
+
+            // 4. Dropdown ke bahar click karne par use automatic close karna
+            $(document).on("click", function (e) {
+                if (!$(e.target).closest('#ncDropdownList, #txtNCName, #btnDropdownTrigger').length) {
+                    $("#ncDropdownList").hide();
+                }
+            });
+        });
+
+        function loadNCDropdownData() {
+            // 1. Hidden field se absolute API base URL uthayein (Agar khali hai toh current root use karein)
+            var apiBaseUrl = $("[id$='hdnApiurl']").val() || "";
+
+            // Ensure karein ki URL trailing slash handle ho jaye
+            if (apiBaseUrl !== "" && !apiBaseUrl.endsWith("/")) {
+                apiBaseUrl += "/";
+            }
+
+            var fullApiUrl = apiBaseUrl + 'api/item/GetNCNameBasedOnOrderType';
+            console.log("Hitting API Endpoint URL:", fullApiUrl);
+
+            $.ajax({
+                type: "GET",
+                url: fullApiUrl, // 🔥 FIXED: Ab sahi dynamic hosted API domain hit hoga
+                contentType: "application/json; charset=utf-8",
+                dataType: "text", // Kyuki direct string collection list hai
+                success: function (data) {
+                    var listItems = "";
+                    try {
+                        var response = (typeof data === "string") ? JSON.parse(data) : data;
+
+                        if (response && response.length > 0) {
+                            for (var i = 0; i < response.length; i++) {
+                                listItems += '<li class="list-group-item nc-item" style="cursor:pointer; padding:10px 14px; border-bottom:1px solid #f1f5f9; color:#334155; font-size:13px;">' + response[i] + '</li>';
+                            }
+                        } else {
+                            listItems = '<li class="list-group-item text-muted" style="padding:10px 14px; font-style:italic;">No NC Names Found</li>';
+                        }
+                    } catch (e) {
+                        console.error("JSON Parsing Error:", e);
+                        listItems = '<li class="list-group-item text-danger" style="padding:10px 14px;">Error parsing list data</li>';
+                    }
+
+                    $("#ulNCItems").html(listItems);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Dropdown loading execution broken:", error);
+                    $("#ulNCItems").html('<li class="list-group-item text-danger" style="padding:10px 14px;">Failed to connect backend API (Status: ' + xhr.status + ')</li>');
+                }
+            });
+        }
     </script>
 
 
@@ -416,13 +488,27 @@
     <input type="hidden" id="hdnGCID" />
 
 </div>
-            <div class="col-md-8">
+            <%--<div class="col-md-8">
                 <div class="input-group">
                     <span class="input-group-addon" style="font-weight:bold;">NC Name:</span>
                     <input type="text" id="txtNCName" class="form-control" placeholder="Enter NC Name..." autocomplete="off" />
                 </div>
                
-             </div>
+             </div>--%>
+             <div class="col-md-8">
+    <div class="input-group" style="position: relative;">
+        <span class="input-group-addon" style="font-weight:bold;">NC Name:</span>
+        <input type="text" id="txtNCName" class="form-control" placeholder="Click to select NC Name..." autocomplete="off" style="cursor: pointer;" readonly />
+        <span class="input-group-addon" id="btnDropdownTrigger" style="cursor: pointer;"><i class="glyphicon glyphicon-chevron-down"></i></span>
+    </div>
+    
+    <!-- Custom Dropdown Container -->
+    <div id="ncDropdownList" style="display: none; position: absolute; width: 100%; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 4px; z-index: 999999 !important; box-shadow: 0px 4px 12px rgba(0,0,0,0.15);">
+        <ul id="ulNCItems" class="list-group" style="margin: 0; padding: 0; list-style: none;">
+            <!-- Data dynamically append hoga -->
+        </ul>
+    </div>
+</div>
              
             </div>
         </div>

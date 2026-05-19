@@ -364,6 +364,92 @@
     var SGST = 0, CGST = 0, grandTotal = 0, tablename = "";
 
     // 🔥 FIXED REUSABLE LOCK ENGINE
+    //function checkNcAndLockRoom() {
+    //    var $ncCheckbox = $("[id$='NC']");
+    //    var isNcChecked = $ncCheckbox.is(":checked");
+
+    //    var urlParams = getUrlVars();
+    //    var roomFromUrl = urlParams["roomNo"];
+    //    var savedRoom = localStorage.getItem("bill_roomNo");
+
+    //    var $roomInput = $("[id$='txtRoomNo']");
+    //    var $roomDisplay = $("[id$='txtRoomNoDisplay']");
+    //    var $paymentContainer = $("#divpayment");
+
+    //    if (isNcChecked) {
+    //        $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
+    //            "background-color": "#eeeeee",
+    //            "cursor": "not-allowed",
+    //            "pointer-events": "none"
+    //        });
+
+    //        if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+    //            $roomInput.autocomplete("close");
+    //        }
+
+    //        $roomDisplay.val("Not Applicable (NC)").prop("disabled", true).css({
+    //            "background-color": "#eeeeee",
+    //            "cursor": "not-allowed",
+    //            "color": "#ff0000",
+    //            "font-weight": "bold"
+    //        });
+
+    //        $("[id$='hdnRTID']").val("");
+    //        $("[id$='hdnGCID']").val("");
+
+    //        if ($paymentContainer.length) {
+    //            $paymentContainer.find("input[type='radio']").prop("disabled", true);
+    //        }
+    //    } else {
+    //        var hasRoom = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") ||
+    //            (savedRoom && savedRoom !== "null" && savedRoom !== "");
+
+    //        if (hasRoom) {
+    //            $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
+    //                "background-color": "#eeeeee",
+    //                "cursor": "not-allowed",
+    //                "pointer-events": "none"
+    //            });
+
+    //            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+    //                $roomInput.autocomplete("close");
+    //            }
+
+    //            if ($paymentContainer.length) {
+    //                $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true);
+    //                $("#Room_Serv").prop("disabled", false).prop("checked", true);
+    //                $paymentContainer.css({
+    //                    "opacity": "1",
+    //                    "pointer-events": "auto",
+    //                    "cursor": "auto"
+    //                });
+    //            }
+    //        } else {
+    //            $roomInput.prop("disabled", false).removeAttr("readonly").css({
+    //                "background-color": "#ffffff",
+    //                "cursor": "auto",
+    //                "pointer-events": "auto"
+    //            });
+
+    //            if ($paymentContainer.length) {
+    //                $paymentContainer.find("input[type='radio']").prop("disabled", false);
+    //                $paymentContainer.css({
+    //                    "opacity": "1",
+    //                    "pointer-events": "auto",
+    //                    "cursor": "auto"
+    //                });
+    //            }
+    //        }
+
+    //        if ($roomDisplay.val() === "Not Applicable (NC)") {
+    //            $roomDisplay.val("");
+    //        }
+    //        $roomDisplay.css({
+    //            "background-color": "#f9f9f9",
+    //            "color": "black"
+    //        });
+    //    }
+    //}
     function checkNcAndLockRoom() {
         var $ncCheckbox = $("[id$='NC']");
         var isNcChecked = $ncCheckbox.is(":checked");
@@ -376,7 +462,57 @@
         var $roomDisplay = $("[id$='txtRoomNoDisplay']");
         var $paymentContainer = $("#divpayment");
 
-        if (isNcChecked) {
+        // Check kar rahe hain ki kya room ka data maujood hai
+        var hasRoomData = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined" && roomFromUrl.trim() !== "") ||
+            (savedRoom && savedRoom !== "null" && savedRoom.trim() !== "");
+
+        if (!hasRoomData && !isNcChecked) {
+            // ========================================================
+            // BHAI AGAR SAB BLANK HAI TOH SIRF YEH 3 CHEEZIN BLOCK HONGI
+            // ========================================================
+
+            // 1. Room Number Input block kar do
+            $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
+                "background-color": "#eeeeee",
+                "cursor": "not-allowed",
+                "pointer-events": "none"
+            });
+            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                $roomInput.autocomplete("close");
+            }
+            $roomDisplay.val("").css({
+                "background-color": "#eeeeee",
+                "color": "black"
+            });
+
+            // 2. NC Checkbox block kar do
+            $ncCheckbox.prop("disabled", true).css({
+                "cursor": "not-allowed"
+            });
+
+            // 3. Room Service (#Room_Serv) block kar do, baaki saare payment chalu rahenge
+            if ($paymentContainer.length) {
+                // Saare payment buttons ko pehle active karo (taaki dusre use ho sakein)
+                $paymentContainer.find("input[type='radio']").prop("disabled", false);
+
+                // Lekin sirf Room Service (#Room_Serv) ko specifically disabled aur uncheck kar do
+                $("#Room_Serv").prop("disabled", true).prop("checked", false);
+
+                // Pure payment container ko lock nahi karenge, use click hone denge
+                $paymentContainer.css({
+                    "opacity": "1",
+                    "pointer-events": "auto",
+                    "cursor": "auto"
+                });
+            }
+
+            $("[id$='hdnRTID']").val("");
+            $("[id$='hdnGCID']").val("");
+
+        } else if (isNcChecked) {
+            // Condition 2: Agar NC Checked hai (Pehle jaisa hi)
+            $ncCheckbox.prop("disabled", false);
+
             $roomInput.val("").prop("disabled", true).attr("readonly", "readonly").css({
                 "background-color": "#eeeeee",
                 "cursor": "not-allowed",
@@ -401,44 +537,27 @@
                 $paymentContainer.find("input[type='radio']").prop("disabled", true);
             }
         } else {
-            var hasRoom = (roomFromUrl && roomFromUrl !== "-" && roomFromUrl !== "null" && roomFromUrl !== "undefined") ||
-                (savedRoom && savedRoom !== "null" && savedRoom !== "");
+            // Condition 3: Agar Room Number data maujood hai (Pehle jaisa hi)
+            $ncCheckbox.prop("disabled", false);
 
-            if (hasRoom) {
-                $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
-                    "background-color": "#eeeeee",
-                    "cursor": "not-allowed",
-                    "pointer-events": "none"
+            $roomInput.prop("disabled", true).attr("readonly", "readonly").css({
+                "background-color": "#eeeeee",
+                "cursor": "not-allowed",
+                "pointer-events": "none"
+            });
+
+            if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
+                $roomInput.autocomplete("close");
+            }
+
+            if ($paymentContainer.length) {
+                $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true);
+                $("#Room_Serv").prop("disabled", false).prop("checked", true); // Room Service chalu aur select ho jayegi
+                $paymentContainer.css({
+                    "opacity": "1",
+                    "pointer-events": "auto",
+                    "cursor": "auto"
                 });
-
-                if ($roomInput.data("ui-autocomplete") || $roomInput.autocomplete("instance")) {
-                    $roomInput.autocomplete("close");
-                }
-
-                if ($paymentContainer.length) {
-                    $paymentContainer.find("input[type='radio']").not("#Room_Serv").prop("disabled", true);
-                    $("#Room_Serv").prop("disabled", false).prop("checked", true);
-                    $paymentContainer.css({
-                        "opacity": "1",
-                        "pointer-events": "auto",
-                        "cursor": "auto"
-                    });
-                }
-            } else {
-                $roomInput.prop("disabled", false).removeAttr("readonly").css({
-                    "background-color": "#ffffff",
-                    "cursor": "auto",
-                    "pointer-events": "auto"
-                });
-
-                if ($paymentContainer.length) {
-                    $paymentContainer.find("input[type='radio']").prop("disabled", false);
-                    $paymentContainer.css({
-                        "opacity": "1",
-                        "pointer-events": "auto",
-                        "cursor": "auto"
-                    });
-                }
             }
 
             if ($roomDisplay.val() === "Not Applicable (NC)") {
