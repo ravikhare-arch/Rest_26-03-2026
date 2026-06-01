@@ -218,6 +218,9 @@ namespace PrintModule
                 Offset = Offset + 15;
                 graphics.DrawString("Ph. " + orders[0].companydetails.Contactno, fontBold, Brushes.Black, new RectangleF(0, startY + Offset, 300, 20), centerFormat);
                 Offset = Offset + 15;
+                graphics.DrawString("GSTIN. " + orders[0].companydetails.GSTNo, fontBold, Brushes.Black, new RectangleF(0, startY + Offset, 300, 20), centerFormat);
+                Offset = Offset + 15;
+
 
                 graphics.DrawString(underLine, fontRegular, Brushes.Black, 0, startY + Offset);
                 Offset = Offset + 15;

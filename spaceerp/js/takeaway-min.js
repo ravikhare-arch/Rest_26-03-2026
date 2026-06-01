@@ -295,7 +295,14 @@ $(document).ready(function () {
                 });
 
                 $("#OrderRow").empty().append(orderDetailHtml);
-                $('.sp-minus').hide();
+
+                // ensure controls are enabled and handlers attached
+                if (typeof enableQuantityControls === "function") enableQuantityControls();
+                if (typeof attachQuantityHandlers === "function") attachQuantityHandlers();
+
+                // ensure controls are enabled for redirected/loaded orders
+                enableQuantityControls();
+
                 tempSalesOrderList = $.extend(true, {}, salesOrderList);
                 OrderTotalAmount();
             },
@@ -579,72 +586,113 @@ $(document).ready(function () {
         //  salesOrderList.splice(salesOrder,'ItemMasterID',);
         OrderTotalAmount();
     });
+    //$(document.body).on("click", ".ddd", function () {
+    //    var $button = $(this).closest('tr td div a');
+    //    //var $button = $(this);
+    //    var removed = true;
+    //    var itemMasterid = parseInt($(this).closest('tr').find('.OneUnitPrice').attr('id'));
+    //    var ind = 0;
+
+    //    var oldValue = 0;
+    //    //
+    //    if (salesOrderList.length >= 0) {
+    //        ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
+    //        oldValue = salesOrderList[ind].ProductQty;
+    //    }
+    //    else
+    //        oldValue = $button.closest('.sp-quantity').find("input.quntity-input").val();
+
+
+    //    unitPrice = $(this).closest('tr').find('.OneUnitPrice').text();
+
+    //    if ($button.text() == "+") {
+    //        $(this).closest('tr').find('.sp-minus').show>
+
+
+    //        var newVal = parseFloat(oldValue) + 1;
+    //        setfinalproductvalue(newVal, unitPrice, $(this).closest('tr').find('.totalPrice'));
+    //        //updating quantity in case of +/-
+
+    //        salesOrderList[ind].ProductQty = newVal;
+
+
+    //    } else {
+
+    //        // Don't allow decrementing below zero
+    //        if (oldValue > 0) {
+    //            var newVal = parseFloat(oldValue) - 1;
+    //        } else {
+    //            newVal = 0;
+    //        }
+
+    //        var itemMasterid = parseInt($(this).closest('tr').find('.OneUnitPrice').attr('id'));
+    //        var ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
+
+
+    //        if (Object.keys(tempSalesOrderList).length != 0 && ind < Object.keys(tempSalesOrderList).length) {
+    //            var oldQty = tempSalesOrderList[ind].ProductQty;
+    //            if (newVal == oldQty) {
+    //                $(this).closest('tr').find('.sp-minus').hide()
+    //                removed = false;
+    //            }
+
+    //        }
+    //        if (true) {
+
+    //            setfinalproductvalue(newVal, unitPrice, $(this).closest('tr').find('.totalPrice'));
+    //            salesOrderList[ind].ProductQty = newVal;
+
+    //            if (newVal == 0) {
+    //                removeItemFromCart(this);
+    //            }
+    //        }
+    //    }
+
+    //    $button.closest('.sp-quantity').find("input.quntity-input").val(newVal);
+    //    OrderTotalAmount();
+
+    //});
+
     $(document.body).on("click", ".ddd", function () {
-        var $button = $(this).closest('tr td div a');
-        //var $button = $(this);
-        var removed = true;
-        var itemMasterid = parseInt($(this).closest('tr').find('.OneUnitPrice').attr('id'));
-        var ind = 0;
+        var $button = $(this);
+        var $row = $button.closest('tr');
+        var itemMasterid = parseInt($row.find('.OneUnitPrice').attr('id'));
+        var $quantityInput = $row.find("input.quntity-input");
+        var unitPrice = parseFloat($row.find('.OneUnitPrice').text()) || 0;
 
-        var oldValue = 0;
-        //
-        if (salesOrderList.length >= 0) {
-            ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
-            oldValue = salesOrderList[ind].ProductQty;
-        }
-        else
-            oldValue = $button.closest('.sp-quantity').find("input.quntity-input").val();
+        var ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
+        if (ind === -1) return; // Guard clause if item not found in list
 
-
-
-        unitPrice = $(this).closest('tr').find('.OneUnitPrice').text();
+        var oldValue = parseFloat(salesOrderList[ind].ProductQty) || 0;
+        var newVal = oldValue;
 
         if ($button.text() == "+") {
-            $(this).closest('tr').find('.sp-minus').show()
-
-
-            var newVal = parseFloat(oldValue) + 1;
-            setfinalproductvalue(newVal, unitPrice, $(this).closest('tr').find('.totalPrice'));
-            //updating quantity in case of +/-
-
-            salesOrderList[ind].ProductQty = newVal;
-
-
-        } else {
-
-            // Don't allow decrementing below zero
+            // Always make sure minus button is visible when increasing
+            $row.find('.sp-minus').show();
+            newVal = oldValue + 1;
+        } else if ($button.text() == "-") {
+            // Prevent decrementing below zero
             if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
+                newVal = oldValue - 1;
             } else {
                 newVal = 0;
             }
-
-            var itemMasterid = parseInt($(this).closest('tr').find('.OneUnitPrice').attr('id'));
-            var ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
-
-
-            if (Object.keys(tempSalesOrderList).length != 0 && ind < Object.keys(tempSalesOrderList).length) {
-                var oldQty = tempSalesOrderList[ind].ProductQty;
-                if (newVal == oldQty) {
-                    $(this).closest('tr').find('.sp-minus').hide()
-                    removed = false;
-                }
-
-            }
-            if (true) {
-
-                setfinalproductvalue(newVal, unitPrice, $(this).closest('tr').find('.totalPrice'));
-                salesOrderList[ind].ProductQty = newVal;
-
-                if (newVal == 0) {
-                    removeItemFromCart(this);
-                }
-            }
         }
 
-        $button.closest('.sp-quantity').find("input.quntity-input").val(newVal);
-        OrderTotalAmount();
+        // Update quantities in data array
+        salesOrderList[ind].ProductQty = newVal;
+        $quantityInput.val(newVal);
 
+        // Recalculate dynamic row total price
+        setfinalproductvalue(newVal, unitPrice, $row.find('.totalPrice'));
+
+        // If quantity reaches 0, drop the item from your cart smoothly
+        if (newVal === 0) {
+            removeItemFromCart($button);
+        }
+
+        // Refresh overall order summary metrics
+        OrderTotalAmount();
     });
 
     var removeItemFromCart = function (t) {
@@ -700,6 +748,10 @@ $(document).ready(function () {
             salesOrder.ItemRemarks = ItemRemarks;
             salesOrderList.push(salesOrder);
             $("#OrderRow").append(orderDetail);
+
+            // --- Ensure new row buttons are active ---
+            if (typeof enableQuantityControls === "function") enableQuantityControls();
+
             OrderTotalAmount();
 
         }
@@ -866,199 +918,99 @@ function HideControlswhenCancel() {
     $("#printviewbill").hide();
     $("#printwithoutgst").hide();
 }
+    
+// ---- ADD: enableQuantityControls helper (place near top, after var declarations) ----
+// helper to make +/- clickable and inputs editable
+function enableQuantityControls() {
+    $(".sp-minus, .sp-plus").each(function () {
+        $(this).show().css({
+            "pointer-events": "auto",
+            "cursor": "pointer",
+            "opacity": "1"
+        }).removeClass("disabled");
+    });
+    $(".sp-minus .ddd, .sp-plus .ddd, .ddd").css({
+        "pointer-events": "auto",
+        "cursor": "pointer"
+    }).removeClass("disabled");
+    $("input.quntity-input").prop("disabled", false).css({
+        "pointer-events": "auto",
+        "cursor": "text",
+        "background-color": "#ffffff"
+    });
+}
+// ------------------------------------------------------------------------------------
 
 function GetItemfromGroup(groupID, orderType, Items) {
 
 
 }
-function openWindowForPrint(url) {
-    var myWindow = window.open(url, "myWindow", "width=200,height=100");
-    setTimeout(() => { myWindow.close(); }, 200);
 
-}
-$("#txtRoomNo").autocomplete({
 
-    minLength: 1,
+// ============================================================================
 
-    // 🔥 Dropdown parent
-    appendTo: ".search-container-relative",
+$(document).off("click", ".ddd");
+$(document).on("click", ".ddd", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-    classes: {
-        "ui-autocomplete": "custom-room-dropdown"
-    },
+    console.log("✅ DDD CLICKED!"); // Proof it works
+    console.log("salesOrderList exists?", typeof salesOrderList !== "undefined");
 
-    // 🔥 Hamesha upar open
-    position: {
-        my: "left bottom",
-        at: "left top",
-        collision: "none"
-    },
+    var $btn = $(this);
+    var $row = $btn.closest('tr');
 
-    open: function () {
-
-        var $input = $(this);
-
-        var $dropdown = $input.autocomplete("widget");
-
-        // Input ki exact width
-        $dropdown.css({
-            width: $input.outerWidth() + "px",
-            zIndex: 999999
-        });
-
-        // 🔥 Force upward placement
-        var inputPos = $input.position();
-
-        $dropdown.css({
-            left: inputPos.left + "px",
-            top: (inputPos.top - $dropdown.outerHeight()) + "px"
-        });
-    },
-
-    // 🔥 Live Search
-    source: function (request, response) {
-
-        $.ajax({
-
-            url: "https://hotelpremierinn.rstpms.com/Hotel/API/GetOccupiedRooms",
-
-            type: "GET",
-
-            dataType: "json",
-
-            data: {
-                companyid: 1067
-            },
-
-            success: function (data) {
-
-                var roomSet = new Set();
-
-                var mappedItems = [];
-
-                $.each(data, function (index, item) {
-
-                    if (item && item.RoomNo) {
-
-                        var roomNo = item.RoomNo.toString().trim();
-
-                        if (!roomSet.has(roomNo)) {
-
-                            roomSet.add(roomNo);
-
-                            mappedItems.push({
-                                label: roomNo,
-                                value: roomNo,
-                                rtId: item.RTID,
-                                gcid: item.GCID
-                            });
-                        }
-                    }
-                });
-
-                // 🔥 Filter typing text
-                var filteredResults = $.ui.autocomplete.filter(
-                    mappedItems,
-                    request.term
-                );
-
-                response(filteredResults);
-            }
-        });
-    },
-
-    // Keyboard navigation
-    focus: function (event, ui) {
-
-        $("#txtRoomNo").val(ui.item.value);
-
-        return false;
-    },
-
-    // 🔥 Select item
-    select: function (event, ui) {
-
-        $("#txtRoomNo").val(ui.item.value);
-
-        $("#hdnRTID").val(ui.item.rtId);
-
-        $("#hdnGCID").val(ui.item.gcid);
-
-        $(this).autocomplete("close");
-
-        return false;
+    if (!$row.length) {
+        console.log("❌ NO ROW FOUND");
+        return;
     }
+
+    var itemMasterid = parseInt($row.find('.OneUnitPrice').attr('id'));
+    console.log("Item ID:", itemMasterid);
+
+    if (isNaN(itemMasterid)) {
+        console.log("❌ NO ITEMID");
+        return;
+    }
+
+    if (typeof salesOrderList === "undefined") {
+        console.log("❌ salesOrderList UNDEFINED");
+        return;
+    }
+
+    var ind = salesOrderList.findIndex(obj => obj.ItemMasterID === itemMasterid);
+    console.log("Index in array:", ind);
+
+    if (ind === -1) {
+        console.log("❌ ITEM NOT FOUND IN LIST");
+        return;
+    }
+
+    var $qtyInput = $row.find('input.quntity-input');
+    var unitPrice = parseFloat($row.find('.OneUnitPrice').text()) || 0;
+    var oldVal = parseFloat($qtyInput.val()) || 0;
+    var newVal = oldVal;
+
+    if ($btn.text().trim() === "+") {
+        newVal = oldVal + 1;
+        console.log("➕ PLUS:", oldVal, "->", newVal);
+        $row.find('.sp-minus').show();
+    } else if ($btn.text().trim() === "-") {
+        newVal = Math.max(0, oldVal - 1);
+        console.log("➖ MINUS:", oldVal, "->", newVal);
+    }
+
+    salesOrderList[ind].ProductQty = newVal;
+    $qtyInput.val(newVal);
+    $row.find('.totalPrice').html((unitPrice * newVal).toFixed(2));
+
+    console.log("✅ QUANTITY UPDATED TO:", newVal);
+
+    if (newVal === 0) {
+        $row.remove();
+        removeByAttr(salesOrderList, 'ItemMasterID', itemMasterid);
+        console.log("✅ ROW REMOVED");
+    }
+
+    OrderTotalAmount();
 });
-function GetRecentOrders() {
-    $.ajax({
-        type: "GET",
-        url: apiUrl + '/api/Item/GetRecentOrders',
-        dataType: "json",
-        contentType: "application/json;charset=utf-8",
-        success: function (data) {
-            var recentorder = "";
-
-            $.each(data, function (i) {
-                // prepare encoded room and nc values for querystring
-                var roomQs = encodeURIComponent(data[i].RoomNo || "");
-                var ncQs = encodeURIComponent(data[i].NCName || "");
-
-                recentorder += '<tr>' +
-                    '<td><a href="#">' + data[i].OrderNo + '</a></td>' +
-                    '<td>' + (data[i].RoomNo != null ? data[i].RoomNo : '-') + '</td>' +
-                    '<td>' + data[i].OrderDate + '</td>' +
-                    '<td>' + data[i].OrderTime + '</td>' +
-                    '<td><b class="order-timer" data-start-time="' + data[i].OrderDate + ' ' + data[i].OrderTime + '">00:00:00</b></td>' +
-                    '<td>' + data[i].OrderTypeName + '</td>' +
-                    '<td>' + data[i].TableName + '</td>' +
-                    '<td class="ng-tns-c8-2">' + data[i].TotalPaid + '</td>' +
-                    '<td class="totalPrice">' + data[i].PaymentStatus + '</td>' +
-
-                    // Go to Menu (Take_away) - include roomNo & ncName
-                    '<td>' +
-                    '<a href="/Take_away.aspx?orderType=' + data[i].OrderType +
-                    '&id=' + data[i].OrderID +
-                    '&status=' + data[i].TableStatus +
-                    '&TableID=' + data[i].TableID +
-                    '&roomNo=' + roomQs +
-                    '&ncName=' + ncQs +
-                    '" class="editbtn" title="Edit">' +
-                    '<i class="glyphicon glyphicon-edit" style="color: green"></i>' +
-                    '</a></td>' +
-
-                    // Edit Order
-                    '<td>' +
-                    '<a href="/order.aspx?orderType=' + data[i].OrderType +
-                    '&id=' + data[i].OrderID +
-                    '&status=' + data[i].TableStatus +
-                    '&TableID=' + data[i].TableID +
-                    '" class="editbtn" title="Edit">' +
-                    '<i class="glyphicon glyphicon-edit" style="color: green"></i>' +
-                    '</a></td>' +
-                    '</tr>';
-            });
-
-            $("#RecentOrders").html(recentorder);
-        }
-    });
-}
-// read optional room and NC passed via querystring (from Welcome.aspx)
-var qsRoom = getUrlVars()["roomNo"] ? decodeURIComponent(getUrlVars()["roomNo"]) : "";
-var qsNc = getUrlVars()["ncName"] ? decodeURIComponent(getUrlVars()["ncName"]) : "";
-
-// If redirected with room / nc in querystring, set fields immediately
-if (qsRoom || qsNc) {
-    setTimeout(function () {
-        var $txtRoom = $("#txtRoomNo").length ? $("#txtRoomNo") : $("[id$='txtRoomNo']");
-        var $txtNC = $("#txtNCName").length ? $("#txtNCName") : $("[id$='txtNCName']");
-        if (qsRoom && $txtRoom.length) {
-            $txtRoom.val(qsRoom);
-            // 🔥 POPUP FIX 3: Dynamic close to hide popup instantly
-            if ($txtRoom.data("ui-autocomplete") || $txtRoom.autocomplete("instance")) {
-                $txtRoom.autocomplete("close");
-            }
-            $txtRoom.prop("disabled", true).css({ "background-color": "#eeeeee", "cursor": "not-allowed" }).blur();
-        }
-        if (qsNc && $txtNC.length) { $txtNC.val(qsNc).blur(); }
-    }, 150);
-}
